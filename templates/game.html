@@ -10,7 +10,7 @@
     <script src="static/game_manager.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partie en cours</title>
+    <title>Game Stream</title>
 </head>
 <body>
     <div class="container">
@@ -27,69 +27,75 @@
                 </div>
                 
                 <div class="col custom-color custom-size">
-                    <b>Stream en cours</b>
+                    <b>Game Stream</b>
                 </div>
             
                 <div class="col">
                     <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
                 </div>
-            
-            </div>
-        
         </div>
     
     </header>
-    
+
     <div class="container">
         <div class="container text-center">
             <div class="row align-items-start">
                 <form method="POST" action="/cam" id="myForm">
                     <button class="col btn btn-petit" type="submit" id="start-button" name="psw1" value="0">
-                        Démarrer l'enregistrement
+                        Start recording
                     </button>
                     <button class="col btn btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>
-                        Arrêter la caméra
+                        Stop the camera
                     </button>
                 </form>
             </div>
         </div>
-
-        <div class="row align-items-start">
-            <div class="col">
-                <div id="video-container">
-                    <img id="camera-feed" src="" alt="Camera Feed"></img>
-                </div>
-                <div class="col text-info">
-                    <div id="message">
-                        {{ message }}
+        
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    
+                    <div id="video-container">
+                        <img id="camera-feed" src="" alt="Camera Feed"></img>
                     </div>
+                    
+                    <div class="col text-info">
+                        <div id="message">
+                            {{ message }}
+                        </div>
+                    </div>
+                
                 </div>
-            </div>
-            <div class="col">
-                <div id="image">
-                    <img id="image" src="" alt="Image"></img>
-<!-- 
-                    <div class="container-fluid text-center">
+                
+                <div class="col">
+                    
+                    <div id="image">
 
-                        <div class="row">
+                        <img id="image" src="" alt="Image"></img>
+    
+                        <div class="container-fluid text-center">
                             <form method="POST" action="/game" id="move">
-                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
-                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
-                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
-                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
+                                <button class="btn btn-petit" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
+                                <button class="btn btn-petit" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
+                                <button class="btn btn-petit" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
+                                <button class="btn btn-petit" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
                             </form>
-                            <div class="col">
-                                <form method="POST" action="/undo">
-                                    <button class="btn bg custom-button btn-annuler" type="submit">
-                                        Annuler le dernier coup
-                                    </button>
-                                </form>
-
-                            </div>
-                        </div> -->
+                        </div>
+                    </div>
+                </div> 
+                <div class="col">
+                    <div class="row">
+                        <form method="POST" action="/undo">
+                            <button class="btn btn-annuler" type="submit">
+                                Undo last mode
+                            </button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-petit" onclick="downloadFile()">Generate SGF file</button>
                     </div>
                 </div>
-                <div class="col-1"></div>
+            
                 <script>
                     function updateMessage() {
                         $.get('/update', function(data) {
@@ -103,16 +109,10 @@
                 </script>
             </div>
         </div>
-        </br>
-        </br>
-
+  
         <!-- <div class="container-fluid text-center">
             <div class="row">
-                <div class="col">
-                    <b>Générer le fichier SGF de la partie</b>
-                    </br>
-                    <button class="btn bg custom-button btn-petit" onclick="downloadFile()">Télécharger</button>
-                </div>
+
 
                 <div class="col">
                     <form method="POST" action="/change_place" id="change">

@@ -40,6 +40,7 @@ body {
   padding: 10px 10px;
   background-color: #ecce97;
   color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
 }
 
@@ -57,7 +58,7 @@ button{
   padding: 10px 10px;
   background-color: #dd7266;
   color: #000000;
-  margin: 20px auto; /* Add margin for vertical spacing */
+  margin: 10px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
 }
 .containerCenter {
