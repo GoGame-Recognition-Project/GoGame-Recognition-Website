@@ -1,10 +1,8 @@
-import threading
-import copy
 from ultralytics import YOLO
 from GoGame import *
 from GoBoard import *
 from GoVisual import *
-from flask import Flask, render_template, Response, request, send_file
+from flask import Flask, render_template, Response, request
 import cv2
 import base64
 
@@ -86,18 +84,9 @@ def generate_plot():
 
     return img_base64
 
-@app.route('/')
-def index():
-    """Route to display HTML page"""
-    return render_template('Home.html')
 
-@app.route('/home')
-def home():
-    """Route to display HTML page"""
-    return render_template('Home.html')
-
-@app.route('/update')
-def afficher_message():
+@app.route('/update_state')
+def update_state():
     """
         Route to update the image and the message to display 
         
@@ -114,34 +103,68 @@ def controls():
     """
         Change the current move
     """
-    print(request.data)
-    # go_game.go_visual.next()
+    control = request.data.decode('utf-8')
+    if control == "initial":
+        go_game.go_visual.initial_position()
+    elif control == "previous":
+        go_game.go_visual.previous()
+    elif control == "next":
+        go_game.go_visual.next()
+    elif control == "last":
+        go_game.go_visual.final_position()
+    else:
+        return Response(status=500)
+    print("Control success")
+    
     return Response(status=204)
-
 
 @app.route('/upload', methods=['POST'])
 def process():
     """
         Route which enables us to load the sgf text
         """
-    global transparent_mode
-    
-    transparent_mode = False
     file = request.files['file']
     file_path = file.filename
     try:
-        print("fileee", file_path)
         New_game()
         go_game.go_visual.load_game_from_sgf(file_path)
-        print("######################## loaaaaded")
         message = "Le fichier a été correctement chargé"
     except Exception as e:
-        print("######################## Not loaaaaded")
         message = "L'erreur est " + str(e)
 
     return Response(status=204)
-    # return Response()
-    # return render_template('sgf.html')
+
+@app.route('/')
+def index():
+    """Route to display HTML page"""
+    return render_template('Home.html')
+
+@app.route('/home')
+def home():
+    """Route to display HTML page"""
+    return render_template('Home.html')
+
+@app.route('/game')
+def game():
+    """
+    Route to get to the streaming page in game mode
+    """
+    return render_template("game.html")
+
+@app.route('/transparent')
+def transparent():
+    """
+        Route to get to the streaming page in transparent mode
+        """
+    return render_template("game.html")
+
+@app.route('/sgf')
+def sgf():
+    """
+        Route to get to the streaming page in transparent mode
+    """
+
+    return render_template("sgf.html")
 
 @app.route('/credit')
 def credit():
@@ -150,49 +173,12 @@ def credit():
         """
     return render_template("credits.html")
 
-
-    
 @app.route('/historique')
 def historique():
     """
         Route to get to the summary page
     """
     return render_template("Historique.html")
-
-
-@app.route('/game')
-def game():
-    """
-    Route to get to the streaming page in game mode
-    """
-    global transparent_mode
-    
-    transparent_mode = False
-
-    return render_template("game.html")
-
-@app.route('/transparent')
-def transparent():
-    """
-        Route to get to the streaming page in transparent mode
-        """
-    go_game.set_transparent_mode(True)
-    global transparent_mode
-    
-    transparent_mode = False
-    return render_template("transparent.html")
-
-@app.route('/sgf')
-def sgf():
-    """
-        Route to get to the streaming page in transparent mode
-        """
-    global transparent_mode
-    
-    transparent_mode = False
-    return render_template("sgf.html")
-
-
 
 if __name__ == '__main__':
     # New_game()
