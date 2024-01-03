@@ -149,93 +149,9 @@ def afficher_message():
 #             print('Exception: Camera not detected')
 #             break
     
-# @app.route('/video_feed')
-# def video_feed():
-#     """
-#     Route to send the video stream 
-#     """
-#     print("in video feed")
-#     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-# def end_camera():
-#     """stop the camera """
-#     global camera
-#     camera.release()
-
-# def open_camera():
-#     """open the camera """
-#     global camera
-#     camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
 
 
-# @app.route('/cam', methods=['POST', 'GET'])
-# def getval():
-#     """
-#         Route to send the video stream 
-#     """
-#     global disabled_button, transparent_mode
-    
-#     transparent_mode = False
- 
-#     try:
-#         k = request.form['psw1']
-#         if k == '0':
-#             open_camera()
-#             if camera.read()[0]:
-#                 New_game()
-#                 disabled_button = 'start-button'
-#         elif k == '1':
-#             end_camera()
-#             disabled_button = 'stop-button'
-#     except Exception:
-#         print("Exception: Page can not be refreshed")
-    
-    
-#     return render_template('partie.html', disabled_button=disabled_button)
 
-# @app.route('/t', methods=['POST', 'GET'])
-# def getvaltransparent():
-#     """
-#     Route to send the video stream 
-#     """
-#     global disabled_button, transparent_mode
-    
-#     transparent_mode = True
-#     try:
-#         k = request.form['psw1']
-#         if k == '0':
-#             open_camera()
-#             if camera.read()[0]:
-#                 New_game(True)
-#                 disabled_button = 'start-button'
-#         elif k == '1':
-#             end_camera()
-#             disabled_button = 'stop-button'
-#     except Exception:
-#         print("Exception: Page can not be refreshed")
-        
-#     return render_template('transparent.html', disabled_button=disabled_button)
-
-# @app.route('/game', methods=['POST'])
-# def getval2():
-#     """
-#         Change the current move
-#     """
-#     global transparent_mode
-    
-#     transparent_mode = False
-    
-#     i = request.form['psw2']
-#     if i =='2':
-#         go_game.go_visual.initial_position()
-#     elif i == '3':
-#         go_game.go_visual.previous()
-#     elif i == '4':
-#         go_game.go_visual.next()
-#     elif i == '5':
-#         go_game.go_visual.final_position() 
-#     print(i)   
-#     return render_template('partie.html', disabled_button=disabled_button)
 
 @app.route('/sgf_controls')
 def getval3():
@@ -259,49 +175,6 @@ def getval3():
     # return send_file()
     # return render_template('sgf.html', disabled_button=disabled_button)
 
-# @app.route('/rules', methods=['POST'])
-# def handle_rules():
-#     """
-#         Check if we want to apply rules, still not implemented
-#     """
-#     global rules_applied, transparent_mode
-    
-#     transparent_mode = False
-    
-#     rules_applied = request.form['psw3']
-#     if rules_applied == "True":
-#         go_game.set_transparent_mode(False)
-#         rules_applied = "False"
-#     else : 
-#         go_game.set_transparent_mode(True)
-#         print("########pas de regles")
-#         rules_applied = "True"
-#     return render_template('partie.html', disabled_button=disabled_button)
-
-# @app.route('/change_place', methods=['POST'])
-# def change_place():
-#     """
-#         Route to get the piece that we want to change its position
-#         """
-#     global transparent_mode
-    
-#     transparent_mode = False
-    
-#     old_pos = request.form['input1']
-#     new_pos = request.form['input2']
-#     try:
-#         go_game.correct_stone(old_pos,new_pos)
-#     except Exception as e:
-#         message = "L'erreur est "+str(e)
-#     return render_template('partie.html', disabled_button=disabled_button)
-
-# @app.route('/get_sgf_txt')
-# def get_sgf_txt():
-#     """
-#         Route which returns the sgf text to be uploaded
-#         """
-#     global sgf_text
-#     return sgf_text
 
 @app.route('/upload', methods=['POST'])
 def process():
@@ -329,17 +202,7 @@ def credit():
         """
     return render_template("credits.html")
 
-# @app.route('/undo', methods=['POST'])
-# def undo():
-#     """
-#     undo last played move
-#     """
-#     global transparent_mode
-    
-#     transparent_mode = False
-    
-#     go_game.delete_last_move()
-#     return render_template("partie.html")
+
     
 @app.route('/historique')
 def historique():
