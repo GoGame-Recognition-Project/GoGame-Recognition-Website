@@ -8,6 +8,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+        <script src="static/script.js"></script>
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Partie SGF</title>
@@ -37,11 +39,11 @@
     <div class="container-fluid text-center bg custom-color">
         <div class="d-flex justify-content-center">
             <div id="image">
-                <img id="image" class="w-50" src="" alt="Image"></img>
+                <img id="image" class="w-50" src="static/empty_board.jpg" alt="Image"></img>
                 <div class="container-fluid text-center">
                     <div class="row">
                         <form method="POST" action="/sgf_controls" id="move">
-                            <button class="btn bg custom-button btn-petit" type="submit" id="navigation1" name="psw2" value="2">   &lt;&lt;  </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="next" name="psw2" value="2">   &lt;&lt;  </button>     
                             <button class="btn bg custom-button btn-petit" type="submit" id="navigation2" name="psw2" value="3">    &lt;   </button>     
                             <button class="btn bg custom-button btn-petit" type="submit" id="navigation3" name="psw2" value="4">    &gt;   </button>     
                             <button class="btn bg custom-button btn-petit" type="submit" id="navigation4" name="psw2" value="5">   &gt;&gt;  </button>
@@ -49,6 +51,22 @@
                     </div>
                 </div>
             </div>
+
+            </br>
+            <form id="load_form" method="POST" action="/upload" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".sgf">
+
+                <input id="load_sgf" class="btn bg custom-button btn-petit" type="submit" value="Charger">
+            </form>
+
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>
+<!--
             <script>
                 function updateMessage() {
                     $.get('/update', function(data) {
@@ -59,18 +77,4 @@
                 }
                 // Mettre à jour le message toutes les 3 secondes (ajustez selon vos besoins)
                 setInterval(updateMessage, 1000);
-            </script>
-            </br>
-            <form method="POST" action="/upload" enctype="multipart/form-data">
-                <input type="file" name="file" accept=".sgf">
-
-                <input class="btn bg custom-button btn-petit" type="submit" value="Charger">
-            </form>
-
-    </div>
-</div>
-</div>
-
-
-</body>
-</html>
+            </script>-->

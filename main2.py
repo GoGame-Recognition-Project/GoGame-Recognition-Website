@@ -86,23 +86,6 @@ def generate_plot():
 
     return img_base64
 
-# # def end_camera():
-# #     global process_thread, camera_running, disabled_button
-# #     if camera_running:
-# #         process_thread.join()  # Wait for the thread to finish before stopping
-# #         camera_running = False
-# #         disabled_button = 'stop-button'   # Define the ID of the button to desactivate
-
-# # def open_camera():
-# #     """Open the camera"""
-# #     global camera, process_thread, disabled_button, camera_running
-# #     if not camera_running:
-# #         camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
-# #         process_thread = threading.Thread(target=processing_thread, args=(camera,))
-# #         process_thread.start()
-# #         camera_running = True
-# #         disabled_button = 'start-button'  # Define the ID of the button to desactivate
-
 @app.route('/')
 def index():
     """Route to display HTML page"""
@@ -124,34 +107,6 @@ def afficher_message():
     """
 
     return {'message': message, 'image' : generate_plot()}
-
-# def generate_frames():
-#     """
-#         Generate an image from the video stream
-        
-#         Returns:
-#             Image
-#     """
-#     global ProcessFrame, camera
-#     while True:  
-#         try:
-#             success, frame = camera.read()  # Read the image from the camera
-#             if not success:
-#                 break
-            
-#             else:
-#                 ProcessFrame = copy.deepcopy(frame)
-#                 _, buffer = cv2.imencode('.jpg', frame)
-#                 frame = buffer.tobytes()
-#                 yield (b'--frame\r\n'
-#                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-#         except Exception:
-#             print('Exception: Camera not detected')
-#             break
-    
-
-
-
 
 @app.route('/sgf_controls')
 def getval3():
@@ -175,6 +130,20 @@ def getval3():
     # return send_file()
     # return render_template('sgf.html', disabled_button=disabled_button)
 
+@app.route('/next', methods=["POST"])
+def next():
+    """
+        Change the current move
+    """
+    global transparent_mode
+    
+    transparent_mode = False
+
+    go_game.go_visual.next()
+    return Response(status=204)
+    # return send_file()
+    # return render_template('sgf.html', disabled_button=disabled_button)
+
 
 @app.route('/upload', methods=['POST'])
 def process():
@@ -187,13 +156,16 @@ def process():
     file = request.files['file']
     file_path = file.filename
     try:
+        New_game()
         go_game.go_visual.load_game_from_sgf(file_path)
+        print("######################## loaaaaded")
         message = "Le fichier a été correctement chargé"
     except Exception as e:
         message = "L'erreur est "+str(e)
-    
 
-    return render_template('sgf.html')
+    return Response(status=204)
+    # return Response()
+    # return render_template('sgf.html')
 
 @app.route('/credit')
 def credit():
@@ -247,7 +219,7 @@ def sgf():
 
 
 if __name__ == '__main__':
-    New_game()
+    # New_game()
     # process_thread = threading.Thread(target=processing_thread, args=())
     # process_thread.start()
     app.run(debug=True)
