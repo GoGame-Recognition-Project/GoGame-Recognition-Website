@@ -5,15 +5,19 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
     <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
- 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <style>
+        body {
+            font-family: 'Your Desired Font', sans-serif;
+        }
+    </style> -->
     <title>Home</title>
 </head>
 <body>
-<div class="container-fluid text-center bg custom-color">
-    <div class="container-fluid text-center">
-        <div class="row">
+
+    <header>
+  
             <div class="col-5 custom-color">        
                 <a href="{{ url_for('credit') }}"><button class = "btn bg custom-button btn-grand">Credits</button></a>
             </div>
@@ -23,7 +27,11 @@
             <div class="col-5 custom-color">        
                 <img src="{{ url_for('static', filename='Logo_Tanuki_gris.png') }}" class="logo logo-Tenuki" alt="Logo de l'association" id="logo">
             </div>
-        </div>
+ 
+    </header>
+<div class="container-fluid text-center bg custom-color">
+    <div class="container-fluid text-center">
+        
     </div>
     </br>
     </br>
