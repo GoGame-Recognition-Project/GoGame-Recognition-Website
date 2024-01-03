@@ -3,9 +3,6 @@ body {
   padding: 0;
   height: 100vh;
   background-color: rgba(81, 81, 79, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .centered-image {
@@ -36,8 +33,6 @@ body {
 .GoStream {
   width: 60%;
 }
-
-.custom-fond { background-color: rgb(132, 206, 234); }
 .custom-button { background-color: rgb(202, 202, 202); }
 
 .btn-petit{
@@ -45,7 +40,6 @@ body {
   padding: 10px 10px;
   background-color: #ecce97;
   color: #000000;
-  margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
 }
 
