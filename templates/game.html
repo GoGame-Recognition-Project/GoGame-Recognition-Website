@@ -14,28 +14,26 @@
 </head>
 <body>
     <div class="container">
-        <header class="container text-center">
+        <header class="container text-center row align-items-start">
+            <div class="col">
+                <a href = "/">
+                    <button>
+                        <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Accueil" id="logo">
+                    </button>
+                </a>              
+            </div>
             
-            <div class="row align-items-start">
-                
-                <div class="col">
-                    <a href = "/">
-                        <button>
-                            <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Accueil" id="logo">
-                        </button>
-                    </a>              
-                </div>
-                
-                <div class="col custom-color custom-size">
-                    <b>Game Stream</b>
-                </div>
-            
-                <div class="col">
-                    <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
-                </div>
-        </div>
+            <div class="col custom-color custom-size">
+                <b>Game Stream</b>
+            </div>
+        
+            <div class="col">
+                <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
+            </div>
+
     
-    </header>
+        </header>
+    </div>
 
     <div class="container">
         <div class="container text-center">
@@ -56,7 +54,7 @@
                 <div class="col">
                     
                     <div id="video-container">
-                        <img id="camera-feed" src="" alt="Camera Feed"></img>
+                        <img id="camera-feed" src="" alt="Camera Feed">
                     </div>
                     
                     <div class="col text-info">
@@ -71,7 +69,7 @@
                     
                     <div id="image">
 
-                        <img id="image" src="" alt="Image"></img>
+                        <img id="image" src="static/empty_board.jpg" alt="Image">
     
                         <div class="container-fluid text-center">
                             <form method="POST" action="/game" id="move">
