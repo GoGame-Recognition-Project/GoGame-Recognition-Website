@@ -17,8 +17,8 @@ app.secret_key = 'your_secret_key'
 
 model = YOLO('model.pt')
 
-# usual_message = "La caméra est bien fixée et tout est Ok"
-# message = "Rien n'a encore été lancé "
+usual_message = "La caméra est bien fixée et tout est Ok"
+message = "Rien n'a encore été lancé "
 # disabled_button = 'stop-button'
 
 
@@ -26,65 +26,65 @@ ProcessFrame = None
 Process = True
 initialized = False
 sgf_text = None
-empty_board = cv2.imread("empty_board.jpg")
+empty_board = cv2.imread("static/empty_board.jpg")
 game_plot = empty_board
 process_thread = None
 go_game = None
 transparent_mode = False
 
 
-# def New_game(transparent_mode=False):
+def New_game(transparent_mode=False):
     
-#     global go_game, initialized, game_plot
-#     game = sente.Game()
-#     go_visual = GoVisual(game)
-#     go_board = GoBoard(model)
-#     go_game = GoGame(game, go_board, go_visual, transparent_mode)
-#     game_plot = empty_board
-#     initialized = False
+    global go_game, initialized, game_plot
+    game = sente.Game()
+    go_visual = GoVisual(game)
+    go_board = GoBoard(model)
+    go_game = GoGame(game, go_board, go_visual, transparent_mode)
+    game_plot = empty_board
+    initialized = False
 
-# def processing_thread():
-#     """
-#         Process the detection algorithm
+def processing_thread():
+    """
+        Process the detection algorithm
         
-#         Update:
-#             game_plot, sgf_text
-#         Send error to message if there is one
-#         """
+        Update:
+            game_plot, sgf_text
+        Send error to message if there is one
+        """
     
-#     global ProcessFrame, game_plot, message, initialized, sgf_text
+    global ProcessFrame, game_plot, message, initialized, sgf_text
 
-#     if not ProcessFrame is None:
-#         try:
-#             if not initialized:
-#                 game_plot = go_game.initialize_game(ProcessFrame)
-#                 initialized = True
-#                 message = usual_message
-#             else:    
-#                 game_plot, sgf_text = go_game.main_loop(ProcessFrame)
-#                 message = usual_message
-#         except Exception as e:
-#             message = "Erreur : "+str(e)
+    if not ProcessFrame is None:
+        try:
+            if not initialized:
+                game_plot = go_game.initialize_game(ProcessFrame)
+                initialized = True
+                message = usual_message
+            else:    
+                game_plot, sgf_text = go_game.main_loop(ProcessFrame)
+                message = usual_message
+        except Exception as e:
+            message = "Erreur : "+str(e)
                 
-# def generate_plot():
-#     """
-#         Generate a plot representing the game
+def generate_plot():
+    """
+        Generate a plot representing the game
         
-#         Returns:
-#             Image
-#         """
-#     global game_plot
+        Returns:
+            Image
+        """
+    global game_plot
     
-#     processing_thread()
-#     if transparent_mode:
-#         to_plot = game_plot
-#     else:
-#         to_plot = go_game.go_visual.current_position()
+    processing_thread()
+    if transparent_mode:
+        to_plot = game_plot
+    else:
+        to_plot = go_game.go_visual.current_position()
     
-#     _, img_encoded = cv2.imencode('.jpg', to_plot)
-#     img_base64 = base64.b64encode(img_encoded).decode('utf-8')
+    _, img_encoded = cv2.imencode('.jpg', to_plot)
+    img_base64 = base64.b64encode(img_encoded).decode('utf-8')
 
-#     return img_base64
+    return img_base64
 
 # # def end_camera():
 # #     global process_thread, camera_running, disabled_button
@@ -113,17 +113,17 @@ def home():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-# @app.route('/update')
-# def afficher_message():
-#     """
-#         Route to update the image and the message to display 
+@app.route('/update')
+def afficher_message():
+    """
+        Route to update the image and the message to display 
         
-#         Returns:
-#             message
-#             image
-#     """
+        Returns:
+            message
+            image
+    """
 
-#     return {'message': message, 'image' : generate_plot()}
+    return {'message': message, 'image' : generate_plot()}
 
 # def generate_frames():
 #     """
@@ -303,24 +303,24 @@ def getval3():
 #     global sgf_text
 #     return sgf_text
 
-# @app.route('/upload', methods=['POST'])
-# def process():
-#     """
-#         Route which enables us to save the sgf text
-#         """
-#     global transparent_mode
+@app.route('/upload', methods=['POST'])
+def process():
+    """
+        Route which enables us to save the sgf text
+        """
+    global transparent_mode
     
-#     transparent_mode = False
-#     file = request.files['file']
-#     file_path = file.filename
-#     try:
-#         go_game.go_visual.load_game_from_sgf(file_path)
-#         message = "Le fichier a été correctement chargé"
-#     except Exception as e:
-#         message = "L'erreur est "+str(e)
+    transparent_mode = False
+    file = request.files['file']
+    file_path = file.filename
+    try:
+        go_game.go_visual.load_game_from_sgf(file_path)
+        message = "Le fichier a été correctement chargé"
+    except Exception as e:
+        message = "L'erreur est "+str(e)
     
 
-#     return render_template('sgf.html', disabled_button=disabled_button)
+    return render_template('sgf.html')
 
 @app.route('/credit')
 def credit():
@@ -384,7 +384,7 @@ def sgf():
 
 
 if __name__ == '__main__':
-    # New_game()
+    New_game()
     # process_thread = threading.Thread(target=processing_thread, args=())
     # process_thread.start()
     app.run(debug=True)

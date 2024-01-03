@@ -2,10 +2,11 @@
 
 
 window.onload = function() {
-    const navigation1 = document.getElementById("navigation1")
+    const navigation1 = document.getElementById("move")
     // const mainList = document.getElementById("mainList")
     navigation1.onsubmit = function(event) {
         event.preventDefault();
+        console.log("listening");
         fetch("/sgf_controls", {
             method: "GET"
         })
