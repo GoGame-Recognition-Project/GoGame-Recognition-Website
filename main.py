@@ -4,7 +4,7 @@ from ultralytics import YOLO
 from GoGame import *
 from GoBoard import *
 from GoVisual import *
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, send_file
 import cv2
 import base64
 
@@ -105,6 +105,11 @@ transparent_mode = False
 
 @app.route('/')
 def index():
+    """Route to display HTML page"""
+    return render_template('Home.html')
+
+@app.route('/home')
+def home():
     """Route to display HTML page"""
     return render_template('Home.html')
 
@@ -232,26 +237,27 @@ def index():
 #     print(i)   
 #     return render_template('partie.html', disabled_button=disabled_button)
 
-# @app.route('/sgf_controls', methods=['POST'])
-# def getval3():
-#     """
-#         Change the current move
-#     """
-#     global transparent_mode
+@app.route('/sgf_controls')
+def getval3():
+    """
+        Change the current move
+    """
+    global transparent_mode
     
-#     transparent_mode = False
+    transparent_mode = False
     
-#     i = request.form['psw2']
-#     if i =='2':
-#         go_game.go_visual.initial_position()
-#     elif i == '3':
-#         go_game.go_visual.previous()
-#     elif i == '4':
-#         go_game.go_visual.next()
-#     elif i == '5':
-#         go_game.go_visual.final_position() 
-#     print(i)   
-#     return render_template('sgf.html', disabled_button=disabled_button)
+    i = request.form['psw2']
+    if i =='2':
+        go_game.go_visual.initial_position()
+    elif i == '3':
+        go_game.go_visual.previous()
+    elif i == '4':
+        go_game.go_visual.next()
+    elif i == '5':
+        go_game.go_visual.final_position() 
+    print(i)   
+    # return send_file()
+    # return render_template('sgf.html', disabled_button=disabled_button)
 
 # @app.route('/rules', methods=['POST'])
 # def handle_rules():
@@ -344,7 +350,7 @@ def historique():
 
 
 @app.route('/game')
-def partie():
+def game():
     """
     Route to get to the streaming page in game mode
     """
