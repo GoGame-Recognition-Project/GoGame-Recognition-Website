@@ -343,7 +343,7 @@ def historique():
     return render_template("Historique.html")
 
 
-@app.route('/partie')
+@app.route('/game')
 def partie():
     """
     Route to get to the streaming page in game mode
@@ -352,7 +352,7 @@ def partie():
     
     transparent_mode = False
 
-    return render_template("partie.html")
+    return render_template("game.html")
 
 @app.route('/transparent')
 def transparent():
