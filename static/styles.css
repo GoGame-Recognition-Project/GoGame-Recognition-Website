@@ -42,6 +42,30 @@ body {
   color: #000000;
   margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
+  max-width: 300px;
+  display: block;
+
+}
+
+.btn-annuler{
+  font-size: 15px;
+  padding: 10px 10px;
+  background-color: #dd7266;
+  color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
+  text-decoration: none; /* Remove underlines from links */
+  max-width: 300px;
+  display: block;
+
+}
+
+.btn-nav{
+  font-size: 15px;
+  padding: 10px 10px;
+  background-color: #ecce97;
+  color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
+  text-decoration: none; /* Remove underlines from links */
 }
 
 button{
@@ -49,18 +73,10 @@ button{
   cursor: pointer;
   appearance: none;
   background-color: inherit;
-   transition: transform .7s ease-in-out;
+  transition: transform .7s ease-in-out;
   margin-left:10px;
+}
 
-}
-.btn-annuler{
-  font-size: 15px;
-  padding: 10px 10px;
-  background-color: #dd7266;
-  color: #000000;
-  margin: 10px auto; /* Add margin for vertical spacing */
-  text-decoration: none; /* Remove underlines from links */
-}
 .containerCenter {
   display: flex;
   justify-content: center;

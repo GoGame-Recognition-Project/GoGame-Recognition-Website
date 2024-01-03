@@ -75,25 +75,23 @@
     
                         <div class="container-fluid text-center">
                             <form method="POST" action="/game" id="move">
-                                <button class="btn btn-petit" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
-                                <button class="btn btn-petit" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
-                                <button class="btn btn-petit" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
-                                <button class="btn btn-petit" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
+                                <button class="btn btn-nav" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
+                                <button class="btn btn-nav" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
+                                <button class="btn btn-nav" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
+                                <button class="btn btn-nav" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
                             </form>
                         </div>
                     </div>
                 </div> 
-                <div class="col">
-                    <div class="row">
+                <div class="col-3">
                         <form method="POST" action="/undo">
                             <button class="btn btn-annuler" type="submit">
                                 Undo last mode
                             </button>
                         </form>
-                    </div>
-                    <div class="row">
-                        <button class="btn btn-petit" onclick="downloadFile()">Generate SGF file</button>
-                    </div>
+                        <button class="btn btn-petit" onclick="downloadFile()">
+                            Generate SGF file
+                        </button>
                 </div>
             
                 <script>
