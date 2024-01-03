@@ -15,7 +15,13 @@ controls.addEventListener('click', function(event) {
     fetch('/controls', {
         method: 'POST',
         body: target,
-    }).then(function(response) {console.log(response);});
+    }).then(function(response) {
+        if(response.status == 204){
+            update_state().then(
+                console.log("Updated State")
+            );
+        }
+    });
 });
 
 load_form.addEventListener("submit", function(event) {
@@ -27,7 +33,9 @@ load_form.addEventListener("submit", function(event) {
         body: form_data,
     }).then(function(response) {
         if(response.status == 204){
-            update_state().then(console.log('then'));
+            update_state().then(
+                console.log("Updated State")
+            );
         }
     });
 });
@@ -35,5 +43,7 @@ load_form.addEventListener("submit", function(event) {
 
 async function update_state(){
     const response = await fetch('/update_state');
-    data = response;
+    data = await response.json();
+    image.src = 'data:image/jpeg;base64,' + data.image;
+    console.log(image);
 }
