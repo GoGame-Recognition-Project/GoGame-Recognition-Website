@@ -13,44 +13,46 @@
     <title>Partie en cours</title>
 </head>
 <body>
-    </br>
 
-    <div class="container-fluid col overflow-auto max-vh-100">
+    <header class="container text-center">
+        
+        <div class="row align-items-start">
+            
+            <div class="col">
+                <a href = "/">
+                    <button>
+                        <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Accueil" id="logo">
+                    </button>
+                </a>              
+            </div>
+            
+            <div class="col custom-color custom-size">
+                <b>Stream en cours</b>
+            </div>
+           
+            <div class="col">
+                <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
+            </div>
+        
+        </div>
+    
+    </header>
 
-        </br>
-
-        <div class="container text-center bg custom-color">
-        </br>
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col">
-                        <a href = "/"><button class="btn bg custom-button btn-petit">Retour</button></a>
-                    </div>
-                    <div class="container-2 text-center col custom-color custom-size"> 
-                        <b>Stream en cours</b>
-                    </div>
-                    <div class="col">
-                        <img src="{{ url_for('static', filename='Logo_Tanuki_gris.png') }}" class="logo logo-Tenuki" alt="Logo de l'association" id="logo">
-                    </div>
-                </div>
+    <div>
+        <div class="container text-center">
+            <div class="row align-items-start">
+                <form method="POST" action="/cam" id="myForm">
+                    <button class="col btn btn-petit" type="submit" id="start-button" name="psw1" value="0">
+                        Démarrer l'enregistrement
+                    </button>
+                    <button class="col btn btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>
+                        Arrêter la caméra
+                    </button>
+                </form>
             </div>
         </div>
 
-        </br>
-        </br>
-        <div class="container-fluid text-center bg custom-color">
-            <div class="container-fluid text-center">
-                <div class="row">
-                    <form method="POST" action="/cam" id="myForm">
-                        <button class="btn bg custom-button btn-petit" type="submit" id="start-button" name="psw1" value="0">Démarrer l'enregistrement</button>
-                        <button class="btn bg custom-button btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>Arrêter la caméra</button>
-                    </form>
-                </div>
-            </div>
-        </div> 
-    
-        <div class="row">
-            <div class="col-1"></div>
+        <div class="row align-items-start">
             <div class="col">
                 <div id="video-container">
                     <img id="camera-feed" src="" alt="Camera Feed"></img>
@@ -64,7 +66,7 @@
             <div class="col">
                 <div id="image">
                     <img id="image" src="" alt="Image"></img>
-
+<!-- 
                     <div class="container-fluid text-center">
 
                         <div class="row">
@@ -82,7 +84,7 @@
                                 </form>
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-1"></div>
@@ -102,7 +104,7 @@
         </br>
         </br>
 
-        <div class="container-fluid text-center">
+        <!-- <div class="container-fluid text-center">
             <div class="row">
                 <div class="col">
                     <b>Générer le fichier SGF de la partie</b>
@@ -122,8 +124,8 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> -->
+    </div> 
 
     <script>
         function downloadFile() {

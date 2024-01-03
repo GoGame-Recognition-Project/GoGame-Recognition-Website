@@ -23,7 +23,7 @@ body {
 }
 
 .Tenuki {
-  width: 60%;
+  width: 30%;
 }
 
 .GoStreamHome {
@@ -33,6 +33,9 @@ body {
   width: 40%;
 }
 
+.GoStream {
+  width: 60%;
+}
 
 .custom-fond { background-color: rgb(132, 206, 234); }
 .custom-button { background-color: rgb(202, 202, 202); }
@@ -44,6 +47,16 @@ body {
   color: #000000;
   margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
+}
+
+button{
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+   transition: transform .7s ease-in-out;
+  margin-left:10px;
+
 }
 .btn-annuler{
   font-size: 15px;
