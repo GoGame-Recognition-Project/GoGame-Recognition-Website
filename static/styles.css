@@ -22,15 +22,17 @@ body {
   background-color: rgba(81, 81, 79, 0);
 }
 
-.logo_tenuki {
-  position: absolute; /* Position absolue pour placer le logo */
-  top: 10px; /* Distance depuis le haut en pixels */
-  left: 10px; /* Distance depuis la gauche en pixels */
+.Tenuki {
+  width: 60%;
 }
 
-.logo {
-  width: 80%;
+.GoStreamHome {
+  text-align: center;
+  top: 10px; 
+  left: 10px; 
+  width: 40%;
 }
+
 
 .custom-fond { background-color: rgb(132, 206, 234); }
 .custom-button { background-color: rgb(202, 202, 202); }
@@ -51,10 +53,11 @@ body {
   margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
 }
-.container-2 {
-  text-align: center;
+.containerCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 .custom-color {
   color: #ecce97; /* Change the color to your desired color */
 }
@@ -62,11 +65,6 @@ body {
 .custom-size {
   font-size: 40px; /* Change the font size to your desired size */
 }
-.button-container {
-  text-align: center; /* Center the buttons horizontally */
-  color: #000000;
-}
-
 .btn-grand {
   font-size: 30px;
   padding: 10px 10px;
