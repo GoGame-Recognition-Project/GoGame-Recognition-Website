@@ -40,11 +40,9 @@ body {
   padding: 10px 10px;
   background-color: #ecce97;
   color: #000000;
-  margin-top: 20px auto; /* Add margin for vertical spacing */
-  margin-bottom: 20px;
+  margin: 20px;
   text-decoration: none; /* Remove underlines from links */
   max-width: 80%;
-  display: block;
 
 }
 
@@ -53,16 +51,15 @@ body {
   padding: 10px 10px;
   background-color: #dd7266;
   color: #000000;
-  margin-top: 20px auto; /* Add margin for vertical spacing */
-  margin-bottom: 20px;
+  margin: 20px;
   text-decoration: none; /* Remove underlines from links */
   max-width: 80%;
-  display: block;
 
 }
 
 .custom-col{
-  margin-left: 5px; 
+  left: 5px; 
+  right: 5px;
 }
 .btn-nav{
   font-size: 15px;
