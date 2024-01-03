@@ -108,41 +108,15 @@ def afficher_message():
 
     return {'message': message, 'image' : generate_plot()}
 
-@app.route('/sgf_controls')
-def getval3():
+
+@app.route('/controls', methods=["POST"])
+def controls():
     """
         Change the current move
     """
-    global transparent_mode
-    
-    transparent_mode = False
-    
-    i = request.form['psw2']
-    if i =='2':
-        go_game.go_visual.initial_position()
-    elif i == '3':
-        go_game.go_visual.previous()
-    elif i == '4':
-        go_game.go_visual.next()
-    elif i == '5':
-        go_game.go_visual.final_position() 
-    print(i)   
-    # return send_file()
-    # return render_template('sgf.html', disabled_button=disabled_button)
-
-@app.route('/next', methods=["POST"])
-def next():
-    """
-        Change the current move
-    """
-    global transparent_mode
-    
-    transparent_mode = False
-
-    go_game.go_visual.next()
+    print(request.data)
+    # go_game.go_visual.next()
     return Response(status=204)
-    # return send_file()
-    # return render_template('sgf.html', disabled_button=disabled_button)
 
 
 @app.route('/upload', methods=['POST'])
@@ -156,12 +130,14 @@ def process():
     file = request.files['file']
     file_path = file.filename
     try:
+        print("fileee", file_path)
         New_game()
         go_game.go_visual.load_game_from_sgf(file_path)
         print("######################## loaaaaded")
         message = "Le fichier a été correctement chargé"
     except Exception as e:
-        message = "L'erreur est "+str(e)
+        print("######################## Not loaaaaded")
+        message = "L'erreur est " + str(e)
 
     return Response(status=204)
     # return Response()
