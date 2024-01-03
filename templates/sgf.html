@@ -9,7 +9,6 @@
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-        <script src="static/script.js"></script>
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Partie SGF</title>
@@ -42,11 +41,11 @@
                 <img id="image" class="w-50" src="static/empty_board.jpg" alt="Image"></img>
                 <div class="container-fluid text-center">
                     <div class="row">
-                        <form method="POST" action="/sgf_controls" id="move">
-                            <button class="btn bg custom-button btn-petit" type="submit" id="next" name="psw2" value="2">   &lt;&lt;  </button>     
-                            <button class="btn bg custom-button btn-petit" type="submit" id="navigation2" name="psw2" value="3">    &lt;   </button>     
-                            <button class="btn bg custom-button btn-petit" type="submit" id="navigation3" name="psw2" value="4">    &gt;   </button>     
-                            <button class="btn bg custom-button btn-petit" type="submit" id="navigation4" name="psw2" value="5">   &gt;&gt;  </button>
+                        <form method="POST" action="/sgf_controls" id="controls">
+                            <button class="btn bg custom-button btn-petit" type="submit" id="initial" name="psw2" value="2">   &lt;&lt;  </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="previous" name="psw2" value="3">    &lt;   </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="next" name="psw2" value="4">    &gt;   </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="last" name="psw2" value="5">   &gt;&gt;  </button>
                         </form>
                     </div>
                 </div>
@@ -63,7 +62,7 @@
 </div>
 </div>
 
-
+<script src="static/script.js"></script>
 </body>
 </html>
 <!--

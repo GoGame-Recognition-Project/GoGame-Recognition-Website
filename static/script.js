@@ -1,4 +1,4 @@
-
+"use strict";
 
 
 // window.onload = function() {
@@ -35,48 +35,44 @@
 // }
 
 
-var next = document.getElementById("next")
-// const mainList = document.getElementById("mainList")
-next.addEventListener('click', function(event) {
-    event.preventDefault();    // prevent page from refreshing
-    console.log(next);
-    fetch('/next', {   // assuming the backend is hosted on the same server
-        method: 'POST',
-        body: "",
-    }).then(function(response) {
-        // do something with the response if needed.
-        // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
-    });
-});
-
-// var load = document.getElementById("load_sgf")
-// // const mainList = document.getElementById("mainList")
-// load.addEventListener('click', function(event) {
+// var next = document.getElementById("next");
+// next.addEventListener('click', function(event) {
 //     event.preventDefault();    // prevent page from refreshing
 //     console.log(next);
-//     fetch('/next', {   // assuming the backend is hosted on the same server
+//     fetch('/next', {
 //         method: 'POST',
-//         body: "next move",
-//     }).then(function(response) {
-//         // do something with the response if needed.
-//         // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
-//     });
+//         body: "",
+//     }).then(function(response) {});
 // });
 
-var load_form = document.getElementById("load_form")
+var controls = document.getElementById("controls");
+controls.addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    const target = event.target.id;
+    if(!(["initial", "previous", "next", "last"].includes(target))){
+        console.log("not included");
+        return;
+    }
+    console.log(event.target.id);
+    fetch('/controls', {
+        method: 'POST',
+        body: target,
+    }).then(function(response) {});
+});
+
+var load_form = document.getElementById("load_form");
 // const mainList = document.getElementById("mainList")
 load_form.addEventListener("submit", function(event) {
     event.preventDefault();    // prevent page from refreshing
     const form_data = new FormData(load_form)
     console.log(load_form);
-    fetch('/upload', {   // assuming the backend is hosted on the same server
+    fetch('/upload', {
         method: 'POST',
         body: form_data,
     }).then(function(response) {
         console.log("got response");
         console.log(response);
-        // do something with the response if needed.
-        // If you want the table to be built only after the backend handles the request and replies, call buildTable() here.
     });
 });
 
