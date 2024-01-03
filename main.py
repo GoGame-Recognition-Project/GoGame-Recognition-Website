@@ -306,7 +306,7 @@ def getval3():
 @app.route('/upload', methods=['POST'])
 def process():
     """
-        Route which enables us to save the sgf text
+        Route which enables us to load the sgf text
         """
     global transparent_mode
     
