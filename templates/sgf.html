@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
+        <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Partie SGF</title>
+    </head>
+<body>
+    <div class="container-fluid col overflow-auto max-vh-100">
+
+    <div class="container text-center bg custom-color">
+        <div class="container text-center">
+            <div class="row">
+
+                <div class="col"> 
+                    <a href = "{{ url_for('home') }}"><button class="btn bg custom-button btn-petit">Retour</button></a>
+                </div>
+                <div class="container-2 text-center col custom-color custom-size"> 
+                    <b>Partie de Go</b>
+                </div>
+                <div class="col">
+                    <img src="{{ url_for('static', filename='Logo_Tanuki_gris.png') }}" class="logo logo-Tenuki" alt="Logo de l'association" id="logo">
+                </div>
+            </div>
+        </div>
+    </div>
+    </br>
+    </br>
+
+    <div class="container-fluid text-center bg custom-color">
+        <div class="d-flex justify-content-center">
+            <div id="image">
+                <img id="image" class="w-50" src="" alt="Image"></img>
+                <div class="container-fluid text-center">
+                    <div class="row">
+                        <form method="POST" action="/sgf_controls" id="move">
+                            <button class="btn bg custom-button btn-petit" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
+                            <button class="btn bg custom-button btn-petit" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function updateMessage() {
+                    $.get('/update', function(data) {
+                        // Mettre à jour le contenu de #message avec le nouveau message
+                        $('#message').text(data.message);
+                        $('#image img').attr('src', 'data:image/jpeg;base64,' + data.image); 
+                    });
+                }
+                // Mettre à jour le message toutes les 3 secondes (ajustez selon vos besoins)
+                setInterval(updateMessage, 1000);
+            </script>
+            </br>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".sgf">
+
+                <input class="btn bg custom-button btn-petit" type="submit" value="Charger">
+            </form>
+
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>

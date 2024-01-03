@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
+    <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script src="static/game_manager.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partie en cours</title>
+</head>
+<body>
+    </br>
+
+    <div class="container-fluid col overflow-auto max-vh-100">
+
+        </br>
+
+        <div class="container text-center bg custom-color">
+        </br>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col"> 
+                        <a href = "{{ url_for('home') }}"><button class="btn bg custom-button btn-petit">Retour</button></a>
+                    </div>
+                    <div class="container-2 text-center col custom-color custom-size"> 
+                        <b>Stream en cours</b>
+                    </div>
+                    <div class="col">
+                        <img src="{{ url_for('static', filename='Logo_Tanuki_gris.png') }}" class="logo logo-Tenuki" alt="Logo de l'association" id="logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </br>
+        </br>
+        <div class="container-fluid text-center bg custom-color">
+            <div class="container-fluid text-center">
+                <div class="row">
+                    <form method="POST" action="/cam" id="myForm">
+                        <button class="btn bg custom-button btn-petit" type="submit" id="start-button" name="psw1" value="0">Démarrer l'enregistrement</button>
+                        <button class="btn bg custom-button btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>Arrêter la caméra</button>
+                    </form>
+                </div>
+            </div>
+        </div> 
+    
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+                <div id="video-container">
+                    <img id="camera-feed" src="{{ url_for('video_feed') }}" alt="Camera Feed"></img>
+                </div>
+                <div class="col text-info">
+                    <div id="message">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div id="image">
+                    <img id="image" src="" alt="Image"></img>
+
+                    <div class="container-fluid text-center">
+
+                        <div class="row">
+                            <form method="POST" action="/game" id="move">
+                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
+                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
+                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
+                                <button class="btn bg custom-button btn-petit" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
+                            </form>
+                            <div class="col">
+                                <form method="POST" action="/undo">
+                                    <button class="btn bg custom-button btn-annuler" type="submit">
+                                        Annuler le dernier coup
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <script>
+                    function updateMessage() {
+                        $.get('/update', function(data) {
+                            // Mettre à jour le contenu de #message avec le nouveau message
+                            $('#message').text(data.message);
+                            $('#image img').attr('src', 'data:image/jpeg;base64,' + data.image); 
+                        });
+                    }
+                    // Mettre à jour le message toutes les 3 secondes (ajustez selon vos besoins)
+                    setInterval(updateMessage, 1000);
+                </script>
+            </div>
+        </div>
+        </br>
+        </br>
+
+        <div class="container-fluid text-center">
+            <div class="row">
+                <div class="col">
+                    <b>Générer le fichier SGF de la partie</b>
+                    </br>
+                    <button class="btn bg custom-button btn-petit" onclick="downloadFile()">Télécharger</button>
+                </div>
+
+                <div class="col">
+                    <form method="POST" action="/change_place" id="change">
+                        <label for="input1">Ancien emplacement</label>
+                        <input type="text" id="input1" name="input1" placeholder="par exemple A1..">
+                        <br>
+                        <label for="input2">Nouvel emplacement</label>
+                        <input type="text" id="input2" name="input2" placeholder="par exemple S19..">
+                        <br>
+                        <button class="btn bg custom-button btn-petit" type="submit">Valider</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadFile() {
+            // Requête AJAX pour obtenir le contenu du fichier depuis le serveur
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_sgf_txt', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Créer un blob avec le contenu du fichier
+                    var blob = new Blob([xhr.responseText], { type: 'text/plain' });
+                    
+                    // Utiliser FileSaver.js pour télécharger le fichier
+                    saveAs(blob, 'partie.sgf');
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+<!-- </div>  
+    <div class="container-sm">
+
+    </div>
+
+</div>
+</div>
+
+</div>
+<script>
+    function updateMessage() {
+        $.get('/update', function(data) {
+            // Mettre à jour le contenu de #message avec le nouveau message
+            $('#message').text(data.message);
+            $('#image img').attr('src', 'data:image/jpeg;base64,' + data.image);
+        
+        });
+    }
+
+    // Mettre à jour le message toutes les 3 secondes (ajustez selon vos besoins)
+    setInterval(updateMessage, 3000);
+</script>
+
+<script>
+    function downloadFile() {
+        // Requête AJAX pour obtenir le contenu du fichier depuis le serveur
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_file_content', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Créer un blob avec le contenu du fichier
+                var blob = new Blob([xhr.responseText], { type: 'text/plain' });
+                
+                // Utiliser FileSaver.js pour télécharger le fichier
+                saveAs(blob, 'nom_du_fichier.sgf');
+            }
+        };
+        xhr.send();
+    }
+</script>
+<script>
+    document.getElementById('rules').addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('check').submit();
+        }
+    });
+</script> 
+
+
+
+            <div class="col text-left text-light">
+                <form method="POST" action="/rules" id="check">
+                    <label for="rules">Respect des règles strictes : </label>
+                    <input type="checkbox" id="rules" name="psw3" value="6" {% if check == 'True' %}checked{% endif %}>
+                </form>
+                <br>
+                <br>
+
+
+
+
+
+
+
+
+        <script src="{{ url_for('static',filename = 'script.js') }}"></script>
+    -->
+
+
+
+
+
+
+</body>
+</html>
+ 

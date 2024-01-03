@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: rgba(81, 81, 79, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered-image {
+  max-width: 70%;
+  max-height: 50%;
+  opacity: 0.5;
+}
+
+.bleu_ciel {
+  background-color: skyblue; /* Couleur de fond bleu ciel */
+}
+
+.gris{
+  background-color: rgba(81, 81, 79, 0);
+}
+
+.logo_tenuki {
+  position: absolute; /* Position absolue pour placer le logo */
+  top: 10px; /* Distance depuis le haut en pixels */
+  left: 10px; /* Distance depuis la gauche en pixels */
+}
+
+.logo {
+  width: 80%;
+}
+
+.custom-fond { background-color: rgb(132, 206, 234); }
+.custom-button { background-color: rgb(202, 202, 202); }
+
+.btn-petit{
+  font-size: 15px;
+  padding: 10px 10px;
+  background-color: #ecce97;
+  color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
+  text-decoration: none; /* Remove underlines from links */
+}
+.btn-annuler{
+  font-size: 15px;
+  padding: 10px 10px;
+  background-color: #dd7266;
+  color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
+  text-decoration: none; /* Remove underlines from links */
+}
+.container-2 {
+  text-align: center;
+}
+
+.custom-color {
+  color: #ecce97; /* Change the color to your desired color */
+}
+
+.custom-size {
+  font-size: 40px; /* Change the font size to your desired size */
+}
+.button-container {
+  text-align: center; /* Center the buttons horizontally */
+  color: #000000;
+}
+
+.btn-grand {
+  font-size: 30px;
+  padding: 10px 10px;
+  background-color: #ecce97;
+  color: #000000;
+  margin: 20px auto; /* Add margin for vertical spacing */
+  text-decoration: none; /* Remove underlines from links */
+  display: block; /* Make it a block element */
+  max-width:600px; /* Set a maximum width for the buttons */
+
+}
+
+.btn-grand a {
+  color: #000000; /* Set the color of the links */
+  text-decoration: none; /* Remove underlines from links */
+}
+
+.btn-sommaire{
+  font-size: 48px;
+  padding: 30px 60px;
+}
+#image {
+  /*float: left;*/
+  position: relative;
+  width: 70%; /* Chaque div prend la moitié de la largeur */
+  box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur */
+  margin-right: 20px; /* Ajustez la marge selon vos besoins */
+}
+
+#video-container {
+  /*float: left;*/
+  position: relative;
+  width: 90%; /* Chaque div prend la moitié de la largeur */
+  box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur */
+  margin-right: 10px; /* Ajustez la marge selon vos besoins */
+}
+
+#camera-feed, #image img {
+  width: 100%; /* Les images occupent la largeur complète de leur parent */
+  height: auto; /* Maintient le ratio d'aspect original */
+}
+
+#message {
+  clear: both; /* Empêche les éléments suivants de flotter à gauche ou à droite des div flottantes */
+  margin-top: 10px; /* Ajoute de l'espace entre le message et les div précédentes */
+  color: #f95737;
+  font-size: 20px;
+
+}
