@@ -73,21 +73,21 @@
     
                         <div class="container-fluid text-center">
                             <form method="POST" action="/game" id="move">
-                                <button class="btn btn-nav" type="submit" id="start-button4" name="psw2" value="2">   &lt;&lt;  </button>     
-                                <button class="btn btn-nav" type="submit" id="start-button1" name="psw2" value="3">    &lt;   </button>     
-                                <button class="btn btn-nav" type="submit" id="start-button2" name="psw2" value="4">    &gt;   </button>     
-                                <button class="btn btn-nav" type="submit" id="start-button3" name="psw2" value="5">   &gt;&gt;  </button>
+                                <button class="btn bg custom-button btn-petit" id="initial">   &lt;&lt;  </button>     
+                                <button class="btn bg custom-button btn-petit" id="previous">    &lt;   </button>     
+                                <button class="btn bg custom-button btn-petit" id="next">    &gt;   </button>     
+                                <button class="btn bg custom-button btn-petit" id="last">   &gt;&gt;  </button>
                             </form>
                         </div>
                     </div>
                 </div> 
-                <div class="col-1 custom-col">
-                        <form method="POST" action="/undo">
-                            <button class="btn btn-annuler" type="submit">
+                <div class="col-1 mx-0 px-0">
+                        <form method="POST" action="/undo" class="px-0 mx-0">
+                            <button class="btn btn-annuler px-0 mx-0" type="submit">
                                 Undo last mode
                             </button>
                         </form>
-                        <button class="btn btn-petit" onclick="downloadFile()">
+                        <button class="btn btn-petit mx-0 px-0" onclick="downloadFile()">
                             Generate SGF file
                         </button>
                 </div>
