@@ -10,7 +10,7 @@
     <script src="static/game_manager.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partie en cours</title>
+    <title>Game Stream</title>
 </head>
 <body>
     <div class="container">
@@ -27,21 +27,12 @@
                 </div>
                 
                 <div class="col custom-color custom-size">
-                    <b>Stream en cours</b>
+                    <b>Game Stream</b>
                 </div>
             
                 <div class="col">
                     <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
                 </div>
-            
-            <div class="col custom-color custom-size">
-                Stream en cours
-            </div>
-           
-            <div class="col">
-                <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
-            </div>
-        
         </div>
     
     </header>
@@ -51,10 +42,10 @@
             <div class="row align-items-start">
                 <form method="POST" action="/cam" id="myForm">
                     <button class="col btn btn-petit" type="submit" id="start-button" name="psw1" value="0">
-                        Démarrer l'enregistrement
+                        Start recording
                     </button>
                     <button class="col btn btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>
-                        Arrêter la caméra
+                        Stop the camera
                     </button>
                 </form>
             </div>
@@ -93,11 +84,16 @@
                     </div>
                 </div> 
                 <div class="col">
-                    <form method="POST" action="/undo">
-                        <button class="btn btn-annuler" type="submit">
-                            Annuler le dernier coup
-                        </button>
-                    </form>
+                    <div class="row">
+                        <form method="POST" action="/undo">
+                            <button class="btn btn-annuler" type="submit">
+                                Undo last mode
+                            </button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-petit" onclick="downloadFile()">Generate SGF file</button>
+                    </div>
                 </div>
             
                 <script>
@@ -113,16 +109,10 @@
                 </script>
             </div>
         </div>
-        </br>
-        </br>
-
+  
         <!-- <div class="container-fluid text-center">
             <div class="row">
-                <div class="col">
-                    <b>Générer le fichier SGF de la partie</b>
-                    </br>
-                    <button class="btn bg custom-button btn-petit" onclick="downloadFile()">Télécharger</button>
-                </div>
+
 
                 <div class="col">
                     <form method="POST" action="/change_place" id="change">
