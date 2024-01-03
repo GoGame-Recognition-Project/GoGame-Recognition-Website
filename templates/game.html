@@ -13,18 +13,26 @@
     <title>Partie en cours</title>
 </head>
 <body>
-
-    <header class="container text-center">
-        
-        <div class="row align-items-start">
+    <div class="container">
+        <header class="container text-center">
             
-            <div class="col">
-                <a href = "/">
-                    <button>
-                        <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Accueil" id="logo">
-                    </button>
-                </a>              
-            </div>
+            <div class="row align-items-start">
+                
+                <div class="col">
+                    <a href = "/">
+                        <button>
+                            <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Accueil" id="logo">
+                        </button>
+                    </a>              
+                </div>
+                
+                <div class="col custom-color custom-size">
+                    <b>Stream en cours</b>
+                </div>
+            
+                <div class="col">
+                    <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
+                </div>
             
             <div class="col custom-color custom-size">
                 Stream en cours
