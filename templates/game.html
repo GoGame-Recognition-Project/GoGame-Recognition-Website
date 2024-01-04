@@ -35,11 +35,9 @@
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color link-secondary">Game Mode</a>
+                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color link-secondary">Stream a Game</a>
                     </li>
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('transparent') }}" class="nav-link px-2 custom-color">Transparent Mode</a>
-                    </li>
+
                     <li style="margin-right: 10px;">
                         <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
                     </li>
@@ -55,19 +53,27 @@
     </header>
 
     <div class="container">
-        <div class="container text-center py-4">
-            <div class="align-items-start">
-                <form method="POST" id="myForm" class="btn-group-lg">
-                    <button class="btn btn-petit" id="start-button">
-                        Start recording
-                    </button>
-                    <button class="btn btn-petit" id="pause-button" disabled>
-                        Pause the recording
-                    </button>
-                    <button class="btn btn-annuler" id="stop-button" disabled>
-                        Stop the camera
-                    </button>
-                </form>
+        <div class="container text-start py-4">
+            <div class="row">
+                <div class="col-3 py-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label custom-color" for="flexSwitchCheckDefault">Game Mode: Apply Go rules</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <form method="POST" id="myForm" class="btn-group-lg">
+                        <button class="btn btn-petit" id="start-button">
+                            Start recording
+                        </button>
+                        <button class="btn btn-petit" id="pause-button" disabled>
+                            Pause the recording
+                        </button>
+                        <button class="btn btn-annuler" id="stop-button" disabled>
+                            Stop the camera
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="custom-container text-center">
@@ -92,12 +98,15 @@
                     </div>
                 </div>
                 <div class="col-1 mx-0 px-0">
-                        <form method="POST" action="/undo" class="px-0 mx-0">
-                            <button class="btn btn-annuler" type="submit">
-                                Undo
-                            </button>
-                        </form>
-                        <button class="btn btn-petit mx-1" onclick="downloadFile()">Get SGF</button>
+                    <form method="POST" id="undo" class="px-0 mx-0">
+                        <button class="btn btn-annuler mx-1" type="submit">
+                            Undo
+                        </button>
+                    </form>
+                    <button class="btn btn-petit mx-1" onclick="downloadFile()">
+                        Get SGF
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -122,21 +131,7 @@
     </div> 
 
     <script>
-        function downloadFile() {
-            // Requête AJAX pour obtenir le contenu du fichier depuis le serveur
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/get_sgf_txt', true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    // Créer un blob avec le contenu du fichier
-                    var blob = new Blob([xhr.responseText], { type: 'text/plain' });
-                    
-                    // Utiliser FileSaver.js pour télécharger le fichier
-                    saveAs(blob, 'partie.sgf');
-                }
-            };
-            xhr.send();
-        }
+
     </script>
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
     <div class="text-muted" style="margin-left: 50px;">
@@ -173,6 +168,7 @@
         Special thanks to our tutor Etienne Peillard and our client Nicolas Desdames from the Tenuki club.
     </div>
 </footer>
+<script src="static/script.js"></script>
 
 <!-- </div>  
     <div class="container-sm">

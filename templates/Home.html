@@ -35,9 +35,7 @@
                     <li style="margin-right: 10px;">
                         <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Game Mode</a>
                     </li>
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('transparent') }}" class="nav-link px-2 custom-color">Transparent Mode</a>
-                    </li>
+
                     <li style="margin-right: 10px;">
                         <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
                     </li>
@@ -71,12 +69,16 @@
 
                 <div class="col">
                     <div class="text-end custom-color custom-size">
-                        The platform allows the user to precisely recognize a Go board during a live stream, detect black and white stones, assign them to their right positions, and visually reproduce the game for training purposes. The user can navigate through the game using navigation buttons during the live stream or download the SGF file of the streamed game
+                        The platform allows the user to precisely recognize a Go board during a live stream,
+                         detect black and white stones, 
+                         assign them to their right positions, 
+                         and visually reproduce the game for training purposes. 
+                         The user can navigate through the game using navigation buttons during the live stream or download the SGF file of the streamed game.
                     </div>
                 </div>
 
                 <div class="col">
-                    <img src="{{ url_for('static', filename='empty_board.jpg') }}" class ="homeBoard" alt="Home" id="logo">
+                    <img src="{{ url_for('static', filename='fullboard.png') }}" class ="homeBoard" alt="Home" id="logo">
                 </div>
             </div>
         </div>
