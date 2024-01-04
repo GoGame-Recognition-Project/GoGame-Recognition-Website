@@ -65,6 +65,9 @@
                     <button class="col btn btn-petit" type="submit" id="start-button" name="psw1" value="0">
                         Start recording
                     </button>
+                    <button class="col btn btn-petit" type="submit" id="pause-button" name="psw1" value="2" disabled>
+                        Pause the recording
+                    </button>
                     <button class="col btn btn-annuler" type="submit" id="stop-button" name="psw1" value="1" disabled>
                         Stop the camera
                     </button>
@@ -91,7 +94,7 @@
                     <img id="image" src="static/empty_board.jpg" alt="Image" class="px-4">
                     <div class="row align-items-start">
 
-                        <form method="POST" action="/game" id="move" class="btn-group-lg">
+                        <form method="POST" action="/game" id="controls" class="btn-group-lg">
                             <button class="btn btn-nav mx-1" id="initial">   &lt;&lt;  </button>     
                             <button class="btn btn-nav mx-1" id="previous">    &lt;   </button>     
                             <button class="btn btn-nav mx-1" id="next">    &gt;   </button>     
