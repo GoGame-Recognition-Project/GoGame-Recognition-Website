@@ -11,10 +11,6 @@ body {
   opacity: 0.5;
 }
 
-.bleu_ciel {
-  background-color: skyblue; /* Couleur de fond bleu ciel */
-}
-
 .gris{
   background-color: rgba(81, 81, 79, 0);
 }
@@ -95,7 +91,7 @@ button{
 }
 
 .custom-size {
-  font-size: 30px; /* Change the font size to your desired size */
+  font-size: 25px; /* Change the font size to your desired size */
 }
 .btn-grand {
   font-size: 30px;
