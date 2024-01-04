@@ -56,9 +56,9 @@
 
     <div class="container-fluid text-center custom-color p-5">
         <div class="row">
-            <div class="col px-2 mx-0">
+            <div class="col-6 px-2 mx-0">
                 <img id="image" class="mx-0 px-0" src="static/empty_board.jpg" alt="Image">
-                <form method="POST" action="/game" id="move" class="btn-group-lg">
+                <form method="POST" action="/game" id="controls" class="btn-group-lg">
                     <button class="btn btn-nav mx-1" id="initial">   &lt;&lt;  </button>     
                     <button class="btn btn-nav mx-1" id="previous">    &lt;   </button>     
                     <button class="btn btn-nav mx-1" id="next">    &gt;   </button>     
@@ -78,20 +78,20 @@
 
         </div>
     </div>
-</div>
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-dark">
-    <div class="col align-items-center">
-        <a href = "/" class="mb-3 me-2 mb-md-0 lh-1">
-            <img src="{{ url_for('static', filename='GoStreamLogoWithoutTitle.png') }}" class ="GoStreamFooter" alt="Home" id="logo">
-        </a>
-        <span class="mb-3 mb-md-0 text-muted">© 2024 IMT Atlantique</span>
-    </div>
-    <div class="col text-end">
-        <img src="{{ url_for('static', filename='client_logo.png') }}" class ="Tenuki" alt="Home" id="logo">
-        <span class="mb-3 mb-md-0 text-muted">© Association Tenuki</span>
-    </div>
-    <div class="col-1"></div>
-</footer>
-<script src="static/script.js"></script>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-dark">
+        <div class="col align-items-center">
+            <a href = "/" class="mb-3 me-2 mb-md-0 lh-1">
+                <img src="{{ url_for('static', filename='GoStreamLogoWithoutTitle.png') }}" class ="GoStreamFooter" alt="Home" id="logo">
+            </a>
+            <span class="mb-3 mb-md-0 text-muted">© 2024 IMT Atlantique</span>
+        </div>
+        <div class="col text-end">
+            <img src="{{ url_for('static', filename='client_logo.png') }}" class ="Tenuki" alt="Home" id="logo">
+            <span class="mb-3 mb-md-0 text-muted">© Association Tenuki</span>
+        </div>
+        <div class="col-1"></div>
+    </footer>
+    <script src="static/script.js"></script>
 </body>
 </html>
