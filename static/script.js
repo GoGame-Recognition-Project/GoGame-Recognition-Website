@@ -47,13 +47,10 @@ undo_button.addEventListener('click', function(event) {
     console.log("clicked")
     fetch('/undo', {
         method: 'POST',
-    }
-    ).then(function(response) {
+    }).then(function(response) {
         if (response.status === 204) {
             console.log("Undone");
         }
-    }).catch(function(error) {
-        console.error('Error:', error);
     });
 });
 

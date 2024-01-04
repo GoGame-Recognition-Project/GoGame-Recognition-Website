@@ -160,6 +160,7 @@ def undo():
     """
 
     go_game.delete_last_move()
+    
     return Response(status=204)
 
 @app.route('/')
