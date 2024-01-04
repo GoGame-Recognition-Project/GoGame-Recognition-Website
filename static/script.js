@@ -7,6 +7,7 @@ const message = document.getElementById("message");
 const start_button =  document.getElementById("start-button");
 const stop_button =  document.getElementById("stop-button");
 const pause_button =  document.getElementById("pause-button");
+const undo_button = document.getElementById("undo")
 var recordLoop = null;
 var Data;
 
@@ -41,18 +42,20 @@ controls.addEventListener('click', function(event) {
 //     });
 // });
 
-// undo.addEventListener("submit", function(event) {
-//     event.preventDefault();    // prevent page from refreshing
-//     fetch('/undo', {
-//         method: 'POST',
-//     }).then(function(response) {
-//         if (response.status === 204) {
-//             console.log("Undone");
-//         }
-//     }).catch(function(error) {
-//         console.error('Error:', error);
-//     });
-// });
+undo_button.addEventListener('click', function(event) {
+    event.preventDefault();   
+    console.log("clicked")
+    fetch('/undo', {
+        method: 'POST',
+    }
+    ).then(function(response) {
+        if (response.status === 204) {
+            console.log("Undone");
+        }
+    }).catch(function(error) {
+        console.error('Error:', error);
+    });
+});
 
 
 start_button.addEventListener('click', function(event) {
