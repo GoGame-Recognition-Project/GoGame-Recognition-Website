@@ -24,10 +24,8 @@ body {
 }
 
 .GoStreamHome {
-  text-align: center;
-  top: 10px; 
-  left: 10px; 
-  width: 40%;
+  margin: 100px;
+  width: 50%;
 }
 
 .GoStream {
@@ -89,6 +87,11 @@ button{
 }
 .custom-color {
   color: #ecce97; /* Change the color to your desired color */
+}
+.custom-container{
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .custom-size {

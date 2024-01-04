@@ -7,11 +7,15 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <style>
+    <style>
         body {
-            font-family: 'Your Desired Font', sans-serif;
+            margin: 0;
+            border: 0;
+            padding: 0;
         }
-    </style> -->
+
+    </style>
+        
     <title>Home</title>
 </head>
 <body>
@@ -46,6 +50,21 @@
         </div>
 
     </header>
+    <div class="p-3 bg-dark custom-container">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+
+                <div class="col">
+                    <img src="{{ url_for('static', filename='GoStreamLogoTitleUnder.png') }}" class ="GoStreamHome" alt="Home" id="logo">
+                </div>
+                <div class="col">
+                    <div class="text-end custom-color custom-size">
+                        GoStream is a streaming platform developped by IMT Atlantique-Brest students, for the sake of filming, streaming, detecting and digitizing a Go Game for the Go club Tenuki in Brest, France.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
