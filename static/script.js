@@ -8,7 +8,7 @@ const start_button =  document.getElementById("start-button");
 const stop_button =  document.getElementById("stop-button");
 const pause_button =  document.getElementById("pause-button");
 var recordLoop = null;
-var data;
+var Data;
 
 controls.addEventListener('click', function(event) {
     event.preventDefault();
@@ -22,67 +22,65 @@ controls.addEventListener('click', function(event) {
         body: target,
     }).then(function(response) {
         if(response.status == 204){
-            update_state().then(
-                console.log("Updated State")
-            );
+            update_state()
         }
     });
 });
 
-load_form.addEventListener("submit", function(event) {
-    event.preventDefault();    // prevent page from refreshing
-    const form_data = new FormData(load_form)
-    console.log("loading");
-    fetch('/upload', {
-        method: 'POST',
-        body: form_data,
-    }).then(function(response) {
-        if(response.status == 204){
-            update_state().then(
-                console.log("Updated State")
-            );
-        }
-    });
-});
+// load_form.addEventListener("submit", function(event) {
+//     event.preventDefault();    // prevent page from refreshing
+//     const form_data = new FormData(load_form)
+//     console.log("loading");
+//     fetch('/upload', {
+//         method: 'POST',
+//         body: form_data,
+//     }).then(function(response) {
+//         if(response.status == 204){
+//             update_state()
+//         }
+//     });
+// });
 
-undo.addEventListener("submit", function(event) {
-    event.preventDefault();    // prevent page from refreshing
-    fetch('/undo', {
-        method: 'POST',
-    }).then(function(response) {
-        if (response.status === 204) {
-            console.log("Undone");
-        }
-    }).catch(function(error) {
-        console.error('Error:', error);
-    });
-});
+// undo.addEventListener("submit", function(event) {
+//     event.preventDefault();    // prevent page from refreshing
+//     fetch('/undo', {
+//         method: 'POST',
+//     }).then(function(response) {
+//         if (response.status === 204) {
+//             console.log("Undone");
+//         }
+//     }).catch(function(error) {
+//         console.error('Error:', error);
+//     });
+// });
 
 
 start_button.addEventListener('click', function(event) {
     event.preventDefault();
     console.log("start");
-    fetch('/open_camera').then(function(response){
-            if(response.status == 204){
-                start_button.disabled = true;
-                stop_button.disabled = false;
-                pause_button.disabled = false;
-                recordLoop = setInterval(async function(){
-                    await update_state();
-                }, 1000);
-            } else if (response.status == 502){
-                message.textContent = "The camera was not able to start recording";
-            }
+    fetch('/open_camera', {
+        method: 'POST',
+        body: "",
+    }).then(function(response){
+        if(response.status == 204){
+            start_button.disabled = true;
+            stop_button.disabled = false;
+            pause_button.disabled = false;
+            recordLoop = setInterval(update_state, 1000);
+        } else if (response.status == 502){
+            message.textContent = "The camera was not able to start recording";
+        }
     })
-
 });
 
 stop_button.addEventListener('click', function(event) {
     event.preventDefault();
     console.log("stop");
     clearInterval(recordLoop);
-
-    fetch('/close_camera').then(function(response){
+    fetch('/close_camera', {
+        method: 'POST',
+        body: "",
+    }).then(function(response){
         if(response.status == 204){
             start_button.disabled = true;
             stop_button.disabled = false;
@@ -102,18 +100,12 @@ pause_button.addEventListener('click', function(event) {
     pause_button.disabled = true;
 });
 
-async function update_state(){
-    const response = await fetch('/update_state');
-    data = await response.json();
-    image.src = 'data:image/jpeg;base64,' + data.image;
-    console.log(image);
-}
-
-function updateMessage() {
-    $.get('/update', function(data) {
-        $('#message').text(data.message);
-        $('#image img').attr('src', 'data:image/jpeg;base64,' + data.image); 
-    });
+function update_state(){
+    fetch('/update_state').then(function(response){
+        response.json().then(function(data){
+            image.src = 'data:image/jpeg;base64,' + data.image;
+        })
+    })
 }
 
 function downloadFile() {
