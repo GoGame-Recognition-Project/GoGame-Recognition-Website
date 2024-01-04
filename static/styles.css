@@ -52,7 +52,7 @@ body {
   color: #000000;
   margin: 20px;
   text-decoration: none; /* Remove underlines from links */
-  max-width: 80%;
+  max-width: 100%;
 
 }
 
@@ -95,6 +95,9 @@ button{
   padding: 0px;
 }
 
+.custom-form {
+  max-width: 80%;
+}
 .custom-size {
   font-size: 25px; /* Change the font size to your desired size */
 }
