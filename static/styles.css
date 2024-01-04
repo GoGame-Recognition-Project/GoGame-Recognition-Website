@@ -9,12 +9,8 @@ body {
   max-width: 45%;
 }
 
-.gris{
-  background-color: rgba(81, 81, 79, 0);
-}
-
 .Tenuki {
-  width: 10%;
+  width: 30%;
 }
 
 .GoStreamHome {
@@ -27,8 +23,8 @@ body {
 }
 
 .GoStreamFooter {
-  width: 10%;
-  margin-left: 100px;
+  width: 30%;
+  margin-left: 50px;
 }
 .custom-button { background-color: rgb(202, 202, 202); }
 
