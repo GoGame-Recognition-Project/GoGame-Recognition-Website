@@ -73,8 +73,9 @@
                     
                         <img id="camera-feed" src="static/Feed.png" alt="Camera Feed">
                     
-                    <div class="col text-info">
-                        <div id="message">
+                    <div class="col text-center bg-dark custom-color rounded">
+                        <div id="message" class="py-1">
+
                             {{ message }}
                         </div>
                     </div>
@@ -83,13 +84,16 @@
                 <div class="col px-0">
 
                     <img id="image" src="static/empty_board.jpg" alt="Image" class="px-4">
+                    <div class="row align-items-start">
 
-                    <form method="POST" action="/game" id="move" class="btn-group-lg">
-                        <button class="btn btn-nav mx-1" id="initial">   &lt;&lt;  </button>     
-                        <button class="btn btn-nav mx-1" id="previous">    &lt;   </button>     
-                        <button class="btn btn-nav mx-1" id="next">    &gt;   </button>     
-                        <button class="btn btn-nav mx-1" id="last">   &gt;&gt;  </button>
-                    </form>
+                        <form method="POST" action="/game" id="move" class="btn-group-lg">
+                            <button class="btn btn-nav mx-1" id="initial">   &lt;&lt;  </button>     
+                            <button class="btn btn-nav mx-1" id="previous">    &lt;   </button>     
+                            <button class="btn btn-nav mx-1" id="next">    &gt;   </button>     
+                            <button class="btn btn-nav mx-1" id="last">   &gt;&gt;  </button>
+                        </form>
+
+                    </div>
                 </div>
                 <div class="col-1 mx-0 px-0">
                         <form method="POST" action="/undo" class="px-0 mx-0">
@@ -97,9 +101,8 @@
                                 Undo
                             </button>
                         </form>
-                        <button class="btn btn-petit" onclick="downloadFile()">
-                            Get SGF
-                        </button>
+                        <button class="btn btn-petit mx-1" onclick="downloadFile()">Get SGF</button>
+
                 </div>
             
                 <script>

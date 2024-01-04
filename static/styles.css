@@ -5,10 +5,8 @@ body {
   background-color: rgba(81, 81, 79, 1);
 }
 
-.centered-image {
-  max-width: 70%;
-  max-height: 50%;
-  opacity: 0.5;
+.container-image {
+  max-width: 45%;
 }
 
 .gris{
@@ -141,7 +139,5 @@ button{
 #message {
   clear: both; /* Empêche les éléments suivants de flotter à gauche ou à droite des div flottantes */
   margin-top: 10px; /* Ajoute de l'espace entre le message et les div précédentes */
-  color: #f95737;
-  font-size: 20px;
-
+  font-size: 18px;
 }

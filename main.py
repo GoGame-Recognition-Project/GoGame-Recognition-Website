@@ -17,8 +17,8 @@ app.secret_key = 'your_secret_key'
 
 model = YOLO('model.pt')
 
-usual_message = "La caméra est bien fixée et tout est Ok"
-message = "Rien n'a encore été lancé "
+usual_message = "Everything is OK"
+message = "Nothing is being streamed for the moment"
 # disabled_button = 'stop-button'
 
 
@@ -64,7 +64,7 @@ def processing_thread():
                 game_plot, sgf_text = go_game.main_loop(ProcessFrame)
                 message = usual_message
         except Exception as e:
-            message = "Erreur : "+str(e)
+            message = "Error : "+str(e)
                 
 def generate_plot():
     """
@@ -315,9 +315,9 @@ def process():
     file_path = file.filename
     try:
         go_game.go_visual.load_game_from_sgf(file_path)
-        message = "Le fichier a été correctement chargé"
+        message = "File charged correclty"
     except Exception as e:
-        message = "L'erreur est "+str(e)
+        message = "Error: "+str(e)
     
 
     return render_template('sgf.html')
