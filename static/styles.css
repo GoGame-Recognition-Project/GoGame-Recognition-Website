@@ -127,9 +127,9 @@ button{
 #image {
   /*float: left;*/
   position: relative;
-  width: 90%; 
+  width: 100%; 
   box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur */
-  margin-right: 5px; /* Ajustez la marge selon vos besoins */
+  margin-right: 0px; /* Ajustez la marge selon vos besoins */
 }
 
 #video-container {
