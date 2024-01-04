@@ -14,15 +14,15 @@
         <title>Partie SGF</title>
     </head>
 <body>
-    <header class="p-3 bg-dark">
+    <header class="p-3 bg-dark px-0">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
-                
-                <a href = "/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <div class="col-2">
+                <a href = "/">
                     <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Home" id="logo">
                 </a>
-                          
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            </div>   
+                <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li>
                         <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Game Mode</a>
                     </li>
@@ -37,7 +37,7 @@
                     </li>
                 </ul>
                 
-                <div class="text-end custom-color">
+                <div class="text-end custom-color custom-size px-2">
                     <b>Game Stream</b>
                 </div> 
             
