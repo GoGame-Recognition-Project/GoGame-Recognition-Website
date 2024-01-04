@@ -16,7 +16,7 @@ body {
 }
 
 .Tenuki {
-  width: 30%;
+  width: 10%;
 }
 
 .GoStreamHome {
@@ -26,6 +26,11 @@ body {
 
 .GoStream {
   width: 80%;
+}
+
+.GoStreamFooter {
+  width: 10%;
+  margin-left: 100px;
 }
 .custom-button { background-color: rgb(202, 202, 202); }
 
