@@ -84,6 +84,40 @@ def generate_plot():
 
     return img_base64
 
+def generate_frames():
+    """
+        Generate an image from the video stream
+        
+        Returns:
+            Image
+    """
+    global ProcessFrame, camera
+    print("generating feeeeeed")
+    while camera.isOpened():  
+        print("inside while loop")
+        try:
+            success, frame = camera.read()  # Read the image from the camera
+            if not success:
+                break
+            
+            else:
+                ProcessFrame = copy.deepcopy(frame)
+                _, buffer = cv2.imencode('.jpg', frame)
+                frame = buffer.tobytes()
+                yield (b'--frame\r\n'
+                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        except Exception:
+            print('Exception: Camera not detected')
+            break
+
+@app.route('/video_feed')
+def video_feed():
+    """
+    Route to send the video stream 
+    """
+    print("in video feed")
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @app.route('/close_camera', methods=["POST"])
 def close_camera():
     """stop the camera """
@@ -99,7 +133,9 @@ def open_camera():
     camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
     success, frame = camera.read()
     if success:
+        new_game()
         return Response(status=204)
+    print("camera not opened")
     return Response(status=502)
 
 

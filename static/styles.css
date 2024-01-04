@@ -128,7 +128,7 @@ button{
   font-size: 48px;
   padding: 30px 60px;
 }
-#image, #camera-feed {
+#plot-image, #camera-feed, #camera-feed-closed {
   /*float: left;*/
   position: relative;
   width: 100%; 

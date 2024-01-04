@@ -2,7 +2,11 @@
 
 const controls = document.getElementById("controls");
 const load_form = document.getElementById("load_form");
-const image =  document.getElementById("image");
+const plot_image =  document.getElementById("plot-image");
+const camera_feed_closed = document.getElementById("camera-feed-closed");
+
+var camera_feed = null;
+
 const message = document.getElementById("message");
 const start_button =  document.getElementById("start-button");
 const stop_button =  document.getElementById("stop-button");
@@ -54,7 +58,6 @@ undo_button.addEventListener('click', function(event) {
     });
 });
 
-
 start_button.addEventListener('click', function(event) {
     event.preventDefault();
     console.log("start");
@@ -66,6 +69,17 @@ start_button.addEventListener('click', function(event) {
             start_button.disabled = true;
             stop_button.disabled = false;
             pause_button.disabled = false;
+
+            camera_feed_closed.hidden = true;
+
+            camera_feed = document.createElement('img');
+            camera_feed.classList.add(...camera_feed_closed.classList);
+            camera_feed.id = 'camera-feed';
+            camera_feed.alt = "Camera Feed";
+            camera_feed.src = '/video_feed';
+
+            camera_feed_closed.parentNode.insertBefore(camera_feed, camera_feed_closed.nextSibling);
+
             recordLoop = setInterval(update_state, 1000);
         } else if (response.status == 502){
             message.textContent = "The camera was not able to start recording";
@@ -82,9 +96,12 @@ stop_button.addEventListener('click', function(event) {
         body: "",
     }).then(function(response){
         if(response.status == 204){
-            start_button.disabled = true;
-            stop_button.disabled = false;
-            pause_button.disabled = false;
+            start_button.disabled = false;
+            stop_button.disabled = true;
+            pause_button.disabled = true;
+            camera_feed_closed.hidden = false;
+
+            camera_feed.remove();
         } else {
             message.textContent = "A problem was encountered while closing the camera";
         }
@@ -103,7 +120,8 @@ pause_button.addEventListener('click', function(event) {
 function update_state(){
     fetch('/update_state').then(function(response){
         response.json().then(function(data){
-            image.src = 'data:image/jpeg;base64,' + data.image;
+            plot_image.src = 'data:image/jpeg;base64,' + data.image;
+            message.textContent = data.message;
         })
     })
 }
