@@ -47,6 +47,19 @@ body {
 
 }
 
+    /* Style for the checkbox input */
+  .form-check-input {
+      background-color: #eee; /* Background color of the checkbox */
+      border: 1px solid #555; /* Border color of the checkbox */
+  }
+
+  /* Style the checked state of the checkbox */
+  .form-check-input:checked {
+      background-color: #ecce97; /* Change to your desired color for the checked state */
+      border-color: #eee; /* Change to your desired color for the border in the checked state */
+  }
+
+
 .custom-marging {
   margin-right: 5px; 
 }
