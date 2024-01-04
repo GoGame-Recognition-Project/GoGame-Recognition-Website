@@ -52,14 +52,10 @@ body {
   color: #000000;
   margin: 20px;
   text-decoration: none; /* Remove underlines from links */
-  max-width: 100%;
+  max-width: 80%;
 
 }
 
-.custom-col{
-  left: 5px; 
-  right: 5px;
-}
 .custom-marging {
   margin-right: 5px; 
 }
@@ -131,9 +127,9 @@ button{
 #image {
   /*float: left;*/
   position: relative;
-  width: 70%; /* Chaque div prend la moitié de la largeur */
+  width: 90%; 
   box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur */
-  margin-right: 20px; /* Ajustez la marge selon vos besoins */
+  margin-right: 5px; /* Ajustez la marge selon vos besoins */
 }
 
 #video-container {
