@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
-    <link rel="icon" type="image/png" href="static/GoStreamLogoWithoutTitle.png" sizes="50x50">
+    <link rel="icon" type="image/png" href="static/GoStreamLogoWithoutTitle.png" sizes="32x32">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
     <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
@@ -75,7 +75,7 @@
 
                 <div class="col">
                     <div class="text-end custom-color custom-size">
-                        The platform allows the user to precisely recognize a Go board during a live stream, detect black and white stones, assign them to their right positions, and visually reproduce the game for training purposes.
+                        The platform allows the user to precisely recognize a Go board during a live stream, detect black and white stones, assign them to their right positions, and visually reproduce the game for training purposes. The user can navigate through the game using navigation buttons during the live stream or download the SGF file of the streamed game
                     </div>
                 </div>
 
@@ -94,7 +94,12 @@
                 </div>
                 <div class="col">
                     <div class="text-start custom-color custom-size">
-                        How does it work? yolov8 etc etc
+                        How does it work? 
+                        </br>
+                        The board, corners, stones and some intersections are detected via a custom trained Yolov8 model.
+                        The missing intersections are then calculated by finding the missing lines and removing dupes to make sure each stone is precisely assigned to its position.
+                         During a stream, we make sure to detect the change between frames to ensure the continuity of the game. The game is managed via Sente, an OpenSource library.
+                         For more details about the detection and the game management algorithm, check our <a href="https://github.com/GoGame-Recognition-Project/GoGame-Detection" class="custom-color text-decoration-none "><i>Github project.</i></a>
                     </div>
                 </div>
             </div>
@@ -108,6 +113,25 @@
                 <img src="{{ url_for('static', filename='GoStreamLogoWithoutTitle.png') }}" class ="GoStreamFooter" alt="Home" id="logo">
             </a>
             <span class="mb-3 mb-md-0 text-muted">© 2024 IMT Atlantique</span>
+        </div>
+        <div class="col">
+            <ul class="text-muted">
+                <li>
+                    <a href="https://github.com/GoGame-Recognition-Project/GoGame-Detection" class="text-decoration-none text-muted">Training Dataset</a>
+                </li>
+                <li>
+                    <a href="https://github.com/ultralytics/ultralytics" class="text-decoration-none text-muted">Ultralytics</a>
+                </li>
+                <li>
+                    <a href="https://universe.roboflow.com/aleksei-gorovoi-gogamedn/go-game-detection/dataset/10" class="text-decoration-none text-muted">Our Github projet</a>
+                </li>
+                <li>
+                    <a href="https://pypi.org/project/sente/" class="text-decoration-none text-muted">Sente</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col text-muted text-center">
+            Special thanks to our tutor Etienne Peillard and our client Nicolas Desdames from the Tenuki club.
         </div>
         <div class="col text-end">
             <img src="{{ url_for('static', filename='client_logo.png') }}" class ="Tenuki" alt="Home" id="logo">
