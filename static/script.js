@@ -7,6 +7,7 @@ const message = document.getElementById("message");
 const start_button =  document.getElementById("start-button");
 const stop_button =  document.getElementById("stop-button");
 const pause_button =  document.getElementById("pause-button");
+const undo_button = document.getElementById("undo")
 var recordLoop = null;
 var data;
 
@@ -45,11 +46,13 @@ load_form.addEventListener("submit", function(event) {
     });
 });
 
-undo.addEventListener("submit", function(event) {
-    event.preventDefault();    // prevent page from refreshing
+undo_button.addEventListener('click', function(event) {
+    event.preventDefault();   
+    console.log("clicked")
     fetch('/undo', {
         method: 'POST',
-    }).then(function(response) {
+    }
+    ).then(function(response) {
         if (response.status === 204) {
             console.log("Undone");
         }
@@ -71,7 +74,7 @@ start_button.addEventListener('click', function(event) {
                     await update_state();
                 }, 1000);
             } else if (response.status == 502){
-                message.textContent = "The camera was not able to start recording";
+                message.textContent = "Camera was not able to start recording";
             }
     })
 
