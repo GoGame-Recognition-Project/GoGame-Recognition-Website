@@ -37,7 +37,7 @@
 
     <div class="container-fluid text-center bg custom-color">
         <div class="d-flex justify-content-center">
-            <div id="image">
+            <div>
                 <img id="image" class="w-50" src="static/empty_board.jpg" alt="Image"></img>
                 <div class="container-fluid text-center">
                     <div class="row">
@@ -68,15 +68,3 @@
 <script src="static/script.js"></script>
 </body>
 </html>
-<!--
-            <script>
-                function updateMessage() {
-                    $.get('/update', function(data) {
-                        // Mettre à jour le contenu de #message avec le nouveau message
-                        $('#message').text(data.message);
-                        $('#image img').attr('src', 'data:image/jpeg;base64,' + data.image); 
-                    });
-                }
-                // Mettre à jour le message toutes les 3 secondes (ajustez selon vos besoins)
-                setInterval(updateMessage, 1000);
-            </script>-->
