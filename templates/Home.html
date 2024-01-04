@@ -91,8 +91,8 @@
                     <img src="{{ url_for('static', filename='GoStreamLogoTitleUnder.png') }}" class ="GoStreamHome" alt="Home" id="logo">
                 </div>
                 <div class="col">
-                    <div class="text-start custom-color custom-size">
-                        <h2>How does it work?</h5>
+                    <div class="text-start custom-color" style="font-size: 20px;">
+                        <h2>How does it work?</h2>
                         <p>
                         The board, corners, stones and some intersections are detected via a custom trained Yolov8 model.
                         The missing intersections are then calculated by finding the missing lines and removing dupes to make sure each stone is precisely assigned to its position.
@@ -105,10 +105,38 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
+    <div class="p-3 custom-container bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+
+                <div class="col">
+                    <div class="text-end custom-color" style="font-size: 20px;">
+                        <h2>How to use it?</h2>
+                        <p>
+                        The platform makes it possible to stream in two modes: Game Mode and Free Mode.
+                        </p>
+                        <p>
+                        Free Mode allows streaming a game without having to respect the rules,
+                        and is able to correctly position any number of pieces put on the board at the same time.
+                        It's an exact, transparent live visual reproduction of what's happening on the board.
+                        </p>
+                        <p>
+                        In Game Mode, you need to follow the Go rules, and respect black and white's turns. 
+                        Being less flexible than Free Mode, this mode still allows you to undo your last move,
+                        to manually correct the position of a stone and to get the sgf file of the streamed game.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <img src="{{ url_for('static', filename='FloorGoban.jpg') }}" class ="homeBoard" alt="Home" id="logo">
+                </div>
+            </div>
+        </div>
+    </div>    
     
-    
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center bg-dark">
             <div class="text-muted" style="margin-left: 50px;">
                 <h5>Credits</h5>
                 <ul class="text-muted nav flex-column">
