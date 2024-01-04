@@ -19,12 +19,11 @@ body {
 }
 
 .GoStream {
-  width: 80%;
+  width: 85%;
 }
 
 .GoStreamFooter {
   width: 30%;
-  margin-left: 50px;
 }
 .custom-button { background-color: rgb(202, 202, 202); }
 

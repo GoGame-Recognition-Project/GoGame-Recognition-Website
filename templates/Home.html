@@ -32,16 +32,16 @@
                 </a>
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li>
+                    <li style="margin-right: 10px;">
                         <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Game Mode</a>
                     </li>
-                    <li>
+                    <li style="margin-right: 10px;">
                         <a href="{{ url_for('transparent') }}" class="nav-link px-2 custom-color">Transparent Mode</a>
                     </li>
-                    <li>
+                    <li style="margin-right: 10px;">
                         <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
                     </li>
-                    <li>
+                    <li style="margin-right: 10px;">
                         <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color">Load from SGF</a>
                     </li>
                 </ul>
@@ -106,38 +106,40 @@
     </div>
     
     
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-dark">
-        <div class="col px-4">
-            <a href = "/" class="mb-3 me-2 mb-md-0 lh-1">
-                <img src="{{ url_for('static', filename='GoStreamLogoWithoutTitle.png') }}" class ="GoStreamFooter" alt="Home" id="logo">
-            </a>
-            <span class="mb-3 mb-md-0 text-muted">© 2024 IMT Atlantique</span>
-        </div>
-        <div class="col text-muted align-items-center py-3">
-            <h5>Credits</h5>
-            <ul class="text-muted nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="https://github.com/GoGame-Recognition-Project/GoGame-Detection" class="text-decoration-none text-muted">Training Dataset</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="https://github.com/ultralytics/ultralytics" class="text-decoration-none text-muted">Ultralytics</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="https://universe.roboflow.com/aleksei-gorovoi-gogamedn/go-game-detection/dataset/10" class="text-decoration-none text-muted">Our Github projet</a>
-                </li>
-                <li class="nav-item mb-2">   
-                    <a href="https://pypi.org/project/sente/" class="text-decoration-none text-muted">Sente</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col text-muted text-center">
-            Special thanks to our tutor Etienne Peillard and our client Nicolas Desdames from the Tenuki club.
-        </div>
-        <div class="col text-end">
-            <img src="{{ url_for('static', filename='client_logo.png') }}" class ="Tenuki" alt="Home" id="logo">
-            <span class="mb-3 mb-md-0 text-muted">© Association Tenuki</span>
-        </div>
-        <div class="col-1"></div>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
+            <div class="text-muted" style="margin-left: 50px;">
+                <h5>Credits</h5>
+                <ul class="text-muted nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a href="https://universe.roboflow.com/aleksei-gorovoi-gogamedn/go-game-detection/dataset/10" class="text-decoration-none text-muted">Training Dataset</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="https://github.com/ultralytics/ultralytics" class="text-decoration-none text-muted">Ultralytics</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="https://github.com/GoGame-Recognition-Project/GoGame-Detection" class="text-decoration-none text-muted">Our Github projet</a>
+                    </li>
+                    <li class="nav-item mb-2">   
+                        <a href="https://pypi.org/project/sente/" class="text-decoration-none text-muted">Sente</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col text-center">
+                <img src="{{ url_for('static', filename='GoStreamLogoWithoutTitle.png') }}" class ="GoStreamFooter">
+                <span class="mb-3 mb-md-0 text-muted">© 2024 GoStream</span>
+            </div>
+            <div class="col text-center">
+                <img src="{{ url_for('static', filename='Logo_IMT_Atlantique.png') }}" class ="GoStreamFooter">
+                <span class="mb-3 mb-md-0 text-muted">© IMT Atlantique</span>
+            </div>
+            <div class="col text-center">
+                <img src="{{ url_for('static', filename='client_logo.png') }}" class ="Tenuki">
+                <span class="mb-3 mb-md-0 text-muted">© Club Tenuki - Brest </span>
+            </div>  
+
+            <div class="col text-muted text-start px-4">
+                Special thanks to our tutor Etienne Peillard and our client Nicolas Desdames from the Tenuki club.
+            </div>
     </footer>
 
 </body>
