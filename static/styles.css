@@ -36,23 +36,21 @@ body {
 
 .btn-petit{
   font-size: 15px;
-  padding: 10px 10px;
+  /* padding: 10px 10px; */
   background-color: #ecce97;
   color: #000000;
-  margin: 20px;
+  margin: 10px;
   text-decoration: none; /* Remove underlines from links */
-  max-width: 80%;
 
 }
 
 .btn-annuler{
   font-size: 15px;
-  padding: 10px 10px;
+  /* padding: 10px 10px; */
   background-color: #dd7266;
   color: #000000;
-  margin: 20px;
+  margin: 10px;
   text-decoration: none; /* Remove underlines from links */
-  max-width: 80%;
 
 }
 
@@ -124,7 +122,7 @@ button{
   font-size: 48px;
   padding: 30px 60px;
 }
-#image {
+#image, #camera-feed {
   /*float: left;*/
   position: relative;
   width: 100%; 
@@ -138,11 +136,6 @@ button{
   width: 90%; /* Chaque div prend la moitié de la largeur */
   box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur */
   margin-right: 10px; /* Ajustez la marge selon vos besoins */
-}
-
-#camera-feed, #image img {
-  width: 100%; /* Les images occupent la largeur complète de leur parent */
-  height: auto; /* Maintient le ratio d'aspect original */
 }
 
 #message {
