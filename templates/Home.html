@@ -15,21 +15,37 @@
     <title>Home</title>
 </head>
 <body>
-    <div class="container-m">
-        <div class="text-center">
-            <img src="{{ url_for('static', filename='GoStreamLogoTitleUnder.png') }}" class ="GoStreamHome" alt="GoStream" id="logo">
+    <header class="p-3 bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+                
+                <a href = "/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Home" id="logo">
+                </a>
+                          
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>
+                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Game Mode</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('transparent') }}" class="nav-link px-2 custom-color">Transparent Mode</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color">Load from SGF</a>
+                    </li>
+                </ul>
+                
+                <div class="text-end custom-color">
+                    <b>Game Stream</b>
+                </div> 
+            
+            </div>
         </div>
-        <div>
-            <div class="btn btn-grand"><a href="{{ url_for('game') }}"><b>Game Mode</b></a></div>
-            <div class="btn btn-grand"><a href="{{ url_for('transparent') }}"><b>Transparent Mode</b></a></div>
-            <div class="btn btn-grand"><a href="{{ url_for('historique') }}"><b>Historique des parties</b></a></div>
-            <div class="btn btn-grand"><a href="{{ url_for('sgf') }}"><b>Load from SGF</b></a></div>
-        </div>
-    </div>
 
-    <div class="position-absolute top-0 end-0">        
-        <img src="{{ url_for('static', filename='client_logo.png') }}" class="Tenuki" alt="ClientLogo" id="logo">
-    </div>
+    </header>
 
 </body>
 </html>

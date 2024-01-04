@@ -1,6 +1,6 @@
 body {
-  margin: 0;
-  padding: 0;
+  margin: 10px;
+  padding: 10px;
   height: 100vh;
   background-color: rgba(81, 81, 79, 1);
 }
@@ -31,7 +31,7 @@ body {
 }
 
 .GoStream {
-  width: 60%;
+  width: 10%;
 }
 .custom-button { background-color: rgb(202, 202, 202); }
 
@@ -61,13 +61,15 @@ body {
   left: 5px; 
   right: 5px;
 }
+.custom-marging {
+  margin-right: 5px; 
+}
 
 .btn-nav{
   font-size: 15px;
-  padding: 10px 10px;
+  margin-top: 10px;
   background-color: #ecce97;
   color: #000000;
-  margin: 20px auto; /* Add margin for vertical spacing */
   text-decoration: none; /* Remove underlines from links */
 }
 

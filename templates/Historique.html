@@ -7,29 +7,42 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
 </head> 
 <body>
+    <header class="p-3 bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+                
+                <a href = "/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Home" id="logo">
+                </a>
+                          
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>
+                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Game Mode</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('transparent') }}" class="nav-link px-2 custom-color">Transparent Mode</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color">Load from SGF</a>
+                    </li>
+                </ul>
+                
+                <div class="text-end custom-color">
+                    <b>Game Stream</b>
+                </div> 
+            
+            </div>
+        </div>
+
+    </header>
     <script>
         var tab_parties = [];
         var tab_date = [];
         var montant = 0;
     </script>
-    <div class="container-fluid text-center text-light">
-        <div class="container-fluid text-center">
-            <div class="row">
-                <div class="col custom-color">        
-                    <a href= "{{ url_for('home') }}"><button class = "btn bg custom-button btn-petit">Retour</button></a>
-                </div>
-                <div class="container-2 text-center col custom-color custom-size">
-                    <b>Parties disponibles</b>
-                </div>
-                <div class="col custom-color">    
-                    <img src="{{ url_for('static', filename='Logo_Tanuki_gris.png') }}" class="logo logo-Tenuki" alt="Logo de l'association" id="logo"></img>
-                </div>
-            </div>
-        </div>
-
-        </br>
-        </br>
-        </br>
 
 
         <div class="row">
