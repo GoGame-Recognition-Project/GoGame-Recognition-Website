@@ -17,7 +17,6 @@ model = YOLO('model.pt')
 
 usual_message = "Everything is OK"
 message = "Nothing is being streamed for the moment"
-# disabled_button = 'stop-button'
 
 
 ProcessFrame = None
@@ -32,7 +31,7 @@ transparent_mode = False
 camera = None
 
 
-def New_game(transparent_mode=False):
+def new_game(transparent_mode=False):
     
     global go_game, initialized, game_plot
     game = sente.Game()
@@ -63,7 +62,7 @@ def processing_thread():
                 game_plot, sgf_text = go_game.main_loop(ProcessFrame)
                 message = usual_message
         except Exception as e:
-            message = "Error : "+str(e)
+            message = "Error : " + str(e)
                 
 def generate_plot():
     """
@@ -85,14 +84,15 @@ def generate_plot():
 
     return img_base64
 
-@app.route('/close_camera')
+@app.route('/close_camera', methods=["POST"])
 def close_camera():
     """stop the camera """
     global camera
     camera.release()
+    print("the camera has been closed")
     return Response(status=204)
 
-@app.route('/open_camera')
+@app.route('/open_camera', methods=["POST"])
 def open_camera():
     """open the camera """
     global camera
@@ -112,6 +112,7 @@ def update_state():
             message
             image
     """
+    global message
 
     return {'message': message, 'image' : generate_plot()}
 
@@ -144,7 +145,7 @@ def process():
     file = request.files['file']
     file_path = file.filename
     try:
-        New_game()
+        new_game()
         go_game.go_visual.load_game_from_sgf(file_path)
         message = "Uploaded"
     except Exception as e:
@@ -202,7 +203,7 @@ def historique():
     return render_template("Historique.html")
 
 if __name__ == '__main__':
-    # New_game()
+    # new_game()
     # process_thread = threading.Thread(target=processing_thread, args=())
     # process_thread.start()
     app.run(debug=True)
