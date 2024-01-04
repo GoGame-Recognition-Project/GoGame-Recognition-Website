@@ -141,7 +141,7 @@ def controls():
 def process():
     """
         Route which enables us to load the sgf text
-        """
+    """
     file = request.files['file']
     file_path = file.filename
     try:
@@ -202,9 +202,6 @@ def historique():
     return render_template("Historique.html")
 
 if __name__ == '__main__':
-    # new_game()
-    # process_thread = threading.Thread(target=processing_thread, args=())
-    # process_thread.start()
     app.run(debug=True)
     
 # %%
