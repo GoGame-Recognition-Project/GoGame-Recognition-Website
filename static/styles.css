@@ -110,6 +110,12 @@ button{
   text-decoration: none; /* Remove underlines from links */
 }
 
+.homeBoard{
+  width: 70%;
+  text-align: center;
+  margin: 150px;
+}
+
 .btn-sommaire{
   font-size: 48px;
   padding: 30px 60px;
