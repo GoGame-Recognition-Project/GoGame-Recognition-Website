@@ -17,7 +17,6 @@ model = YOLO('model.pt')
 
 usual_message = "La caméra est bien fixée et tout est Ok"
 message = "Rien n'a encore été lancé "
-# disabled_button = 'stop-button'
 
 
 ProcessFrame = None
@@ -29,6 +28,7 @@ game_plot = empty_board
 process_thread = None
 go_game = None
 transparent_mode = False
+camera = None
 
 
 def New_game(transparent_mode=False):
@@ -83,6 +83,23 @@ def generate_plot():
     img_base64 = base64.b64encode(img_encoded).decode('utf-8')
 
     return img_base64
+
+@app.route('/close_camera')
+def close_camera():
+    """stop the camera """
+    global camera
+    camera.release()
+    return Response(status=204)
+
+@app.route('/open_camera')
+def open_camera():
+    """open the camera """
+    global camera
+    camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
+    success, frame = camera.read()
+    if success:
+        return Response(status=204)
+    return Response(status=502)
 
 
 @app.route('/update_state')
