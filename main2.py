@@ -2,7 +2,7 @@ from ultralytics import YOLO
 from GoGame import *
 from GoBoard import *
 from GoVisual import *
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, jsonify
 import cv2
 import base64
 
@@ -30,6 +30,9 @@ go_game = None
 transparent_mode = False
 camera = None
 
+STARTED = False
+STOPPED = False
+SESSION_IS_OPEN = True
 
 def new_game(transparent_mode=False):
     
@@ -91,9 +94,8 @@ def generate_frames():
         Returns:
             Image
     """
-    global ProcessFrame, camera
-    print("generating feeeeeed")
-    while camera.isOpened():  
+    global ProcessFrame, camera, SESSION_IS_OPEN
+    while SESSION_IS_OPEN:
         print("inside while loop")
         try:
             success, frame = camera.read()  # Read the image from the camera
@@ -108,31 +110,41 @@ def generate_frames():
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         except Exception:
             print('Exception: Camera not detected')
-            break
+            # break
 
 @app.route('/video_feed')
 def video_feed():
     """
     Route to send the video stream 
     """
-    print("in video feed")
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/close_camera', methods=["POST"])
 def close_camera():
     """stop the camera """
-    global camera
+    global camera, STOPPED, SESSION_IS_OPEN
+    
+    data = request.data.decode('utf-8')
+    print(data)
+    if data == 'false':
+        SESSION_IS_OPEN = False
+    else:
+        SESSION_IS_OPEN = True
+
     camera.release()
+    STOPPED = True
     print("the camera has been closed")
     return Response(status=204)
 
 @app.route('/open_camera', methods=["POST"])
 def open_camera():
     """open the camera """
-    global camera
+    global camera, STARTED
     camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
     success, frame = camera.read()
     if success:
+        print("camera started")
+        STARTED = True
         new_game()
         return Response(status=204)
     print("camera not opened")
@@ -152,6 +164,11 @@ def update_state():
 
     return {'message': message, 'image' : generate_plot()}
 
+@app.route('/get_config', methods=['GET'])
+def get_config():
+    global STARTED, STOPPED
+    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED}
+    return jsonify(config_set)
 
 @app.route('/controls', methods=["POST"])
 def controls():
@@ -214,6 +231,11 @@ def game():
     """
     Route to get to the streaming page in game mode
     """
+    if not initialized:
+        try:
+            camera.release()
+        except:
+            pass
     return render_template("game.html")
 
 @app.route('/transparent')

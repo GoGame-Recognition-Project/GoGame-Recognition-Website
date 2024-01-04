@@ -15,6 +15,42 @@ const undo_button = document.getElementById("undo")
 var recordLoop = null;
 var Data;
 
+var RECORDING = false;
+var STARTED = false;
+var STOPPED = false;
+var PAUSED = false;
+
+fetch("/get_config").then(function(response){
+    response.json().then(function(data){
+        STARTED = data.STARTED;
+        STOPPED = data.STOPPED;
+        if(STOPPED){
+            update_state();
+            start_button.disabled = false;
+            stop_button.disabled = true;
+            pause_button.disabled = true;
+            camera_feed_closed.hidden = false;
+        } else if (STARTED) {
+            start_button.disabled = true;
+            stop_button.disabled = false;
+            pause_button.disabled = false;
+
+            camera_feed_closed.hidden = true;
+
+            camera_feed = document.createElement('img');
+            camera_feed.classList.add(...camera_feed_closed.classList);
+            camera_feed.id = 'camera-feed';
+            camera_feed.alt = "Camera Feed";
+            camera_feed.src = '/video_feed';
+
+            camera_feed_closed.parentNode.insertBefore(camera_feed, camera_feed_closed.nextSibling);
+
+            recordLoop = setInterval(update_state, 2000);
+        }
+    })
+})
+
+
 controls.addEventListener('click', function(event) {
     event.preventDefault();
     const target = event.target.id;
@@ -69,21 +105,28 @@ start_button.addEventListener('click', function(event) {
         body: "",
     }).then(function(response){
         if(response.status == 204){
+            STARTED = true;
+
             start_button.disabled = true;
             stop_button.disabled = false;
             pause_button.disabled = false;
 
             camera_feed_closed.hidden = true;
 
-            camera_feed = document.createElement('img');
-            camera_feed.classList.add(...camera_feed_closed.classList);
-            camera_feed.id = 'camera-feed';
-            camera_feed.alt = "Camera Feed";
-            camera_feed.src = '/video_feed';
+            if(camera_feed == null){
+                camera_feed = document.createElement('img');
+                camera_feed.classList.add(...camera_feed_closed.classList);
+                camera_feed.id = 'camera-feed';
+                camera_feed.alt = "Camera Feed";
+                camera_feed.src = '/video_feed';
 
-            camera_feed_closed.parentNode.insertBefore(camera_feed, camera_feed_closed.nextSibling);
+                camera_feed_closed.parentNode.insertBefore(camera_feed, camera_feed_closed.nextSibling);
+            } else {
+                camera_feed.hidden = false;
+            }
 
-            recordLoop = setInterval(update_state, 1000);
+
+            recordLoop = setInterval(update_state, 2000);
         } else if (response.status == 502){
             message.textContent = "The camera was not able to start recording";
         }
@@ -96,15 +139,17 @@ stop_button.addEventListener('click', function(event) {
     clearInterval(recordLoop);
     fetch('/close_camera', {
         method: 'POST',
-        body: "",
+        body: JSON.stringify(true),
     }).then(function(response){
         if(response.status == 204){
+            STOPPED = true;
+
             start_button.disabled = false;
             stop_button.disabled = true;
             pause_button.disabled = true;
             camera_feed_closed.hidden = false;
 
-            camera_feed.remove();
+            camera_feed.hidden = true;
         } else {
             message.textContent = "A problem was encountered while closing the camera";
         }
@@ -127,6 +172,18 @@ function update_state(){
             message.textContent = data.message;
         })
     })
+}
+
+window.onbeforeunload = function(event) {
+    var s = "You have unsaved changes. Really leave?";
+    if(recordLoop != null){
+        clearInterval(recordLoop);
+    }
+    fetch('/close_camera', {
+        method: 'POST',
+        body: JSON.stringify(false),
+    }).then(function(){})
+    
 }
 
 function downloadFile() {
