@@ -43,7 +43,7 @@ def new_game(transparent_mode=False):
     game_plot = empty_board
     initialized = False
 
-def processing_thread():
+def processing_thread(ProcessFrame):
     """
         Process the detection algorithm
         
@@ -52,7 +52,7 @@ def processing_thread():
         Send error to message if there is one
         """
     
-    global ProcessFrame, game_plot, message, initialized, sgf_text
+    global game_plot, message, initialized, sgf_text
 
     if not ProcessFrame is None:
         try:
@@ -66,7 +66,7 @@ def processing_thread():
         except Exception as e:
             message = "Error : " + str(e)
                 
-def generate_plot():
+def generate_plot(frame):
     """
         Generate a plot representing the game
         
@@ -74,8 +74,9 @@ def generate_plot():
             Image
         """
     global game_plot
-    
-    processing_thread()
+
+    processing_thread(frame)
+    ###### condition deja implementé dans gogame? A revoir
     if transparent_mode:
         to_plot = game_plot
     else:
@@ -86,68 +87,42 @@ def generate_plot():
 
     return img_base64
 
-def generate_frames():
-    """
-        Generate an image from the video stream
-        
-        Returns:
-            Image
-    """
-    global ProcessFrame, camera, SESSION_IS_OPEN
-    while SESSION_IS_OPEN:
-        print("inside while loop")
-        try:
-            success, frame = camera.read()  # Read the image from the camera
-            if not success:
-                break
-            
-            else:
-                ProcessFrame = copy.deepcopy(frame)
-                _, buffer = cv2.imencode('.jpg', frame)
-                frame = buffer.tobytes()
-                yield (b'--frame\r\n'
-                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        except Exception:
-            print('Exception: Camera not detected')
-            # break
-
-@main.route('/video_feed')
-def video_feed():
-    """
-    Route to send the video stream 
-    """
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-@main.route('/close_camera', methods=["POST"])
-def close_camera():
-    """stop the camera """
-    global camera, STOPPED, SESSION_IS_OPEN
+@main.route('/initialize_new_game')
+def initialize_new_game():
     
-    data = request.data.decode('utf-8')
-    print(data)
-    if data == 'false':
-        SESSION_IS_OPEN = False
-    else:
-        SESSION_IS_OPEN = True
-
-    camera.release()
-    STOPPED = True
-    print("the camera has been closed")
+    new_game()
     return Response(status=204)
 
-@main.route('/open_camera', methods=["POST"])
-def open_camera():
-    """open the camera """
-    global camera, STARTED
-    camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
-    success, frame = camera.read()
-    if success:
-        print("camera started")
-        STARTED = True
-        new_game()
-        return Response(status=204)
-    print("camera not opened")
-    return Response(status=502)
+# @app.route('/close_camera', methods=["POST"])
+# def close_camera():
+#     """stop the camera """
+#     global camera, STOPPED, SESSION_IS_OPEN
+    
+#     data = request.data.decode('utf-8')
+#     print(data)
+#     if data == 'false':
+#         SESSION_IS_OPEN = False
+#     else:
+#         SESSION_IS_OPEN = True
+
+#     camera.release()
+#     STOPPED = True
+#     print("the camera has been closed")
+#     return Response(status=204)
+
+# @app.route('/open_camera', methods=["POST"])
+# def open_camera():
+#     """open the camera """
+#     global camera, STARTED
+#     camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
+#     success, frame = camera.read()
+#     if success:
+#         print("camera started")
+#         STARTED = True
+#         new_game()
+#         return Response(status=204)
+#     print("camera not opened")
+#     return Response(status=502)
 
 
 @main.route('/start_play', methods=['POST'])
@@ -192,7 +167,21 @@ def resign():
 def winner():
     return {"winner": str(go_game.get_winner())}
 
-@main.route('/update_state')
+# @app.route('/update_state')
+# def update_state():
+#     """
+#         Route to update the image and the message to display 
+        
+#         Returns:
+#             message
+#             image
+#     """
+#     global message
+
+#     return {'message': message, 'image' : generate_plot()}
+
+        
+@main.route('/update_state', methods=["POST"])
 def update_state():
     """
         Route to update the image and the message to display 
@@ -203,7 +192,27 @@ def update_state():
     """
     global message
 
-    return {'message': message, 'image' : generate_plot()}
+    data = request.get_json()
+   
+    if 'image' in data:
+        try:
+            image_data_url = data['image']
+            # Extract the base64-encoded image data
+            _, image_base64 = image_data_url.split(',')
+            if image_base64:
+                image_data = base64.b64decode(image_base64)
+                nparr = np.frombuffer(image_data, np.uint8)
+                
+                # Decode the image using OpenCV
+                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                # print(frame)
+                cv2.imwrite("test.jpg", frame)
+
+                return {'message': message, 'image' : generate_plot(frame)}
+        except Exception as e:
+            print(e)
+            
+    return Response(status=502)
 
 @main.route('/get_config', methods=['GET'])
 def get_config():

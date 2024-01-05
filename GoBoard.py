@@ -171,7 +171,7 @@ class GoBoard:
         # Obtain detection results from the model
         self.results = self.model(self.frame, verbose=False)
 
-        self.apply_perspective_transformation(double_transform=True)
+        self.apply_perspective_transformation(double_transform=False)
         
         # Annotate the frame with detection results (without labels and confidence)
         self.annotated_frame = self.results[0].plot(labels=False, conf=False)
