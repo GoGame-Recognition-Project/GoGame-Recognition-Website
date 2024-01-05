@@ -279,6 +279,44 @@ class GoGame:
                         x, y, color = move.get_x()+1, move.get_y()+1, move.get_stone().name
                         self.game.play(x,y)
 
+    def correct_stone_js(self, old_pos, new_pos):
+        """
+        Manually correct the position of a stone on the board. 
+        The first version (self.correct_stone) was supposed to be used when the user directly submits the positions of the stones.
+        This second version was made when we started using JavaScript for the website and we could make correction more user friendly.
+
+        This function corrects the position of a stone on the board by checking if the new position is already occupied,
+        and then moving the stone to the new position
+        while preserving the order of moves.
+
+        Args:
+            old_pos (tuple): The old position of the stone (e.g., (1, 1)).
+            new_pos (tuple): The new position to correct the stone to (e.g., (19, 19)).
+
+        Returns:
+            None
+        """
+
+        new_x, new_y = new_pos
+        old_x, old_y = old_pos
+
+        # Iterate through the moves to check if the new position is already occupied
+        for i in range(len(self.get_moves())):
+            
+            if int(self.get_moves()[i].get_x()+1) == new_x and int(self.get_moves()[i].get_y()+1) == new_y:
+                return
+            
+            else:
+                # If the old position is found, correct the stone's position
+                if int(self.get_moves()[i].get_x()+1) == old_x and int(self.get_moves()[i].get_y()+1) == old_y:
+                    deleted_moves = self.get_moves()[i - len(self.get_moves()):]
+                    self.game.step_up(len(self.get_moves()) - i)
+                    self.game.play(new_x, new_y)
+                    deleted_moves.pop(0)
+                    for move in deleted_moves:
+                        x, y, color = move.get_x()+1, move.get_y()+1, move.get_stone().name
+                        self.game.play(x,y)
+
     def delete_last_move(self):
         """
          Delete the last move in the game sequence.
@@ -348,5 +386,4 @@ class GoGame:
         """
         # Use the sente.sgf.dumps function to convert the game to SGF format
         return sente.sgf.dumps(self.game)
-#%%
 
