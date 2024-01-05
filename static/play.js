@@ -21,7 +21,7 @@ turn.addEventListener(, function(event) {
     fetch('/turn', {
         method: 'GET',
     }).then(function(response) {
-        response.json().then(function(){
+        response.json().then(function(data){
             turn.textContent = data.turn;
         })
     });
