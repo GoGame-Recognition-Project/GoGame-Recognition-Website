@@ -160,24 +160,6 @@ undo_button.addEventListener('click', function(event) {
 //     })
 // });
 
-pause_button.addEventListener('click', function(event) {
-    event.preventDefault();
-    console.log("pause");
-    clearInterval(updateLoop);
-
-    start_button.disabled = true;
-    stop_button.disabled = true;
-    pause_button.disabled = true;
-});
-
-// function update_state(){
-//     fetch('/update_state').then(function(response){
-//         response.json().then(function(data){
-//             plot_image.src = 'data:image/jpeg;base64,' + data.image;
-//             message.textContent = data.message;
-//         })
-//     })
-// }
 
 // window.onbeforeunload = function(event) {
 //     var s = "You have unsaved changes. Really leave?";
@@ -209,35 +191,6 @@ var context = canvas.getContext('2d');
 const video = document.getElementById("videoElement");
 
 
-// function initiate_video(){
-//     if (navigator.mediaDevices.getUserMedia) {
-//         navigator.mediaDevices.getUserMedia({ video: true })
-//         .then(function (stream) {
-//             video.srcObject = stream;
-//             video.play();
-//         })
-//         .catch(function (err0r) {
-//             alert('Video feed failed to start');
-//         });
-//     }
-// }
-
-
-// function plot_stream(){
-//     const FPS = 6;
-//     setInterval(() => {
-//         var video_height = video.videoHeight;
-//         var video_width = video.videoWidth;
-//         var width = video_width;
-//         var height = video_height;
-//         canvas.width = video_width;
-//         canvas.height = video_height;
-//         context.drawImage(video, 0, 0, width, height);
-//         var data = canvas.toDataURL('image/jpeg', 1);
-//         context.clearRect(0, 0, width, height);
-//         // socket.emit('image', data);
-//     }, 1000/FPS);
-// }
 
 async function update_state(){
     var video_height = video.videoHeight;
@@ -279,32 +232,35 @@ function update_state_loop() {
 
 start_button.addEventListener('click', function(event) {
     event.preventDefault();
-    QUIT = false
     console.log("start");
+    
     if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true })
         .then(function (stream) {
             video.srcObject = stream;
             video.play();
 
-            start_button.disabled = true;
-            stop_button.disabled = false;
-            pause_button.disabled = false;
-
-            camera_feed_closed.hidden = true;
-            video.hidden = false;
-
             fetch('/initialize_new_game').then(function(response){
                 if(response.status == 204){
                     console.log("New game was initialized");
+
+                    QUIT = false;       
+                    PAUSED = false;
+
+                    start_button.disabled = true;
+                    stop_button.disabled = false;
+                    pause_button.disabled = false;
+
+                    camera_feed_closed.hidden = true;
+                    video.hidden = false;
+
                     update_state_loop();
                 } else {
                     alert("Error initializing new game, please try again");
                 }
             })
-
         })
-        .catch(function (err0r) {
+        .catch(function (error) {
             alert('Video feed failed to start');
         });
     }
@@ -314,8 +270,9 @@ start_button.addEventListener('click', function(event) {
 stop_button.addEventListener('click', function(event) {
     event.preventDefault();
     console.log("stop");
-    clearTimeout(updateLoop);
     QUIT = true;
+    PAUSED = false;
+
     video.srcObject.getVideoTracks()[0].stop();
 
     video.hidden = true;
@@ -323,7 +280,36 @@ stop_button.addEventListener('click', function(event) {
 
     STOPPED = true;
 
+    pause_button.innerHTML = "Pause";
+
     start_button.disabled = false;
     stop_button.disabled = true;
     pause_button.disabled = true;
+});
+
+
+pause_button.addEventListener('click', function(event) {
+    event.preventDefault();
+    console.log("pause");
+    if(PAUSED){
+        QUIT = false;
+        PAUSED = false;
+        pause_button.innerHTML = "Pause";
+
+        start_button.disabled = true;
+        stop_button.disabled = false;
+
+        video.play();
+        update_state_loop();
+        
+    }else{
+        QUIT = true;
+        PAUSED = true;
+        pause_button.innerHTML = "Resume";
+
+        video.pause();
+
+        start_button.disabled = true;
+        stop_button.disabled = false;
+    }
 });

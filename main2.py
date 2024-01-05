@@ -43,7 +43,7 @@ def new_game(transparent_mode=False):
     game_plot = empty_board
     initialized = False
 
-def processing_thread(ProcessFrame):
+def processing_thread(ProcessFrame=None):
     """
         Process the detection algorithm
         
@@ -66,7 +66,7 @@ def processing_thread(ProcessFrame):
         except Exception as e:
             message = "Error : " + str(e)
                 
-def generate_plot(frame):
+def generate_plot(frame=None):
     """
         Generate a plot representing the game
         
@@ -77,7 +77,7 @@ def generate_plot(frame):
 
     processing_thread(frame)
     ###### condition deja implementé dans gogame? A revoir
-    if transparent_mode:
+    if transparent_mode and not frame is None:
         to_plot = game_plot
     else:
         to_plot = go_game.go_visual.current_position()
@@ -199,20 +199,19 @@ def update_state():
             image_data_url = data['image']
             # Extract the base64-encoded image data
             _, image_base64 = image_data_url.split(',')
-            if image_base64:
-                image_data = base64.b64decode(image_base64)
-                nparr = np.frombuffer(image_data, np.uint8)
-                
-                # Decode the image using OpenCV
-                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                # print(frame)
-                cv2.imwrite("test.jpg", frame)
+            # if image_base64:
+            image_data = base64.b64decode(image_base64)
+            nparr = np.frombuffer(image_data, np.uint8)
+            
+            # Decode the image using OpenCV
+            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-                return {'message': message, 'image' : generate_plot(frame)}
+            return {'message': message, 'image' : generate_plot(frame)}
         except Exception as e:
             print(e)
-            
-    return Response(status=502)
+            return Response(status=502)
+    else:
+        return {'message': message, 'image' : generate_plot()}
 
 @main.route('/get_config', methods=['GET'])
 def get_config():
