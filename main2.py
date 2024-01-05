@@ -150,16 +150,19 @@ def open_camera():
     print("camera not opened")
     return Response(status=502)
 
+
+@app.route('/start_play', methods=['POST'])
+def start_play():
+    new_game()
+    return Response(status=204)
+
 @app.route('/play_stone', methods=['POST'])
 def play_stone():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
+    go_game.play_a_move(x, y)
 
-
-    result = go_game.play_a_move(x, y)
-
-    # You can return the updated game state as JSON
-    return jsonify(result)
+    return Response(status=204)
 
 @app.route('/turn', methods=['GET'])
 def show_turn():
