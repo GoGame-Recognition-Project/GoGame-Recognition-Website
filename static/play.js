@@ -33,8 +33,10 @@ winner.addEventListener(function(event) {
     event.preventDefault();   
     fetch('/win', {
         method: 'GET',
-    }).then(function(data) {
-        winner = data
+    }).then(function(response) {
+        response.json().then(function(data){
+            winner = data;
+        })
     });
 });
 
