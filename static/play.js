@@ -24,8 +24,10 @@ turn.addEventListener(function(event) {
     event.preventDefault();   
     fetch('/turn', {
         method: 'GET',
-    }).then(function(data) {
-        turn.textContent = data.turn
+    }).then(function(response) {
+        response.json().then(function(){
+            turn.textContent = data.turn;
+        })
     });
 });
 
@@ -47,10 +49,10 @@ resign.addEventListener(function(event) {
     }).then(function(response){
         if(response.status == 204){
             if(winner == "BLACK"){
-                turn.textContent = "WHITE resigned. BLACK wins."
+                turn.textContent = "WHITE resigned. BLACK wins.";
             }
             else{
-                turn.textContent = "BLACK resigned. WHITE wins."
+                turn.textContent = "BLACK resigned. WHITE wins.";
             }
         }
     });
