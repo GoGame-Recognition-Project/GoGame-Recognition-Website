@@ -305,7 +305,10 @@ class GoGame:
         None
         """
         self.game.play(x, y)
-
+    
+    def current_turn(self):
+        return self.game.get_active_player().name
+    
     def is_over(self):
         return self.game.is_over()
     

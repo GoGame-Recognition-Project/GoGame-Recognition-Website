@@ -7,9 +7,16 @@ const turn = document.getElementById("turn");
 const resign = document.getElementById("resign");
 const start = document.getElementById("start-game");
 const canvas = document.getElementById('go-board');
-var winner;
-var context = canvas.getContext("2d");
+const undo_button = document.getElementById("undo");
+const controls = document.getElementById("controls");
+const sgf = document.getElementById("sgf")
 
+var context = canvas.getContext("2d");
+var winner;
+
+undo_button.disabled = true;
+resign.disabled = true;
+sgf.disabled = true;
 
 board.onload = function ()
 {
@@ -23,11 +30,32 @@ start.addEventListener('click', function(event) {
     }).then(function(response){
         if(response.status == 204){
             turn.textContent = "Game started! BLACK to play"
+            board.src = 'static/empty_board.jpg';
+            context.drawImage(board, 0, 0);
+            undo_button.disabled = false;
+            resign.disabled = false;
+            sgf.disabled = false;
         }
     });
 });
 
 
+undo_button.addEventListener('click', function(event) {
+    event.preventDefault();   
+    console.log("clicked")
+    fetch('/undo', {
+        method: 'POST',
+    }).then(function(response) {
+        if (response.status === 204) {
+            update_state()
+            update_turn()
+            console.log("Undone");
+        }
+        else {
+            message.textContent = "There are no moves left";
+        }
+    });
+});
 
 resign.addEventListener('click', function(event) {
     event.preventDefault();   
@@ -35,12 +63,8 @@ resign.addEventListener('click', function(event) {
         method: 'POST',
     }).then(function(response){
         if(response.status == 204){
-            if(winner == "BLACK"){
-                turn.textContent = "WHITE resigned. BLACK wins.";
-            }
-            else{
-                turn.textContent = "BLACK resigned. WHITE wins.";
-            }
+            update_turn()
+            undo_button.disabled = true;
         }
     });
 });
@@ -59,12 +83,31 @@ canvas.addEventListener('mousedown', function(event) {
         method: 'POST',
         }).then(function(response){
             if(response.status == 204){
-                console.log("played")
                 update_state();
-                console.log("updated")
-
+                update_turn();
             }
     });
+});
+
+controls.addEventListener('click', function(event) {
+    event.preventDefault();
+    const target = event.target.id;
+    if(!(["initial", "previous", "next", "last"].includes(target))){
+        return;
+    }
+    fetch('/controls', {
+        method: 'POST',
+        body: target,
+    }).then(function(response) {
+        if(response.status == 204){
+            update_state()
+        }
+    });
+});
+
+sgf.addEventListener('click', function(event) {
+    event.preventDefault();
+    downloadFile()
 });
 
 function update_state(){
@@ -87,12 +130,27 @@ function update_turn(){
         })
     });
 }
-function get_winner(){ 
+async function get_winner(){ 
     fetch('/win', {
         method: 'GET',
     }).then(function(response) {
         response.json().then(function(data){
-            winner = data;
+            winner = data.winner;
+            console.log("winner function", winner)
         })
     });
 }
+
+function downloadFile() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/get_sgf_txt', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var blob = new Blob([xhr.responseText], { type: 'text/plain' });
+            
+            saveAs(blob, 'game.sgf');
+        }
+    };
+    xhr.send();
+}
+

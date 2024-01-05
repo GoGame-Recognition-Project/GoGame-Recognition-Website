@@ -18,6 +18,7 @@ model = YOLO('model.pt')
 usual_message = "Everything is OK"
 message = "Nothing is being streamed for the moment"
 defaut_turn = "No game is being played at the moment"
+resigned = False
 
 ProcessFrame = None
 Process = True
@@ -168,22 +169,30 @@ def play_stone():
 def show_turn():
 
     global turn 
-    
-    turn = str(go_game.go_visual.current_turn()) + " to play"
-    
-    if go_game.is_over():
-        turn = go_game.get_winner()
+        
+    if go_game.is_over() and resigned == False:
+        turn = str(go_game.get_winner()) + " wins."
+        
+    elif go_game.is_over() and resigned == True:
+        if str(go_game.get_winner()) == "BLACK":
+            turn = "WHITE resigned. BLACK wins."
+        elif str(go_game.get_winner()) == "WHITE":
+            turn = "BLACK resigned. WHITE wins."
+    else:
+        turn = str(go_game.current_turn()) + " to play"
 
     return {'turn': turn}
     
 @app.route('/resign', methods=['POST'])
 def resign():
+    global resigned
     go_game.resign()
+    resigned = True
     return Response(status=204)
 
 @app.route('/win', methods=['GET'])
 def winner():
-    return str(go_game.get_winner())
+    return {"winner": str(go_game.get_winner())}
 
 @app.route('/update_state')
 def update_state():

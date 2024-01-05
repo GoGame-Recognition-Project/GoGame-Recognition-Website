@@ -90,6 +90,8 @@ undo_button.addEventListener('click', function(event) {
     }).then(function(response) {
         if (response.status === 204) {
             console.log("Undone");
+            update_state()
+            update_turn()
         }
         else {
             message.textContent = "There are no moves left";
