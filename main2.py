@@ -178,7 +178,7 @@ def resign():
     go_game.resign()
     return Response(status=204)
 
-@app.route('/win', methods=['POST'])
+@app.route('/win', methods=['GET'])
 def winner():
     return str(go_game.get_winner())
 

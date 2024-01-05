@@ -4,7 +4,7 @@ var img = new Image();
 img.src = 'static/empty_board.jpg';
 
 const turn = document.getElementById("turn");
-const resign = document.getElementById("resign")
+const resign = document.getElementById("resign");
 const canvas = document.getElementById('go-board');
 var winner;
 var context = canvas.getContext("2d");
@@ -16,52 +16,51 @@ img.onload = function ()
     context.drawImage(img, 0, 0);
 };
 
-turn.addEventListener(, function(event) {
-    event.preventDefault();   
-    fetch('/turn', {
-        method: 'GET',
-    }).then(function(data) {
-        turn.textContent = data.turn
-    });
-});
+// turn.addEventListener('click', function(event) {
+//     event.preventDefault();   
+//     fetch('/turn', {
+//         method: 'GET',
+//     }).then(function(data) {
+//         turn.textContent = data.turn
+//     });
+// });
 
-winner.addEventListener(function(event) {
-    event.preventDefault();   
-    fetch('/win', {
-        method: 'GET',
-    }).then(function(response) {
-        response.json().then(function(data){
-            winner = data;
-        })
-    });
-});
+// winner.addEventListener(function(event) {
+//     event.preventDefault();   
+//     fetch('/win', {
+//         method: 'GET',
+//     }).then(function(response) {
+//         response.json().then(function(data){
+//             winner = data;
+//         })
+//     });
+// });
 
-resign.addEventListener('click', function(event) {
-    event.preventDefault();   
-    fetch('/resign', {
-        method: 'POST',
-    }).then(function(response){
-        if(response.status == 204){
-            if(winner == "BLACK"){
-                turn.textContent = "WHITE resigned. BLACK wins."
-            }
-            else{
-                turn.textContent = "BLACK resigned. WHITE wins."
-            }
-        }
-    });
-});
+// resign.addEventListener(function(event) {
+//     event.preventDefault();   
+//     fetch('/resign', {
+//         method: 'POST',
+//     }).then(function(response){
+//         if(response.status == 204){
+//             if(winner == "BLACK"){
+//                 turn.textContent = "WHITE resigned. BLACK wins."
+//             }
+//             else{
+//                 turn.textContent = "BLACK resigned. WHITE wins."
+//             }
+//         }
+//     });
+// });
 
 
-canvas.addEventListener('click', function(event) {
-    console.log('clicked')
+canvas.addEventListener('mousedown', function(event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
     // Calculate the board coordinates
-    const boardX = Math.floor((x / canvas.width) * 19) + 1;
-    const boardY = Math.floor((y / canvas.height) * 19) + 1;
+    const boardX = Math.floor((x / rect.width) * 20);
+    const boardY = Math.floor((y / rect.height) * 20);
 
     console.log(`Clicked on Go board at (${boardX}, ${boardY})`);
     
