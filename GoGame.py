@@ -348,5 +348,5 @@ class GoGame:
         """
         # Use the sente.sgf.dumps function to convert the game to SGF format
         return sente.sgf.dumps(self.game)
-
+#%%
 

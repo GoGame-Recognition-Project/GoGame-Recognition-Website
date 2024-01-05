@@ -33,21 +33,25 @@
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
+                        <a href="{{ url_for('main.game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('play') }}" class="nav-link px-2 custom-color link-secondary navs">Play</a>
+                        <a href="{{ url_for('main.play') }}" class="nav-link px-2 custom-color link-secondary navs">Play</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
+                        <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
+                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
                     </li>
                 </ul>
                 <div>
-                    <button type="button" class="btn btn-outline-light me-2" style="color: #ecce97; border-color: #ecce97;">Login</button>
-                    <button type="button" class="btn btn-warning" style="background-color: #ecce97;">Sign-up</button>
+                    <button type="button" class="btn btn-outline-light me-2" style="color: #ecce97; border-color: #ecce97;" >
+                        <a href="{{ url_for('auth.login') }}" style=" color: #ecce97; text-decoration: none;">Login</a>
+                    </button>
+                    <button type="button" class="btn btn-warning" style="background-color: #ecce97; border-color: #ecce97;">
+                        <a href="{{ url_for('auth.signup') }}" style=" color: black; text-decoration: none;">Sign-up</a>
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>GoStream | History of games</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
-    <link rel="icon" type="image/png" href="static/GoStreamLogoWithoutTitle.png" sizes="32x32">
-    <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
+        <link rel="icon" type="image/png" href="static/GoStreamLogoWithoutTitle.png" sizes="32x32">
+        <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            border: 0;
-            padding: 0;
-            font-family: 'Rubik', sans-serif;
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <style>
+            body {
+                margin: 0;
+                border: 0;
+                padding: 0;
+                font-family: 'Rubik', sans-serif;
 
-        }
-
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-</head> 
+            }
+    
+        </style>
+            
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GoStream | Load from SGF</title>
+    </head>
 <body>
     <header class="p-3 bg-dark px-0">
         <div class="container">
@@ -34,17 +35,17 @@
                 </a>
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li style="margin-right: 10px;">
+                    <li style="margin-right: 10px;"> 
                         <a href="{{ url_for('main.game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
                     </li>
                     <li style="margin-right: 10px;">
                         <a href="{{ url_for('main.play') }}" class="nav-link px-2 custom-color navs">Play</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color link-secondary navs">Game History</a>
+                        <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
+                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color link-secondary navs">Load from SGF</a>
                     </li>
                 </ul>
                 
@@ -59,36 +60,39 @@
             
             </div>
         </div>
+
     </header>
 
-    <div class="container">
-        <div class="container text-center p-4">
-            Not yet available
-        </div>
-        <div class="container-fluid text-center">
-            <table class="table table-hover table-dark">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Black</th>
-                    <th scope="col">White</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Tournament</th>
-                    <th scope="col">SGF</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>P1</td>
-                    <td>P2</td>
-                    <td>04/01/2024</td>
-                    <td>Training</td>
-                    <td>...</td>
-                </tbody>
-            </table>
+    {% extends "base.html" %}
+
+    {% block content %}
+    <div class="column is-4 is-offset-4">
+        <h3 class="title">Sign Up</h3>
+        <div class="box">
+            <form method="POST" action="/signup">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
+                    </div>
+                </div>
+    
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
+                    </div>
+                </div>
+    
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+    
+                <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+            </form>
         </div>
     </div>
+    {% endblock %}
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
         <div class="text-muted" style="margin-left: 50px;">
             <h5>Credits</h5>
@@ -123,11 +127,8 @@
         <div class="col-2 text-muted text-start px-4">
             Special thanks to our tutor Etienne Peillard and our client Nicolas Desdames from the Tenuki club.
         </div>
-    </footer>
-    <script>
-        var tab_parties = [];
-        var tab_date = [];
-        var montant = 0;
-    </script>
-    </body>
+</footer>
+
+    <script src="static/script.js"></script>
+</body>
 </html>

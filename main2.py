@@ -2,16 +2,14 @@ from ultralytics import YOLO
 from GoGame import *
 from GoBoard import *
 from GoVisual import *
-from flask import Flask, render_template, Response, request, jsonify
+from flask import render_template, Response, request, jsonify, Blueprint
 import cv2
 import base64
+from __init__ import db
+
+main = Blueprint('main', __name__)
 
 cam_index = 0
-
-app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'your_secret_key'  
-
-
 
 model = YOLO('model.pt')
 
@@ -113,14 +111,14 @@ def generate_frames():
             print('Exception: Camera not detected')
             # break
 
-@app.route('/video_feed')
+@main.route('/video_feed')
 def video_feed():
     """
     Route to send the video stream 
     """
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/close_camera', methods=["POST"])
+@main.route('/close_camera', methods=["POST"])
 def close_camera():
     """stop the camera """
     global camera, STOPPED, SESSION_IS_OPEN
@@ -137,7 +135,7 @@ def close_camera():
     print("the camera has been closed")
     return Response(status=204)
 
-@app.route('/open_camera', methods=["POST"])
+@main.route('/open_camera', methods=["POST"])
 def open_camera():
     """open the camera """
     global camera, STARTED
@@ -152,12 +150,12 @@ def open_camera():
     return Response(status=502)
 
 
-@app.route('/start_play', methods=['POST'])
+@main.route('/start_play', methods=['POST'])
 def start_play():
     new_game()
     return Response(status=204)
 
-@app.route('/play_stone', methods=['POST'])
+@main.route('/play_stone', methods=['POST'])
 def play_stone():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
@@ -165,7 +163,7 @@ def play_stone():
 
     return Response(status=204)
 
-@app.route('/turn', methods=['GET'])
+@main.route('/turn', methods=['GET'])
 def show_turn():
 
     global turn 
@@ -183,18 +181,18 @@ def show_turn():
 
     return {'turn': turn}
     
-@app.route('/resign', methods=['POST'])
+@main.route('/resign', methods=['POST'])
 def resign():
     global resigned
     go_game.resign()
     resigned = True
     return Response(status=204)
 
-@app.route('/win', methods=['GET'])
+@main.route('/win', methods=['GET'])
 def winner():
     return {"winner": str(go_game.get_winner())}
 
-@app.route('/update_state')
+@main.route('/update_state')
 def update_state():
     """
         Route to update the image and the message to display 
@@ -207,13 +205,13 @@ def update_state():
 
     return {'message': message, 'image' : generate_plot()}
 
-@app.route('/get_config', methods=['GET'])
+@main.route('/get_config', methods=['GET'])
 def get_config():
     global STARTED, STOPPED
     config_set = {'STARTED': STARTED, 'STOPPED': STOPPED}
     return jsonify(config_set)
 
-@app.route('/controls', methods=["POST"])
+@main.route('/controls', methods=["POST"])
 def controls():
     """
         Change the current move
@@ -233,7 +231,7 @@ def controls():
     
     return Response(status=204)
 
-@app.route('/upload', methods=['POST'])
+@main.route('/upload', methods=['POST'])
 def process():
     """
         Route which enables us to load the sgf text
@@ -249,7 +247,7 @@ def process():
 
     return Response(status=204)
 
-@app.route('/undo', methods=['POST'])
+@main.route('/undo', methods=['POST'])
 def undo():
     """
     Undo last played move
@@ -259,17 +257,17 @@ def undo():
     
     return Response(status=204)
 
-@app.route('/')
+@main.route('/')
 def index():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-@app.route('/home')
+@main.route('/home')
 def home():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-@app.route('/game')
+@main.route('/game')
 def game():
     """
     Route to get to the streaming page in game mode
@@ -280,20 +278,20 @@ def game():
         except:
             pass
     return render_template("game.html")
-@app.route('/play')
+@main.route('/play')
 def play():
     """
     Route to get to the streaming page in game mode
     """
     return render_template("play.html")
-@app.route('/transparent')
+@main.route('/transparent')
 def transparent():
     """
         Route to get to the streaming page in transparent mode
         """
     return render_template("game.html")
 
-@app.route('/sgf')
+@main.route('/sgf')
 def sgf():
     """
         Route to get to the streaming page in transparent mode
@@ -301,12 +299,14 @@ def sgf():
 
     return render_template("sgf.html")
 
-@app.route('/historique')
+@main.route('/historique')
 def historique():
     """
         Route to get to the summary page
     """
     return render_template("Historique.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@main.route('/profile')
+def profile():
+    return render_template('profile.html')
+
