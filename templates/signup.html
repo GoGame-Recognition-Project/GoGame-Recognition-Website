@@ -23,9 +23,9 @@
             
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GoStream | Load from SGF</title>
+        <title>GoStream | Sign Up</title>
     </head>
-<body>
+<body class="bg-dark">
     <header class="p-3 bg-dark px-0">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
@@ -45,7 +45,7 @@
                         <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color link-secondary navs">Load from SGF</a>
+                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
                     </li>
                 </ul>
                 
@@ -62,37 +62,52 @@
         </div>
 
     </header>
+    <div class="container align-items-center mx-auto py-4">
+        
+        <div class="col-4 p-4 mx-auto">
+            
+            <div class="row py-4">
+                <h1 class="text-center custom-color">Sign Up</h1>
+            </div>
+            
+            <div class="row rounded" style="background-color: #555;">
+                <div class="box p-4 custom-color">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="notification is-danger">
+                            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+                        </div>
+                    {% endif %}
+                    {% endwith %}
 
-    {% extends "base.html" %}
-
-    {% block content %}
-    <div class="column is-4 is-offset-4">
-        <h3 class="title">Sign Up</h3>
-        <div class="box">
-            <form method="POST" action="/signup">
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
-                    </div>
+                    <form method="POST" action="/signup">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Choose a username">
+                          </div>
+                        <div class="mb-3">
+                          <label class="form-label">Email address</label>
+                          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email adress">
+                          <div id="emailHelp" class="form-text custom-color">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label">Password</label>
+                          <input type="password" class="form-control" name="password" placeholder="Choose a password">
+                        </div>
+                        <div class="mb-3 form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-petit">Sign Up</button>
+                        </div>
+                      </form>
                 </div>
-    
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
-                    </div>
-                </div>
-    
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="password" name="password" placeholder="Password">
-                    </div>
-                </div>
-    
-                <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
-            </form>
+            </div>
         </div>
     </div>
-    {% endblock %}
+    
+    
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
         <div class="text-muted" style="margin-left: 50px;">
             <h5>Credits</h5>
