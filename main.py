@@ -31,6 +31,7 @@ camera = None
 
 STARTED = False
 STOPPED = False
+PAUSED = False
 SESSION_IS_OPEN = True
 
 def new_game(transparent_mode=False):
@@ -203,7 +204,7 @@ def update_state():
 @main.route('/get_config', methods=['GET'])
 def get_config():
     global STARTED, STOPPED
-    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED}
+    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED}
     return jsonify(config_set)
 
 @main.route('/controls', methods=["POST"])
