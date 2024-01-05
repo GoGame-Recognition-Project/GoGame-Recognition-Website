@@ -290,6 +290,21 @@ class GoGame:
         """
         
         self.game.step_up()
+    
+    def play_a_move(self, x, y):
+        """
+         Delete the last move in the game sequence.
+
+        This function steps up the game to remove the last move from the game sequence.
+
+        Args:
+            x (int): the x coordinate of the desired move
+            y (int): the y coordinate of the desired move
+
+        Returns:
+        None
+        """
+        self.game.play(x, y)
 
     def get_moves(self):
         """
