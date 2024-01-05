@@ -1,14 +1,18 @@
 "use strict";
+var board = new Image();
+board.src = 'static/empty_board.jpg';
 
 const controls = document.getElementById("controls");
-const plot_image =  document.getElementById("plot-image");
+const plot_image = document.getElementById("go-board");
 const camera_feed_closed = document.getElementById("camera-feed-closed");
 
 const message = document.getElementById("message");
-const start_button =  document.getElementById("start-button");
-const stop_button =  document.getElementById("stop-button");
-const pause_button =  document.getElementById("pause-button");
+const start_button = document.getElementById("start-button");
+const stop_button = document.getElementById("stop-button");
+const pause_button = document.getElementById("pause-button");
 const undo_button = document.getElementById("undo");
+
+var context_image = plot_image.getContext("2d");
 var updateLoop = null;
 
 
@@ -16,6 +20,12 @@ var STARTED = false;
 var STOPPED = false;
 var PAUSED = false;
 var QUIT = false;
+
+board.onload = function ()
+{
+    context_image.drawImage(board, 0, 0);
+};
+
 
 fetch("/get_config").then(function(response){
     response.json().then(function(data){

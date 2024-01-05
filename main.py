@@ -157,6 +157,11 @@ def show_turn():
         turn = str(go_game.current_turn()) + " to play"
 
     return {'turn': turn}
+
+@main.route('/correct', methods=['POST'])
+def correct(old_pos, new_pos):
+    go_game.correct_stone_js(old_pos, new_pos)
+    return Response(status=204)
     
 @main.route('/resign', methods=['POST'])
 def resign():
