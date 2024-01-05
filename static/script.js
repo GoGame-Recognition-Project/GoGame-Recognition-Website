@@ -69,6 +69,8 @@ controls.addEventListener('click', function(event) {
     });
 });
 
+
+
 // load_form.addEventListener("submit", function(event) {
 //     event.preventDefault();    // prevent page from refreshing
 //     const form_data = new FormData(load_form)
@@ -91,6 +93,7 @@ undo_button.addEventListener('click', function(event) {
     }).then(function(response) {
         if (response.status === 204) {
             console.log("Undone");
+            update_state()
         }
         else {
             message.textContent = "There are no moves left";

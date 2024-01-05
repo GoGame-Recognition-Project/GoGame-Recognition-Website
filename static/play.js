@@ -1,40 +1,59 @@
 "use strict";
 
-var img = new Image();
-img.src = 'static/empty_board.jpg';
+var board = new Image();
+board.src = 'static/empty_board.jpg';
 
 const turn = document.getElementById("turn");
-const resign = document.getElementById("resign")
+const resign = document.getElementById("resign");
+const start = document.getElementById("start-game");
 const canvas = document.getElementById('go-board');
-var winner;
+const undo_button = document.getElementById("undo");
+const controls = document.getElementById("controls");
+const sgf = document.getElementById("sgf")
+
 var context = canvas.getContext("2d");
+var winner;
 
+undo_button.disabled = true;
+resign.disabled = true;
+sgf.disabled = true;
 
-img.onload = function ()
+board.onload = function ()
 {
-    console.log("Image loaded successfully.");
-    context.drawImage(img, 0, 0);
+    context.drawImage(board, 0, 0);
 };
 
-turn.addEventListener("click", function(event) {
+start.addEventListener('click', function(event) {
     event.preventDefault();   
-    fetch('/turn', {
-        method: 'GET',
-    }).then(function(response) {
-        response.json().then(function(data){
-            turn.textContent = data.turn;
-        })
+    fetch('/start_play', {
+        method: 'POST',
+    }).then(function(response){
+        if(response.status == 204){
+            turn.textContent = "Game started! BLACK to play"
+            board.src = 'static/empty_board.jpg';
+            context.drawImage(board, 0, 0);
+            undo_button.disabled = false;
+            resign.disabled = false;
+            sgf.disabled = false;
+        }
     });
 });
 
-winner.addEventListener(function(event) {
+
+undo_button.addEventListener('click', function(event) {
     event.preventDefault();   
-    fetch('/win', {
-        method: 'GET',
+    console.log("clicked")
+    fetch('/undo', {
+        method: 'POST',
     }).then(function(response) {
-        response.json().then(function(data){
-            winner = data;
-        })
+        if (response.status === 204) {
+            update_state()
+            update_turn()
+            console.log("Undone");
+        }
+        else {
+            message.textContent = "There are no moves left";
+        }
     });
 });
 
@@ -44,38 +63,94 @@ resign.addEventListener('click', function(event) {
         method: 'POST',
     }).then(function(response){
         if(response.status == 204){
-            if(winner == "BLACK"){
-                turn.textContent = "WHITE resigned. BLACK wins.";
-            }
-            else{
-                turn.textContent = "BLACK resigned. WHITE wins.";
-            }
+            update_turn()
+            undo_button.disabled = true;
         }
     });
 });
 
-
-canvas.addEventListener('click', function(event) {
-    console.log('clicked')
+canvas.addEventListener('mousedown', function(event) {
+    event.preventDefault();   
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
     // Calculate the board coordinates
-    const boardX = Math.floor((x / canvas.width) * 19) + 1;
-    const boardY = Math.floor((y / canvas.height) * 19) + 1;
-
-    console.log(`Clicked on Go board at (${boardX}, ${boardY})`);
+    const boardX = Math.round((x / rect.width) * 20);
+    const boardY = Math.round((y / rect.height) * 20);
     
-//      // Send the click coordinates to the Flask backend
-//      fetch(`/play_stone?x=${boardX}&y=${boardY}`, { method: 'POST' })
-//      .then(response => response.json())
-//      .then(data => {
-//          // Update the board based on the response from the backend
-//          // You may need to implement this part based on your go library
-//          console.log(data);
-//      });
-
-// // Draw your initial empty board or load it from an image
-// // You can use the ctx.fillStyle and ctx.fillRect() methods for this
+    fetch(`/play_stone?x=${boardX}&y=${boardY}`, {
+        method: 'POST',
+        }).then(function(response){
+            if(response.status == 204){
+                update_state();
+                update_turn();
+            }
+    });
 });
+
+controls.addEventListener('click', function(event) {
+    event.preventDefault();
+    const target = event.target.id;
+    if(!(["initial", "previous", "next", "last"].includes(target))){
+        return;
+    }
+    fetch('/controls', {
+        method: 'POST',
+        body: target,
+    }).then(function(response) {
+        if(response.status == 204){
+            update_state()
+        }
+    });
+});
+
+sgf.addEventListener('click', function(event) {
+    event.preventDefault();
+    downloadFile()
+});
+
+function update_state(){
+    fetch('/update_state').then(function(response){
+        response.json().then(function(data){
+            board.src = 'data:image/jpeg;base64,' + data.image;
+            board.onload = function () {
+                context.drawImage(board, 0, 0);
+            };
+        })
+    })
+}
+
+function update_turn(){ 
+    fetch('/turn', {
+        method: 'GET',
+    }).then(function(response) {
+        response.json().then(function(data){
+            turn.textContent = data.turn;
+        })
+    });
+}
+async function get_winner(){ 
+    fetch('/win', {
+        method: 'GET',
+    }).then(function(response) {
+        response.json().then(function(data){
+            winner = data.winner;
+            console.log("winner function", winner)
+        })
+    });
+}
+
+function downloadFile() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/get_sgf_txt', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var blob = new Blob([xhr.responseText], { type: 'text/plain' });
+            
+            saveAs(blob, 'game.sgf');
+        }
+    };
+    xhr.send();
+}
+

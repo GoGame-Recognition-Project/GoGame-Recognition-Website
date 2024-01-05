@@ -33,27 +33,36 @@
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
+                        <a href="{{ url_for('main.game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('play') }}" class="nav-link px-2 custom-color link-secondary navs">Play</a>
+                        <a href="{{ url_for('main.play') }}" class="nav-link px-2 custom-color link-secondary navs">Play</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color navs">History of games</a>
+                        <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
+                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
                     </li>
                 </ul>
-                <div class="text-end custom-color custom-size px-2">
-                    <b>Play</b>
-                </div> 
+                <div>
+                    <button type="button" class="btn btn-outline-light me-2" style="color: #ecce97; border-color: #ecce97;" >
+                        <a href="{{ url_for('auth.login') }}" style=" color: #ecce97; text-decoration: none;">Login</a>
+                    </button>
+                    <button type="button" class="btn btn-warning" style="background-color: #ecce97; border-color: #ecce97;">
+                        <a href="{{ url_for('auth.signup') }}" style=" color: black; text-decoration: none;">Sign-up</a>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class=" row text-center">
-        <h1><b> NOT YET AVAILABLE</b></h1>
+    <div class="row text-center p-3">
+            <i>
+                <div id="turn" class="py-2 px-4 custom-color" style="font-size: 20px;">
+                No game is being played at the moment
+                </div>
+            </i>
     </div>
 
     <div class=" row custom-container">
@@ -61,10 +70,7 @@
         <div class="col-3 d-flex align-items-center">
             <div class="d-grid gap-4 col-8 mx-auto">
                 <button class="btn btn-primary" id="start-game" style="background-color: #ecce97; border-color: #ecce97; color: black;">
-                    START
-                </button>
-                <button class="btn btn-primary" id="reset-button" style="background-color: #817a6d; border-color: #817a6d; color: black;">
-                    RESET
+                    NEW GAME
                 </button>
                 <button class="btn btn-primary" id="undo" style="background-color: #eb6b67; border-color: #eb6b67; color: black;">
                     UNDO
@@ -72,9 +78,10 @@
                 <button class="btn btn-primary" id="resign" style="background-color: #eb6b67; border-color: #eb6b67; color: black;">
                     RESIGN
                 </button>
-                <button class="btn btn-primary" onclick="downloadFile()" style="background-color: #ecce97; border-color: #ecce97;color: black;">
+                <button class="btn btn-primary" id="sgf" style="background-color: #ecce97; border-color: #ecce97;color: black;">
                     GET SGF
                 </button> 
+
             </div>       
         </div>
 
@@ -91,13 +98,20 @@
                 </form>
             </div>
         </div>
-        <div class="col-3 d-flex align-items-center">
-            <div class="row-2 text-center bg-dark custom-color rounded">
-                <i>
-                    <div id="turn" class="py-2 px-4" style="font-size: 15px;">
-                    No game is being played at the moment
-                    </div>
+        <div class="col-3 d-flex">
+            <div class="container rounded bg-dark">
+                <i class="custom-color">
+                    info ..
                 </i>
+                <!-- <svg width="100" height="100">
+                    <circle cx="10" cy="20" r="10" fill="black" />
+                </svg>
+                <span class="custom-color">Black Player</span> 
+                <svg width="100" height="100">
+                    <circle cx="10" cy="20" r="10" fill="white" />
+                </svg>
+                White Player -->
+            </div>
         </div>
 
     </div> 

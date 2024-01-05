@@ -2,22 +2,21 @@ from ultralytics import YOLO
 from GoGame import *
 from GoBoard import *
 from GoVisual import *
-from flask import Flask, render_template, Response, request, jsonify
+from flask import render_template, Response, request, jsonify, Blueprint
 import cv2
 import base64
+from __init__ import db
+
+main = Blueprint('main', __name__)
 
 cam_index = 0
-
-app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'your_secret_key'  
-
-
 
 model = YOLO('model.pt')
 
 usual_message = "Everything is OK"
 message = "Nothing is being streamed for the moment"
 defaut_turn = "No game is being played at the moment"
+resigned = False
 
 ProcessFrame = None
 Process = True
@@ -88,7 +87,7 @@ def generate_plot(frame):
 
     return img_base64
 
-@app.route('/initialize_new_game')
+@main.route('/initialize_new_game')
 def initialize_new_game():
     
     new_game()
@@ -125,37 +124,48 @@ def initialize_new_game():
 #     print("camera not opened")
 #     return Response(status=502)
 
-@app.route('/play_stone', methods=['POST'])
+
+@main.route('/start_play', methods=['POST'])
+def start_play():
+    new_game()
+    return Response(status=204)
+
+@main.route('/play_stone', methods=['POST'])
 def play_stone():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
+    go_game.play_a_move(x, y)
 
+    return Response(status=204)
 
-    result = go_game.play_a_move(x, y)
-
-    # You can return the updated game state as JSON
-    return jsonify(result)
-
-@app.route('/turn', methods=['GET'])
+@main.route('/turn', methods=['GET'])
 def show_turn():
 
     global turn 
-    
-    turn = str(go_game.go_visual.current_turn()) + " to play"
-    
-    if go_game.is_over():
-        turn = go_game.get_winner()
+        
+    if go_game.is_over() and resigned == False:
+        turn = str(go_game.get_winner()) + " wins."
+        
+    elif go_game.is_over() and resigned == True:
+        if str(go_game.get_winner()) == "BLACK":
+            turn = "WHITE resigned. BLACK wins."
+        elif str(go_game.get_winner()) == "WHITE":
+            turn = "BLACK resigned. WHITE wins."
+    else:
+        turn = str(go_game.current_turn()) + " to play"
 
     return {'turn': turn}
     
-@app.route('/resign', methods=['POST'])
+@main.route('/resign', methods=['POST'])
 def resign():
+    global resigned
     go_game.resign()
+    resigned = True
     return Response(status=204)
 
-@app.route('/win', methods=['POST'])
+@main.route('/win', methods=['GET'])
 def winner():
-    return str(go_game.get_winner())
+    return {"winner": str(go_game.get_winner())}
 
 # @app.route('/update_state')
 # def update_state():
@@ -171,7 +181,7 @@ def winner():
 #     return {'message': message, 'image' : generate_plot()}
 
         
-@app.route('/update_state', methods=["POST"])
+@main.route('/update_state', methods=["POST"])
 def update_state():
     """
         Route to update the image and the message to display 
@@ -204,13 +214,13 @@ def update_state():
             
     return Response(status=502)
 
-@app.route('/get_config', methods=['GET'])
+@main.route('/get_config', methods=['GET'])
 def get_config():
     global STARTED, STOPPED
     config_set = {'STARTED': STARTED, 'STOPPED': STOPPED}
     return jsonify(config_set)
 
-@app.route('/controls', methods=["POST"])
+@main.route('/controls', methods=["POST"])
 def controls():
     """
         Change the current move
@@ -230,7 +240,7 @@ def controls():
     
     return Response(status=204)
 
-@app.route('/upload', methods=['POST'])
+@main.route('/upload', methods=['POST'])
 def process():
     """
         Route which enables us to load the sgf text
@@ -246,7 +256,7 @@ def process():
 
     return Response(status=204)
 
-@app.route('/undo', methods=['POST'])
+@main.route('/undo', methods=['POST'])
 def undo():
     """
     Undo last played move
@@ -256,17 +266,17 @@ def undo():
     
     return Response(status=204)
 
-@app.route('/')
+@main.route('/')
 def index():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-@app.route('/home')
+@main.route('/home')
 def home():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-@app.route('/game')
+@main.route('/game')
 def game():
     """
     Route to get to the streaming page in game mode
@@ -277,20 +287,20 @@ def game():
         except:
             pass
     return render_template("game.html")
-@app.route('/play')
+@main.route('/play')
 def play():
     """
     Route to get to the streaming page in game mode
     """
     return render_template("play.html")
-@app.route('/transparent')
+@main.route('/transparent')
 def transparent():
     """
         Route to get to the streaming page in transparent mode
         """
     return render_template("game.html")
 
-@app.route('/sgf')
+@main.route('/sgf')
 def sgf():
     """
         Route to get to the streaming page in transparent mode
@@ -298,12 +308,14 @@ def sgf():
 
     return render_template("sgf.html")
 
-@app.route('/historique')
+@main.route('/historique')
 def historique():
     """
         Route to get to the summary page
     """
     return render_template("Historique.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@main.route('/profile')
+def profile():
+    return render_template('profile.html')
+
