@@ -17,7 +17,7 @@ model = YOLO('model.pt')
 
 usual_message = "Everything is OK"
 message = "Nothing is being streamed for the moment"
-
+defaut_turn = "No game is being played at the moment"
 
 ProcessFrame = None
 Process = True
@@ -150,7 +150,7 @@ def open_camera():
     print("camera not opened")
     return Response(status=502)
 
-@app.route('/play', methods=['POST'])
+@app.route('/play_stone', methods=['POST'])
 def play_stone():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
@@ -161,6 +161,26 @@ def play_stone():
     # You can return the updated game state as JSON
     return jsonify(result)
 
+@app.route('/turn', methods=['GET'])
+def show_turn():
+
+    global turn 
+    
+    turn = str(go_game.go_visual.current_turn()) + " to play"
+    
+    if go_game.is_over():
+        turn = go_game.get_winner()
+
+    return {'turn': turn}
+    
+@app.route('/resign', methods=['POST'])
+def resign():
+    go_game.resign()
+    return Response(status=204)
+
+@app.route('/win', methods=['POST'])
+def winner():
+    return str(go_game.get_winner())
 
 @app.route('/update_state')
 def update_state():

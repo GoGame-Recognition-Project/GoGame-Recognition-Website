@@ -3,7 +3,10 @@
 var img = new Image();
 img.src = 'static/empty_board.jpg';
 
+const turn = document.getElementById("turn");
+const resign = document.getElementById("resign")
 const canvas = document.getElementById('go-board');
+var winner;
 var context = canvas.getContext("2d");
 
 
@@ -17,7 +20,39 @@ img.onerror = function () {
     console.error("Error loading image.");
 };
 
+turn.addEventListener(function(event) {
+    event.preventDefault();   
+    fetch('/turn', {
+        method: 'GET',
+    }).then(function(data) {
+        turn.textContent = data.turn
+    });
+});
 
+winner.addEventListener(function(event) {
+    event.preventDefault();   
+    fetch('/win', {
+        method: 'GET',
+    }).then(function(data) {
+        winner = data
+    });
+});
+
+resign.addEventListener(function(event) {
+    event.preventDefault();   
+    fetch('/resign', {
+        method: 'POST',
+    }).then(function(response){
+        if(response.status == 204){
+            if(winner == "BLACK"){
+                turn.textContent = "WHITE resigned. BLACK wins."
+            }
+            else{
+                turn.textContent = "BLACK resigned. WHITE wins."
+            }
+        }
+    });
+});
 
 canvas.addEventListener('click', function(event) {
     

@@ -306,6 +306,19 @@ class GoGame:
         """
         self.game.play(x, y)
 
+    def is_over(self):
+        return self.game.is_over()
+    
+    def get_winner(self):
+        return self.game.get_winner().name
+    
+    def game_results(self):
+        results = self.game.score()
+        return results
+    
+    def resign(self):
+        return self.game.resign()
+
     def get_moves(self):
         """
         Remove pass move; when we use game.pss(), a move named "u19" is added to the sequence. 
