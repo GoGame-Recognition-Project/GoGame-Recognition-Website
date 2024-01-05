@@ -25,7 +25,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>GoStream | Load from SGF</title>
     </head>
-<body>
+<body class="bg-dark">
     <header class="p-3 bg-dark px-0">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
@@ -45,7 +45,7 @@
                         <a href="{{ url_for('main.historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color link-secondary navs">Load from SGF</a>
+                        <a href="{{ url_for('main.sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
                     </li>
                 </ul>
                 
@@ -66,6 +66,13 @@
     <div class="column is-4 is-offset-4">
         <h3 class="title">Login</h3>
         <div class="box">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+            {% endwith %}
             <form method="POST" action="/login">
                 <div class="field">
                     <div class="control">
