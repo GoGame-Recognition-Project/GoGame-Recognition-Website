@@ -63,36 +63,42 @@
 
     </header>
 
-    <div class="column is-4 is-offset-4">
-        <h3 class="title">Login</h3>
-        <div class="box">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="notification is-danger">
-                    {{ messages[0] }}
-                </div>
-            {% endif %}
-            {% endwith %}
-            <form method="POST" action="/login">
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                    </div>
-                </div>
-    
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
-                </div>
-                <button class="button is-block is-info is-large is-fullwidth">Login</button>
-            </form>
+    <div class="container align-items-center mx-auto py-4">
+        
+        <div class="col-4 p-4 mx-auto">
+            
+            <div class="row py-4">
+                <h1 class="text-center custom-color">Login</h1>
+            </div>
+            
+            <div class="row rounded" style="background-color: #555;">
+                <div class="box p-4 custom-color">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="notification is-danger">
+                            {{ messages[0] }}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="/login">
+                        <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" placeholder="Your Email">
+                        <div id="emailHelp" class="form-text custom-color">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="Your Password">
+                        </div>
+                        <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-petit">Sign Up</button>
+                        </div>
+                    </form>
+            </div>    
         </div>
     </div>
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
