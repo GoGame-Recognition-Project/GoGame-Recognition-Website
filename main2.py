@@ -215,7 +215,12 @@ def game():
     Route to get to the streaming page in game mode
     """
     return render_template("game.html")
-
+@app.route('/play')
+def play():
+    """
+    Route to get to the streaming page in game mode
+    """
+    return render_template("play.html")
 @app.route('/transparent')
 def transparent():
     """

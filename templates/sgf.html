@@ -36,14 +36,16 @@
             </div>   
                 <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li style="margin-right: 10px;"> 
-                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color">Stream a Game</a>
-                    </li>
-
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color">History of games</a>
+                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
                     </li>
                     <li style="margin-right: 10px;">
-                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color link-secondary">Load from SGF</a>
+                        <a href="{{ url_for('play') }}" class="nav-link px-2 custom-color navs">Play</a>
+                    </li>
+                    <li style="margin-right: 10px;">
+                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color navs">History of games</a>
+                    </li>
+                    <li style="margin-right: 10px;">
+                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color link-secondary navs">Load from SGF</a>
                     </li>
                 </ul>
                 

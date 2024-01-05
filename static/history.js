@@ -3,9 +3,11 @@ var historique = document.getElementById('historique');
 
 
 function demarrer(){
-    const j1 = window.prompt("Quel est le nom du premier joueur ?");
-    const j2 = window.prompt("Quel est le nom du second joueur ?");
-    const desc = window.prompt("Description de la partie");
+    const black = window.prompt("Black name");
+    const white = window.prompt("White name");
+    const tournament = window.prompt("Tournament");
+    const date = window.prompt("Date");
+
     if (sessionStorage.getItem("longueurHistorique") != null){
         var longueurHistorique = parseInt(sessionStorage.getItem("longueurHistorique"));
     }
@@ -15,8 +17,8 @@ function demarrer(){
     var key1 = longueurHistorique*3;
     var key2 = longueurHistorique*3+1;
     var key3 = longueurHistorique*3+2;
-    sessionStorage.setItem(key1.toString(),j1);
-    sessionStorage.setItem(key2.toString(),j2);
+    sessionStorage.setItem(key1.toString(),black);
+    sessionStorage.setItem(key2.toString(),white);
     sessionStorage.setItem(key3.toString(),desc);
     longueurHistorique++;
     sessionStorage.setItem("longueurHistorique",longueurHistorique.toString());

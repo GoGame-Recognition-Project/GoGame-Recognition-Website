@@ -149,3 +149,44 @@ button{
   margin-top: 10px; /* Ajoute de l'espace entre le message et les div précédentes */
   font-size: 18px;
 }
+
+
+.navs {
+  letter-spacing: 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  &:hover { text-decoration: none; }
+  
+}
+
+.navs:hover,
+.navs:active {
+letter-spacing: 5px;
+}
+
+.navs:after,
+.navs:before {
+backface-visibility: hidden;
+border: 1px solid rgba(#ecce97, 0);
+bottom: 0px;
+content: " ";
+display: block;
+margin: 0 auto;
+position: relative;
+transition: all 280ms ease-in-out;
+width: 0;
+}
+
+.navs:hover:after,
+.navs:hover:before {
+backface-visibility: hidden;
+border-color: #ecce97;
+transition: ease-in-out;
+width: 70%;
+}
+
+.navs:hover:before {
+bottom: auto;
+top: 0;
+width: 70%;
+}
