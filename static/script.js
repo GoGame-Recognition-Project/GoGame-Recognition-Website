@@ -1,20 +1,5 @@
 "use strict";
 
-
-var img = new Image();
-img.src = './empty_board.jpg';
-const canvas = document.getElementById('go-board');
-var context = canvas.getContext("2d");
-
-img.onload = function ()
-{
-    console.log("Image loaded successfully.");
-    context.drawImage(img, 0, 0);
-};
-
-img.onerror = function () {
-    console.error("Error loading image.");
-};
 const controls = document.getElementById("controls");
 const load_form = document.getElementById("load_form");
 const plot_image =  document.getElementById("plot-image");
