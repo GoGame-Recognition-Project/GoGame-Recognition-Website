@@ -16,7 +16,7 @@ img.onload = function ()
     context.drawImage(img, 0, 0);
 };
 
-turn.addEventListener(, function(event) {
+turn.addEventListener("click", function(event) {
     event.preventDefault();   
     fetch('/turn', {
         method: 'GET',
