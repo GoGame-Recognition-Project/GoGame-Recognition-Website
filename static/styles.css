@@ -5,6 +5,21 @@ body {
   background-color: rgba(81, 81, 79, 1);
 }
 
+.svg-icon {
+  width: 1.1cm;
+  height: 1.1cm;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #ecce97;
+}
+
+.svg-icon circle {
+  stroke: #ecce97;
+  stroke-width: 2;
+}
 .container-image {
   max-width: 45%;
 }

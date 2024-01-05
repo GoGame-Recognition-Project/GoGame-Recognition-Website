@@ -3,6 +3,7 @@ from GoGame import *
 from GoBoard import *
 from GoVisual import *
 from flask import render_template, Response, request, jsonify, Blueprint
+from flask_login import login_required, current_user
 import cv2
 import base64
 from __init__ import db
@@ -317,5 +318,4 @@ def historique():
 
 @main.route('/profile')
 def profile():
-    return render_template('profile.html')
-
+    return render_template('profile.html', name=current_user.name)
