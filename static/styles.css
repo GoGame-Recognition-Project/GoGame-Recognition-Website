@@ -118,6 +118,7 @@ button{
   text-decoration: none; /* Remove underlines from links */
 }
 
+
 .homeBoard{
   width: 70%;
   text-align: center;
@@ -150,6 +151,9 @@ button{
   font-size: 18px;
 }
 
+#go-board {
+  width: 80%;
+}
 
 .navs {
   letter-spacing: 0;
@@ -181,7 +185,7 @@ width: 0;
 .navs:hover:before {
 backface-visibility: hidden;
 border-color: #ecce97;
-transition: ease-in-out;
+transition: width 350ms ease-in-out;
 width: 70%;
 }
 
