@@ -16,11 +16,7 @@ img.onload = function ()
     context.drawImage(img, 0, 0);
 };
 
-img.onerror = function () {
-    console.error("Error loading image.");
-};
-
-turn.addEventListener(function(event) {
+turn.addEventListener(, function(event) {
     event.preventDefault();   
     fetch('/turn', {
         method: 'GET',
@@ -42,7 +38,7 @@ winner.addEventListener(function(event) {
     });
 });
 
-resign.addEventListener(function(event) {
+resign.addEventListener('click', function(event) {
     event.preventDefault();   
     fetch('/resign', {
         method: 'POST',
@@ -58,8 +54,9 @@ resign.addEventListener(function(event) {
     });
 });
 
+
 canvas.addEventListener('click', function(event) {
-    
+    console.log('clicked')
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -70,15 +67,15 @@ canvas.addEventListener('click', function(event) {
 
     console.log(`Clicked on Go board at (${boardX}, ${boardY})`);
     
-     // Send the click coordinates to the Flask backend
-     fetch(`/play_stone?x=${boardX}&y=${boardY}`, { method: 'POST' })
-     .then(response => response.json())
-     .then(data => {
-         // Update the board based on the response from the backend
-         // You may need to implement this part based on your go library
-         console.log(data);
-     });
+//      // Send the click coordinates to the Flask backend
+//      fetch(`/play_stone?x=${boardX}&y=${boardY}`, { method: 'POST' })
+//      .then(response => response.json())
+//      .then(data => {
+//          // Update the board based on the response from the backend
+//          // You may need to implement this part based on your go library
+//          console.log(data);
+//      });
 
-// Draw your initial empty board or load it from an image
-// You can use the ctx.fillStyle and ctx.fillRect() methods for this
+// // Draw your initial empty board or load it from an image
+// // You can use the ctx.fillStyle and ctx.fillRect() methods for this
 });
