@@ -33,9 +33,5 @@ def initialize_app(app):
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     initialize_app(app)
-=======
-    app = create_app()        
->>>>>>> 8b951ceb96b9ef8c200eed3957b8f1a0ec5a94f5
     app.run(debug=True)
