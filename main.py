@@ -264,7 +264,7 @@ def get_sgf_txt():
         Route which returns the sgf text to be uploaded
         """
 
-    return go_game.get_sgf()
+    return {"sgf": go_game.get_sgf()}
 
 @main.route('/')
 def index():
