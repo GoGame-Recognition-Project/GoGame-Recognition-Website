@@ -3,10 +3,6 @@ var board = new Image();
 board.src = 'static/empty_board.jpg';
 
 const controls = document.getElementById("controls");
-const plot_image = document.getElementById("go-board");
-const camera_feed_closed = document.getElementById("camera-feed-closed");
-
-const message = document.getElementById("message");
 const start_button = document.getElementById("start-button");
 const stop_button = document.getElementById("stop-button");
 const pause_button = document.getElementById("pause-button");
@@ -15,20 +11,37 @@ const resign_button = document.getElementById("resign");
 const download_sgf_button = document.getElementById("download-sgf");
 const rules_button = document.getElementById("flexSwitchCheckDefault");
 
+const video = document.getElementById("videoElement");
 
-var context_image = plot_image.getContext("2d");
+var video_canvas = document.getElementById('canvas');
+var video_context = video_canvas.getContext('2d');
+const plot_canvas = document.getElementById("go-board");
+const plot_context = plot_canvas.getContext("2d");
+const camera_feed_closed = document.getElementById("camera-feed-closed");
+const message = document.getElementById("message");
+
 var updateLoop = null;
-
 
 var STARTED = false;
 var STOPPED = false;
 var PAUSED = false;
 var QUIT = false;
 
-board.onload = function ()
-{
-    context_image.drawImage(board, 0, 0);
+board.onload = function (){
+    plot_context.drawImage(board, 0, 0);
 };
+
+window.onbeforeunload = function(event) {
+    fetch('/set_config', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({STARTED: STARTED, STOPPED: STOPPED, PAUSED: PAUSED, QUIT: QUIT}),
+    }).then(function(response){
+        console.log("failed setting config");
+    })
+}
 
 fetch("/get_config").then(function(response){
     response.json().then(function(data){
@@ -82,6 +95,43 @@ fetch("/get_config").then(function(response){
     })
 })
 
+async function update_state(){
+    var video_height = video.videoHeight;
+    var video_width = video.videoWidth;
+    var width = video_width;
+    var height = video_height;
+    video_canvas.width = video_width;
+    video_canvas.height = video_height;
+    video_context.drawImage(video, 0, 0, width, height);
+    var data = video_canvas.toDataURL('image/jpeg', 0.5);
+    video_context.clearRect(0, 0, width, height);
+
+    var response = await fetch('/update_state', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ image: data }),
+                            })
+
+    if(response.status == 502){
+        console.log('Update failed');
+        return;
+    }
+
+    var data = await response.json();
+    plot_image.src = 'data:image/jpeg;base64,' + data.image;
+    message.textContent = data.message;
+}
+
+function update_state_loop() {
+    update_state().then(() => {
+        // Schedule the next execution after the asynchronous operation is complete
+        if(!QUIT){
+            updateLoop = setTimeout(update_state_loop, 0); // Adjust the interval as needed
+        }
+    });
+}
 
 controls.addEventListener('click', function(event) {
     event.preventDefault();
@@ -166,19 +216,6 @@ rules_button.addEventListener("change", function(){
 })
 
 
-window.onbeforeunload = function(event) {
-    fetch('/set_config', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({STARTED: STARTED, STOPPED: STOPPED, PAUSED: PAUSED, QUIT: QUIT}),
-    }).then(function(response){
-        console.log("failed setting config");
-    })
-    
-}
-
 download_sgf_button.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
@@ -194,47 +231,6 @@ download_sgf_button.addEventListener("click", function() {
     xhr.send();
 })
 
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-const video = document.getElementById("videoElement");
-
-async function update_state(){
-    var video_height = video.videoHeight;
-    var video_width = video.videoWidth;
-    var width = video_width;
-    var height = video_height;
-    canvas.width = video_width;
-    canvas.height = video_height;
-    context.drawImage(video, 0, 0, width, height);
-    var data = canvas.toDataURL('image/jpeg', 0.5);
-    context.clearRect(0, 0, width, height);
-
-    var response = await fetch('/update_state', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ image: data }),
-                            })
-
-    if(response.status == 502){
-        console.log('Update failed');
-        return;
-    }
-
-    var data = await response.json();
-    plot_image.src = 'data:image/jpeg;base64,' + data.image;
-    message.textContent = data.message;
-}
-
-function update_state_loop() {
-    update_state().then(() => {
-        // Schedule the next execution after the asynchronous operation is complete
-        if(!QUIT){
-            updateLoop = setTimeout(update_state_loop, 0); // Adjust the interval as needed
-        }
-    });
-}
 
 start_button.addEventListener('click', function(event) {
     event.preventDefault();
