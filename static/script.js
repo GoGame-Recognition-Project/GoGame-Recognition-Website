@@ -120,7 +120,8 @@ async function update_state(){
     }
 
     var data = await response.json();
-    plot_image.src = 'data:image/jpeg;base64,' + data.image;
+    board.src = 'data:image/jpeg;base64,' + data.image;
+    plot_context.drawImage(board, 0, 0);
     message.textContent = data.message;
 }
 
