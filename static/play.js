@@ -114,9 +114,7 @@ function update_state(){
     }).then(function(response){
         response.json().then(function(data){
             board.src = 'data:image/jpeg;base64,' + data.image;
-            board.onload = function () {
-                context.drawImage(board, 0, 0);
-            };
+            context.drawImage(board, 0, 0);
         })
     })
 }
@@ -150,8 +148,28 @@ download_sgf_button.addEventListener("click", function() {
             
             saveAs(blob, 'game.sgf');
         } else {
-            console.log("The Sgf file is empty")
         }
     };
     xhr.send();
 })
+
+// download_sgf_button.addEventListener("click", function() {
+//     fetch('/get_sgf_txt', {
+//         method: 'GET',
+//     }).then(function(response){
+//         response.json().then(function(data){
+//             var blob = new Blob([data.sgf], { type: 'text/plain' });
+//             if(window.navigator.msSaveOrOpenBlob) {
+//                 window.navigator.msSaveBlob(blob, "sgf.txt");
+//             }
+//             else{
+//                 const elem = window.document.createElement('a');
+//                 elem.href = window.URL.createObjectURL(blob);
+//                 elem.download = "sgf.txt";        
+//                 document.body.appendChild(elem);
+//                 elem.click();        
+//                 document.body.removeChild(elem);
+//             }
+//         })
+//     })
+// })
