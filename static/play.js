@@ -111,7 +111,12 @@ sgf.addEventListener('click', function(event) {
 });
 
 function update_state(){
-    fetch('/update_state').then(function(response){
+
+    fetch('/update_state', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',},
+        body: JSON.stringify({}),
+    }).then(function(response){
         response.json().then(function(data){
             board.src = 'data:image/jpeg;base64,' + data.image;
             board.onload = function () {
