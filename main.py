@@ -59,7 +59,7 @@ def processing_thread(ProcessFrame=None):
     if not ProcessFrame is None:
         try:
             if not initialized:
-                game_plot = go_game.initialize_game(ProcessFrame)
+                game_plot, sgf_text = go_game.initialize_game(ProcessFrame)
                 initialized = True
                 message = usual_message
             else:    
@@ -263,8 +263,8 @@ def get_sgf_txt():
     """
         Route which returns the sgf text to be uploaded
         """
-    global sgf_text
-    return sgf_text
+
+    return go_game.get_sgf()
 
 @main.route('/')
 def index():

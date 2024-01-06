@@ -7,7 +7,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__, static_url_path='/static')
 
-    app.config['SECRET_KEY'] = 'secret-key-goes-here'
+    app.config['SECRET_KEY'] = '879ebf36cc216985bf94cce9811eab9d'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
     db.init_app(app)
@@ -34,5 +34,5 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    app = create_app()        
+    app = create_app()
     app.run(debug=True)
