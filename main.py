@@ -33,7 +33,7 @@ camera = None
 STARTED = False
 STOPPED = False
 PAUSED = False
-SESSION_IS_OPEN = True
+QUIT = False
 
 def new_game(transparent_mode=False):
     
@@ -166,9 +166,14 @@ def correct(old_pos, new_pos):
 @main.route('/resign', methods=['POST'])
 def resign():
     global resigned
-    go_game.resign()
-    resigned = True
-    return Response(status=204)
+    try:
+        go_game.resign()
+        resigned = True
+        return Response(status=204)
+    except Exception as e:
+        print(e)
+        return Response(status=502)
+    
 
 @main.route('/win', methods=['GET'])
 def winner():
@@ -210,8 +215,21 @@ def update_state():
 @main.route('/get_config', methods=['GET'])
 def get_config():
     global STARTED, STOPPED
-    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED}
+    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED, "QUIT": QUIT}
     return jsonify(config_set)
+
+@main.route('/set_config', methods=['POST'])
+def set_config():
+    global STARTED, STOPPED, PAUSED, QUIT
+    
+    data = request.get_json()
+    
+    STARTED = data['STARTED']
+    STOPPED = data['STOPPED']
+    PAUSED = data['PAUSED']
+    QUIT = data['QUIT']
+    
+    return Response(status=204)
 
 @main.route('/controls', methods=["POST"])
 def controls():
@@ -254,10 +272,20 @@ def undo():
     """
     Undo last played move
     """
+    try:
+        go_game.delete_last_move()
+        return Response(status=204)
+    except Exception as e:
+        print(e)
+        return Response(status=502)
 
-    go_game.delete_last_move()
-    
-    return Response(status=204)
+@main.route('/get_sgf_txt')
+def get_sgf_txt():
+    """
+        Route which returns the sgf text to be uploaded
+        """
+    global sgf_text
+    return sgf_text
 
 @main.route('/')
 def index():
@@ -285,6 +313,7 @@ def play():
     """
     Route to get to the streaming page in game mode
     """
+    new_game()
     return render_template("play.html")
 @main.route('/transparent')
 def transparent():
@@ -298,7 +327,7 @@ def sgf():
     """
         Route to get to the streaming page in transparent mode
     """
-
+    new_game()
     return render_template("sgf.html")
 
 @main.route('/historique')

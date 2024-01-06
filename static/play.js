@@ -9,14 +9,14 @@ const start = document.getElementById("start-game");
 const canvas = document.getElementById('go-board');
 const undo_button = document.getElementById("undo");
 const controls = document.getElementById("controls");
-const sgf = document.getElementById("sgf")
+const download_sgf = document.getElementById("download-sgf");
 
 var context = canvas.getContext("2d");
 var winner;
 
-undo_button.disabled = true;
-resign.disabled = true;
-sgf.disabled = true;
+// undo_button.disabled = true;
+// resign.disabled = true;
+// sgf.disabled = true;
 
 board.onload = function ()
 {
@@ -105,13 +105,13 @@ controls.addEventListener('click', function(event) {
     });
 });
 
-sgf.addEventListener('click', function(event) {
-    event.preventDefault();
-    downloadFile()
-});
-
 function update_state(){
-    fetch('/update_state').then(function(response){
+
+    fetch('/update_state', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',},
+        body: JSON.stringify({}),
+    }).then(function(response){
         response.json().then(function(data){
             board.src = 'data:image/jpeg;base64,' + data.image;
             board.onload = function () {
@@ -141,7 +141,7 @@ async function get_winner(){
     });
 }
 
-function downloadFile() {
+download_sgf.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
     xhr.onreadystatechange = function () {
@@ -149,8 +149,9 @@ function downloadFile() {
             var blob = new Blob([xhr.responseText], { type: 'text/plain' });
             
             saveAs(blob, 'game.sgf');
+        } else {
+            console.log("The Sgf file is empty")
         }
     };
     xhr.send();
-}
-
+})

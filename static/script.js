@@ -11,6 +11,9 @@ const start_button = document.getElementById("start-button");
 const stop_button = document.getElementById("stop-button");
 const pause_button = document.getElementById("pause-button");
 const undo_button = document.getElementById("undo");
+const resign_button = document.getElementById("resign");
+const download_sgf = document.getElementById("download-sgf");
+
 
 var context_image = plot_image.getContext("2d");
 var updateLoop = null;
@@ -31,28 +34,50 @@ fetch("/get_config").then(function(response){
     response.json().then(function(data){
         STARTED = data.STARTED;
         STOPPED = data.STOPPED;
+        PAUSED = data.PAUSED;
+        QUIT = data.QUIT;        
         if(STOPPED){
+            console.log("stopped");
             update_state();
             start_button.disabled = false;
             stop_button.disabled = true;
             pause_button.disabled = true;
+
+            resign_button.disabled = true;
+            undo_button.disabled = true;
+
             camera_feed_closed.hidden = false;
         } else if (STARTED) {
-            start_button.disabled = true;
-            stop_button.disabled = false;
-            pause_button.disabled = false;
+            console.log("started");
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
 
-            camera_feed_closed.hidden = true;
+                    resign_button.disabled = false;
+                    undo_button.disabled = false;
 
-            camera_feed = document.createElement('img');
-            camera_feed.classList.add(...camera_feed_closed.classList);
-            camera_feed.id = 'camera-feed';
-            camera_feed.alt = "Camera Feed";
-            camera_feed.src = '/video_feed';
+                    video.hidden = false;
+                    camera_feed_closed.hidden = true;
+                    if(PAUSED){
+                        console.log("pause");
+                        update_state();
+                        start_button.disabled = true;
+                        stop_button.disabled = false;
+                        pause_button.disabled = false;
 
-            camera_feed_closed.parentNode.insertBefore(camera_feed, camera_feed_closed.nextSibling);
-
-            recordLoop = setInterval(update_state, 2000);
+                        pause_button.innerHTML = "Resume";
+                        // video.pause();
+                    } else {
+                        console.log("continue");
+                        update_state_loop();
+                        start_button.disabled = true;
+                        stop_button.disabled = false;
+                        pause_button.disabled = false;
+                    }
+                })
+            }
         }
     })
 })
@@ -76,8 +101,7 @@ controls.addEventListener('click', function(event) {
 });
 
 undo_button.addEventListener('click', function(event) {
-    event.preventDefault();   
-    console.log("clicked")
+    event.preventDefault();
     fetch('/undo', {
         method: 'POST',
     }).then(function(response) {
@@ -87,24 +111,39 @@ undo_button.addEventListener('click', function(event) {
         }
         else {
             message.textContent = "There are no moves left";
+            console.log("There are no moves left");
+        }
+    });
+});
+
+resign_button.addEventListener('click', function(event) {
+    event.preventDefault();   
+    fetch('/resign', {
+        method: 'POST',
+    }).then(function(response){
+        if(response.status == 204){
+            undo_button.disabled = true;
+        } else {
+            console.log("Cannot resign");
         }
     });
 });
 
 
 window.onbeforeunload = function(event) {
-    var s = "You have unsaved changes. Really leave?";
-    if(recordLoop != null){
-        clearInterval(recordLoop);
-    }
-    fetch('/close_camera', {
+    fetch('/set_config', {
         method: 'POST',
-        body: JSON.stringify(false),
-    }).then(function(){})
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({STARTED: STARTED, STOPPED: STOPPED, PAUSED: PAUSED, QUIT: QUIT}),
+    }).then(function(response){
+        console.log("failed setting config");
+    })
     
 }
 
-function downloadFile() {
+download_sgf.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
     xhr.onreadystatechange = function () {
@@ -112,10 +151,12 @@ function downloadFile() {
             var blob = new Blob([xhr.responseText], { type: 'text/plain' });
             
             saveAs(blob, 'game.sgf');
+        } else {
+            console.log("The Sgf file is empty")
         }
     };
     xhr.send();
-}
+})
 
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
@@ -175,6 +216,11 @@ start_button.addEventListener('click', function(event) {
 
                     QUIT = false;       
                     PAUSED = false;
+                    STARTED = true;
+                    STOPPED = false;
+
+                    resign_button.disabled = false;
+                    undo_button.disabled = false;
 
                     start_button.disabled = true;
                     stop_button.disabled = false;
@@ -201,6 +247,7 @@ stop_button.addEventListener('click', function(event) {
     console.log("stop");
     QUIT = true;
     PAUSED = false;
+    STOPPED = true;
 
     video.srcObject.getVideoTracks()[0].stop();
 
@@ -210,6 +257,9 @@ stop_button.addEventListener('click', function(event) {
     STOPPED = true;
 
     pause_button.innerHTML = "Pause";
+
+    resign_button.disabled = true;
+    undo_button.disabled = true;
 
     start_button.disabled = false;
     stop_button.disabled = true;
