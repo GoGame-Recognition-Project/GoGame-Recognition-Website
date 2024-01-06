@@ -9,7 +9,7 @@ const start = document.getElementById("start-game");
 const canvas = document.getElementById('go-board');
 const undo_button = document.getElementById("undo");
 const controls = document.getElementById("controls");
-const download_sgf_button = document.getElementById("download-sgf");
+const download_sgf = document.getElementById("download-sgf");
 
 var context = canvas.getContext("2d");
 var winner;
@@ -141,7 +141,7 @@ async function get_winner(){
     });
 }
 
-download_sgf_button.addEventListener("click", function() {
+download_sgf.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
     xhr.onreadystatechange = function () {

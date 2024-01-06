@@ -12,8 +12,7 @@ const stop_button = document.getElementById("stop-button");
 const pause_button = document.getElementById("pause-button");
 const undo_button = document.getElementById("undo");
 const resign_button = document.getElementById("resign");
-const download_sgf_button = document.getElementById("download-sgf");
-const rules_button = document.getElementById("flexSwitchCheckDefault");
+const download_sgf = document.getElementById("download-sgf");
 
 
 var context_image = plot_image.getContext("2d");
@@ -29,6 +28,7 @@ board.onload = function ()
 {
     context_image.drawImage(board, 0, 0);
 };
+
 
 fetch("/get_config").then(function(response){
     response.json().then(function(data){
@@ -129,42 +129,6 @@ resign_button.addEventListener('click', function(event) {
     });
 });
 
-rules_button.addEventListener("change", function(){
-    if (rules_button.checked) {
-        fetch('/set_rules', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({TRANSPARENT_MODE: false}),
-        }).then(function(response){
-            if(response.status == 204){
-                undo_button.disabled = false;
-                resign_button.disabled = false;
-                download_sgf_button.disabled = false;
-            } else {
-                console.log("Cannot set rules");
-            }
-        });
-    } else {
-        fetch('/set_rules', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({TRANSPARENT_MODE: true}),
-        }).then(function(response){
-            if(response.status == 204){
-                undo_button.disabled = true;
-                resign_button.disabled = true;
-                download_sgf_button.disabled = true;
-            } else {
-                console.log("Cannot remove rules");
-            }
-        });
-    }
-})
-
 
 window.onbeforeunload = function(event) {
     fetch('/set_config', {
@@ -179,7 +143,7 @@ window.onbeforeunload = function(event) {
     
 }
 
-download_sgf_button.addEventListener("click", function() {
+download_sgf.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
     xhr.onreadystatechange = function () {

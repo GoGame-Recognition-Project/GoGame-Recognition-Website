@@ -95,16 +95,37 @@ def initialize_new_game():
     new_game()
     return Response(status=204)
 
-@main.route('/set_rules', methods=["POST"])
-def set_rules():
-    global transparent_mode, go_game
-    try:
-        data = request.get_json()
-        transparent_mode = data["TRANSPARENT_MODE"]
-        go_game.set_transparent_mode(transparent_mode)
-        return Response(status=204)
-    except Exception as e:
-        return Response(status=502)
+# @app.route('/close_camera', methods=["POST"])
+# def close_camera():
+#     """stop the camera """
+#     global camera, STOPPED, SESSION_IS_OPEN
+    
+#     data = request.data.decode('utf-8')
+#     print(data)
+#     if data == 'false':
+#         SESSION_IS_OPEN = False
+#     else:
+#         SESSION_IS_OPEN = True
+
+#     camera.release()
+#     STOPPED = True
+#     print("the camera has been closed")
+#     return Response(status=204)
+
+# @app.route('/open_camera', methods=["POST"])
+# def open_camera():
+#     """open the camera """
+#     global camera, STARTED
+#     camera = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)
+#     success, frame = camera.read()
+#     if success:
+#         print("camera started")
+#         STARTED = True
+#         new_game()
+#         return Response(status=204)
+#     print("camera not opened")
+#     return Response(status=502)
+
 
 @main.route('/start_play', methods=['POST'])
 def start_play():
@@ -281,8 +302,12 @@ def game():
     """
     Route to get to the streaming page in game mode
     """
+    if not initialized:
+        try:
+            camera.release()
+        except:
+            pass
     return render_template("game.html")
-
 @main.route('/play')
 def play():
     """
