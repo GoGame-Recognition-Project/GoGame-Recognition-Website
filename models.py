@@ -1,7 +1,10 @@
-from __init__ import db
-from flask_login import UserMixin
-import cv2
+from flask_login import UserMixin, login_manager
+from __init__ import db, login_manager
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True) 
@@ -13,8 +16,12 @@ class User(UserMixin, db.Model):
     games_won = db.Column(db.Integer)
     games_lost = db.Column(db.Integer)
     games_streamed = db.Column(db.Integer)
-    profile_picture = cv2.imread("static/Default_pfp.png")
+    profile_picture = db.Column(db.String(20), nullable=False, default='static/Default_pfp.jpg')
+    posts = db.relationship('Post', backref='author', lazy=True)
 
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+    
     def __init__(self) -> None:
         super().__init__()
 
