@@ -11,6 +11,7 @@ const start_button = document.getElementById("start-button");
 const stop_button = document.getElementById("stop-button");
 const pause_button = document.getElementById("pause-button");
 const undo_button = document.getElementById("undo");
+const resign_button = document.getElementById("resign");
 const download_sgf = document.getElementById("download-sgf");
 
 
@@ -41,6 +42,10 @@ fetch("/get_config").then(function(response){
             start_button.disabled = false;
             stop_button.disabled = true;
             pause_button.disabled = true;
+
+            resign_button.disabled = true;
+            undo_button.disabled = true;
+
             camera_feed_closed.hidden = false;
         } else if (STARTED) {
             console.log("started");
@@ -49,6 +54,10 @@ fetch("/get_config").then(function(response){
                 .then(function (stream) {
                     video.srcObject = stream;
                     video.play();
+
+                    resign_button.disabled = false;
+                    undo_button.disabled = false;
+
                     video.hidden = false;
                     camera_feed_closed.hidden = true;
                     if(PAUSED){
@@ -69,10 +78,7 @@ fetch("/get_config").then(function(response){
                     }
                 })
             }
-        } else{
-            console.log("Nothing");
         }
-
     })
 })
 
@@ -95,8 +101,7 @@ controls.addEventListener('click', function(event) {
 });
 
 undo_button.addEventListener('click', function(event) {
-    event.preventDefault();   
-    console.log("clicked")
+    event.preventDefault();
     fetch('/undo', {
         method: 'POST',
     }).then(function(response) {
@@ -106,6 +111,20 @@ undo_button.addEventListener('click', function(event) {
         }
         else {
             message.textContent = "There are no moves left";
+            console.log("There are no moves left");
+        }
+    });
+});
+
+resign_button.addEventListener('click', function(event) {
+    event.preventDefault();   
+    fetch('/resign', {
+        method: 'POST',
+    }).then(function(response){
+        if(response.status == 204){
+            undo_button.disabled = true;
+        } else {
+            console.log("Cannot resign");
         }
     });
 });
@@ -200,6 +219,9 @@ start_button.addEventListener('click', function(event) {
                     STARTED = true;
                     STOPPED = false;
 
+                    resign_button.disabled = false;
+                    undo_button.disabled = false;
+
                     start_button.disabled = true;
                     stop_button.disabled = false;
                     pause_button.disabled = false;
@@ -235,6 +257,9 @@ stop_button.addEventListener('click', function(event) {
     STOPPED = true;
 
     pause_button.innerHTML = "Pause";
+
+    resign_button.disabled = true;
+    undo_button.disabled = true;
 
     start_button.disabled = false;
     stop_button.disabled = true;
