@@ -1,74 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'styles.css') }}">
-        <link rel="icon" type="image/png" href="static/GoStreamLogoWithoutTitle.png" sizes="32x32">
-        <!--<script  rel="stylesheet" type="text/css" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>    <meta charset="UTF-8">-->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+{% extends "layout.html" %}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-        <style>
-            body {
-                margin: 0;
-                border: 0;
-                padding: 0;
-                font-family: 'Rubik', sans-serif;
+{% block title %}Sign Up{% endblock %}
 
-            }
-    
-        </style>
-            
-    
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GoStream | Sign Up</title>
-    </head>
-<body class="bg-dark">
-    <header class="p-3 bg-dark px-0">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
-            <div class="col-2">
-                <a href = "/">
-                    <img src="{{ url_for('static', filename='GoStreamLogoTitleRight.png') }}" class ="GoStream" alt="Home" id="logo">
-                </a>
-            </div>   
-                <ul class="col nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li style="margin-right: 10px;"> 
-                        <a href="{{ url_for('game') }}" class="nav-link px-2 custom-color navs">Stream a Game</a>
-                    </li>
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('play') }}" class="nav-link px-2 custom-color navs">Play</a>
-                    </li>
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('historique') }}" class="nav-link px-2 custom-color navs">Game History</a>
-                    </li>
-                    <li style="margin-right: 10px;">
-                        <a href="{{ url_for('sgf') }}" class="nav-link px-2 custom-color navs">Load from SGF</a>
-                    </li>
-                </ul>
-                
-                <div>
-                    <svg class="svg-icon p-1" viewBox="0 0 20 20">
-                        <path fill="none" d="M12.443,9.672c0.203-0.496,0.329-1.052,0.329-1.652c0-1.969-1.241-3.565-2.772-3.565S7.228,6.051,7.228,8.02c0,0.599,0.126,1.156,0.33,1.652c-1.379,0.555-2.31,1.553-2.31,2.704c0,1.75,2.128,3.169,4.753,3.169c2.624,0,4.753-1.419,4.753-3.169C14.753,11.225,13.821,10.227,12.443,9.672z M10,5.247c1.094,0,1.98,1.242,1.98,2.773c0,1.531-0.887,2.772-1.98,2.772S8.02,9.551,8.02,8.02C8.02,6.489,8.906,5.247,10,5.247z M10,14.753c-2.187,0-3.96-1.063-3.96-2.377c0-0.854,0.757-1.596,1.885-2.015c0.508,0.745,1.245,1.224,2.076,1.224s1.567-0.479,2.076-1.224c1.127,0.418,1.885,1.162,1.885,2.015C13.961,13.689,12.188,14.753,10,14.753z M10,0.891c-5.031,0-9.109,4.079-9.109,9.109c0,5.031,4.079,9.109,9.109,9.109c5.031,0,9.109-4.078,9.109-9.109C19.109,4.969,15.031,0.891,10,0.891z M10,18.317c-4.593,0-8.317-3.725-8.317-8.317c0-4.593,3.724-8.317,8.317-8.317c4.593,0,8.317,3.724,8.317,8.317C18.317,14.593,14.593,18.317,10,18.317z"></path>
-                    </svg>
-                    <button type="button" class="btn btn-outline-light me-2" style="color: #ecce97; border-color: #ecce97;" >
-                        <a href="{{ url_for('login') }}" style=" color: #ecce97; text-decoration: none;">Login</a>
-                    </button>
-                    <button type="button" class="btn btn-warning" style="background-color: #ecce97; border-color: #ecce97;">
-                        <a href="{{ url_for('signup') }}" style=" color: black; text-decoration: none;">Sign-up</a>
-                    </button>
-                    <button type="button" class="btn btn-outline-light me-2" style="color: #ecce97; border-color: #ecce97;" >
-                        <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
-                    </button>
-                </div>
-            
-            </div>
-        </div>
-
-    </header>
-
+{% block content %}
     <div class="container align-items-center mx-auto py-4">
         <div class="col-4 p-4 mx-auto">
             
@@ -155,6 +89,81 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+{% endblock %}
+=======
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+        </small>
+    </div>
+>>>>>>> 12e0ef957214819645bb06522c579b4f1726459d
     
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 bg-dark">
         <div class="text-muted" style="margin-left: 50px;">
@@ -194,3 +203,4 @@
 
 </body>
 </html>
+>>>>>>> 354841b68ad87d3935183e086c1c4fc3f1ea8930

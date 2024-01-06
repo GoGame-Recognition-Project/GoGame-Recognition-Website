@@ -160,6 +160,13 @@ button{
   margin-right: 10px; /* Ajustez la marge selon vos besoins */
 }
 
+#video {
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+  -moz-transform:rotateY(180deg); /* Firefox */
+
+}
+
 #message {
   clear: both; /* Empêche les éléments suivants de flotter à gauche ou à droite des div flottantes */
   margin-top: 10px; /* Ajoute de l'espace entre le message et les div précédentes */

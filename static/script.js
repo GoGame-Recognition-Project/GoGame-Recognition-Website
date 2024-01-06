@@ -120,7 +120,8 @@ async function update_state(){
     }
 
     var data = await response.json();
-    plot_image.src = 'data:image/jpeg;base64,' + data.image;
+    board.src = 'data:image/jpeg;base64,' + data.image;
+    plot_context.drawImage(board, 0, 0);
     message.textContent = data.message;
 }
 
@@ -217,18 +218,24 @@ rules_button.addEventListener("change", function(){
 
 
 download_sgf_button.addEventListener("click", function() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/get_sgf_txt', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var blob = new Blob([xhr.responseText], { type: 'text/plain' });
-            
-            saveAs(blob, 'game.sgf');
-        } else {
-            console.log("The Sgf file is empty")
-        }
-    };
-    xhr.send();
+    fetch('/get_sgf_txt', {
+        method: 'GET',
+    }).then(function(response){
+        response.json().then(function(data){
+            var blob = new Blob([data.sgf], { type: 'text/plain' });
+            if(window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, "game.sgf");
+            }
+            else{
+                const elem = window.document.createElement('a');
+                elem.href = window.URL.createObjectURL(blob);
+                elem.download = "game.sgf";        
+                document.body.appendChild(elem);
+                elem.click();        
+                document.body.removeChild(elem);
+            }
+        })
+    })
 })
 
 

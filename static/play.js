@@ -139,37 +139,37 @@ async function get_winner(){
     });
 }
 
-download_sgf_button.addEventListener("click", function() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/get_sgf_txt', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var blob = new Blob([xhr.responseText], { type: 'text/plain' });
-            
-            saveAs(blob, 'game.sgf');
-        } else {
-        }
-    };
-    xhr.send();
-})
-
 // download_sgf_button.addEventListener("click", function() {
-//     fetch('/get_sgf_txt', {
-//         method: 'GET',
-//     }).then(function(response){
-//         response.json().then(function(data){
-//             var blob = new Blob([data.sgf], { type: 'text/plain' });
-//             if(window.navigator.msSaveOrOpenBlob) {
-//                 window.navigator.msSaveBlob(blob, "sgf.txt");
-//             }
-//             else{
-//                 const elem = window.document.createElement('a');
-//                 elem.href = window.URL.createObjectURL(blob);
-//                 elem.download = "sgf.txt";        
-//                 document.body.appendChild(elem);
-//                 elem.click();        
-//                 document.body.removeChild(elem);
-//             }
-//         })
-//     })
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('GET', '/get_sgf_txt', true);
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState == 4 && xhr.status == 200) {
+//             var blob = new Blob([xhr.responseText], { type: 'text/plain' });
+            
+//             saveAs(blob, 'game.sgf');
+//         } else {
+//         }
+//     };
+//     xhr.send();
 // })
+
+download_sgf_button.addEventListener("click", function() {
+    fetch('/get_sgf_txt', {
+        method: 'GET',
+    }).then(function(response){
+        response.json().then(function(data){
+            var blob = new Blob([data.sgf], { type: 'text/plain' });
+            if(window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, "game.sgf");
+            }
+            else{
+                const elem = window.document.createElement('a');
+                elem.href = window.URL.createObjectURL(blob);
+                elem.download = "game.sgf";        
+                document.body.appendChild(elem);
+                elem.click();        
+                document.body.removeChild(elem);
+            }
+        })
+    })
+})
