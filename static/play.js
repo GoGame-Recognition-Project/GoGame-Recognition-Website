@@ -14,9 +14,9 @@ const sgf = document.getElementById("sgf")
 var context = canvas.getContext("2d");
 var winner;
 
-undo_button.disabled = true;
-resign.disabled = true;
-sgf.disabled = true;
+// undo_button.disabled = true;
+// resign.disabled = true;
+// sgf.disabled = true;
 
 board.onload = function ()
 {
