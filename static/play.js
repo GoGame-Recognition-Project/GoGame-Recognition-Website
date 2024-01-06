@@ -3,27 +3,27 @@
 var board = new Image();
 board.src = 'static/empty_board.jpg';
 
-const turn = document.getElementById("turn");
-const resign = document.getElementById("resign");
-const start = document.getElementById("start-game");
-const canvas = document.getElementById('go-board');
-const undo_button = document.getElementById("undo");
 const controls = document.getElementById("controls");
-const download_sgf = document.getElementById("download-sgf");
 
+const turn = document.getElementById("turn");
+const resign_button = document.getElementById("resign");
+const start_button = document.getElementById("start-game");
+const undo_button = document.getElementById("undo");
+const download_sgf_button = document.getElementById("download-sgf");
+
+const canvas = document.getElementById('go-board');
 var context = canvas.getContext("2d");
 var winner;
 
 // undo_button.disabled = true;
-// resign.disabled = true;
-// sgf.disabled = true;
+// resign_button.disabled = true;
+// download_sgf_button.disabled = true;
 
-board.onload = function ()
-{
+board.onload = function (){
     context.drawImage(board, 0, 0);
 };
 
-start.addEventListener('click', function(event) {
+start_button.addEventListener('click', function(event) {
     event.preventDefault();   
     fetch('/start_play', {
         method: 'POST',
@@ -33,8 +33,8 @@ start.addEventListener('click', function(event) {
             board.src = 'static/empty_board.jpg';
             context.drawImage(board, 0, 0);
             undo_button.disabled = false;
-            resign.disabled = false;
-            sgf.disabled = false;
+            resign_button.disabled = false;
+            download_sgf_button.disabled = false;
         }
     });
 });
@@ -57,7 +57,7 @@ undo_button.addEventListener('click', function(event) {
     });
 });
 
-resign.addEventListener('click', function(event) {
+resign_button.addEventListener('click', function(event) {
     event.preventDefault();   
     fetch('/resign', {
         method: 'POST',
@@ -141,7 +141,7 @@ async function get_winner(){
     });
 }
 
-download_sgf.addEventListener("click", function() {
+download_sgf_button.addEventListener("click", function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/get_sgf_txt', true);
     xhr.onreadystatechange = function () {
