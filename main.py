@@ -33,7 +33,7 @@ camera = None
 STARTED = False
 STOPPED = False
 PAUSED = False
-SESSION_IS_OPEN = True
+QUIT = False
 
 def new_game(transparent_mode=False):
     
@@ -210,8 +210,21 @@ def update_state():
 @main.route('/get_config', methods=['GET'])
 def get_config():
     global STARTED, STOPPED
-    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED}
+    config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED, "QUIT": QUIT}
     return jsonify(config_set)
+
+@main.route('/set_config', methods=['POST'])
+def set_config():
+    global STARTED, STOPPED, PAUSED, QUIT
+    
+    data = request.get_json()
+    
+    STARTED = data['STARTED']
+    STOPPED = data['STOPPED']
+    PAUSED = data['PAUSED']
+    QUIT = data['QUIT']
+    
+    return Response(status=204)
 
 @main.route('/controls', methods=["POST"])
 def controls():
@@ -258,6 +271,14 @@ def undo():
     go_game.delete_last_move()
     
     return Response(status=204)
+
+@main.route('/get_sgf_txt')
+def get_sgf_txt():
+    """
+        Route which returns the sgf text to be uploaded
+        """
+    global sgf_text
+    return sgf_text
 
 @main.route('/')
 def index():
