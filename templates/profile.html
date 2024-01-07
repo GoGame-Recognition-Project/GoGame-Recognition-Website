@@ -12,12 +12,12 @@
                 <p class="text-secondary">{{ current_user.email }}</p>
             </div>
         </div>
-        <div class="row text-center py-4 custom-color">
+        <div class="row text-center py-4 custom-color" style="font-size: 15px;">
             <form method="POST" action="" enctype="multipart/form-data" class="text-center" >
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom custom-color">Account Info</legend>
-                    <div class="form-group">
+                    <div class="form-group text-start" style="font-size: 15px;">
                         {{ form.username.label(class="form-control-label") }}
 
                         {% if form.username.errors %}
@@ -31,7 +31,7 @@
                             {{ form.username(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group text-start">
                         {{ form.email.label(class="form-control-label") }}
                         {% if form.email.errors %}
                             {{ form.email(class="form-control form-control-lg is-invalid") }}
@@ -44,7 +44,7 @@
                             {{ form.email(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group text-start">
                         {{ form.picture.label() }}
                         {{ form.picture(class="form-control-file") }}
                         {% if form.picture.errors %}
