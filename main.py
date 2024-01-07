@@ -4,13 +4,17 @@ from GoBoard import *
 from GoVisual import *
 from flask import Flask, render_template, Response, request, jsonify, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_login import login_required, current_user
 import cv2
 import base64
 from flask_sqlalchemy import SQLAlchemy
 from models import User
 from __init__ import app, db, bcrypt
+import secrets
+from PIL import Image
+import os
+
 
 
 
@@ -316,10 +320,38 @@ def historique():
     """
     return render_template("Historique.html")
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
 @login_required
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.profile_picture = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    profile_picture = url_for('static', filename='profile_pics/' + current_user.profile_picture)
+    return render_template('profile.html', title='Account',
+                           profile_picture=profile_picture, form=form)
  
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -357,3 +389,7 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+with app.app_context():
+    db.create_all()
