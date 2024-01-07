@@ -12,7 +12,7 @@
                 <h1 class="text-center custom-color">Login</h1>
             </div>
             
-            <div class="row rounded" style="background-color: #555;">
+            <div class="row rounded bg-dark">
                 <div class="box p-4 custom-color rounded">
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -50,33 +50,27 @@
                                     {{ form.password(class="form-control form-control-lg") }}
                                 {% endif %}
                             </div>
-                            <div class="form-check">
+                            <div class="form-check py-2">
                                 {{ form.remember(class="form-check-input") }}
                                 {{ form.remember.label(class="form-check-label") }}
                             </div>
                         </fieldset>
-                        <div class="form-group">
-                            {{ form.submit(class="btn btn-outline-info") }}
+                        <div class="form-group py-2">
+                            {{ form.submit(class="btn btn-petit") }}
                         </div>
                         <small class="text-muted ml-2">
-                            <a href="#">Forgot Password?</a>
+                            <a href="{{ url_for('reset_request') }}" class="custom-color">Forgot Password?</a>
                         </small>
                     </form>
-                    <div class="border-top pt-3">
+                    <div class="pt-2">
                         <small class="text-muted">
-                            Need An Account? <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
+                            Need An Account? <a class="ml-2 custom-color" href="{{ url_for('signup') }}">Sign Up Now</a>
                         </small>
                     </div>
             </div>    
         </div>
     </div>
-<<<<<<< HEAD
-  
-
-=======
-<<<<<<< HEAD
 {% endblock %}
-=======
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}

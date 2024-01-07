@@ -1,4 +1,4 @@
-from main import app
+from GoStream.main import app
 
 
 if __name__ == '__main__':

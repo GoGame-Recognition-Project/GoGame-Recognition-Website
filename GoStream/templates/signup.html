@@ -9,7 +9,7 @@
             <div class="row py-4">
                 <h1 class="text-center custom-color">Sign Up</h1>
             </div>
-            <div class="row rounded" style="background-color: #555;">
+            <div class="row rounded bg-dark">
                 <div class="box p-4 custom-color">
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -81,9 +81,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="border-top pt-3">
+                <div class="p-3">
                     <small class="text-muted">
-                        Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+                        Already Have An Account? <a class="ml-2 custom-color" href="{{ url_for('login') }}">Sign In</a>
                     </small>
                 </div>
             </div>

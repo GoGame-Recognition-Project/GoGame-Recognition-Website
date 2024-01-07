@@ -1,16 +1,16 @@
 from ultralytics import YOLO
-from GoGame import *
-from GoBoard import *
-from GoVisual import *
+from GoStream.GoGame import *
+from GoStream.GoBoard import *
+from GoStream.GoVisual import *
 from flask import Flask, render_template, Response, request, jsonify, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
-from forms import RegistrationForm, LoginForm, UpdateAccountForm
+from GoStream.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flask_login import login_required, current_user
 import cv2
 import base64
 from flask_sqlalchemy import SQLAlchemy
-from models import User
-from __init__ import app, db, bcrypt
+from GoStream.models import User
+from GoStream.__init__ import app, db, bcrypt
 import secrets
 from PIL import Image
 import os
@@ -345,7 +345,7 @@ def profile():
         current_user.email = form.email.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -390,6 +390,48 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request',
+                  sender='noreply@demo.com',
+                  recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+    mail.send(msg)
+
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
 
 with app.app_context():
     db.create_all()
