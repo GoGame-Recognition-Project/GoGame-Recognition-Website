@@ -1,7 +1,7 @@
 from ultralytics import YOLO
-from GoGame import *
-from GoBoard import *
-from GoVisual import *
+from GoStreamDetection.GoGame import *
+from GoStreamDetection.GoBoard import *
+from GoStreamDetection.GoVisual import *
 from flask import Flask, render_template, Response, request, jsonify, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
@@ -21,7 +21,7 @@ import os
 
 cam_index = 0
 
-model = YOLO('model.pt')
+model = YOLO('GoStreamDetection/model.pt')
 
 usual_message = "Everything is OK"
 message = "Nothing is being streamed for the moment"
