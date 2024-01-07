@@ -7,13 +7,12 @@
         <div class="d-flex justify-content-around container text-center py-4">
             <div class="align-items-center col-5">
                 <form id="load_form" enctype="multipart/form-data" class="input-group">
-                        <input class="form-control" type="file" name="file" accept=".sgf" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                        <input id="load_sgf" class="btn custom-button" type="submit" value="Upload">
+                    <input class="form-control" type="file" name="file" accept=".sgf" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    <input id="load_sgf" class="btn custom-button" type="submit" value="Upload">
                 </form>
             </div>
         </div>
         <div class="container text-center py-4">
-
             <img id="image" src="static/empty_board.jpg" alt="Image" class="container-image">
             <div class="row align-items-start">
                 <form method="POST" id="controls" class="btn-group-lg">
@@ -22,7 +21,8 @@
                     <button class="btn btn-nav mx-1" id="next">    &gt;   </button>     
                     <button class="btn btn-nav mx-1" id="last">   &gt;&gt;  </button>
                 </form>
-        </div>
-    </div> 
+            </div>
+        </div> 
+    </div>
 {% endblock %}
 {% block js %}<script src="static/sgf_load.js"></script>{% endblock %}
