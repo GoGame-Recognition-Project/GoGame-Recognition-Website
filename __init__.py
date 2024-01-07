@@ -14,4 +14,4 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 
-import GoStream.main
+import main

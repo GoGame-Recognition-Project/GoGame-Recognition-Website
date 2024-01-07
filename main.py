@@ -1,16 +1,16 @@
 from ultralytics import YOLO
-from GoStream.GoGame import *
-from GoStream.GoBoard import *
-from GoStream.GoVisual import *
+from GoGame import *
+from GoBoard import *
+from GoVisual import *
 from flask import Flask, render_template, Response, request, jsonify, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
-from GoStream.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flask_login import login_required, current_user
 import cv2
 import base64
 from flask_sqlalchemy import SQLAlchemy
-from GoStream.models import User
-from GoStream.__init__ import app, db, bcrypt
+from models import User
+from __init__ import app, db, bcrypt
 import secrets
 from PIL import Image
 import os

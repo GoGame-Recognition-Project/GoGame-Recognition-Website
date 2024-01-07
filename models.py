@@ -1,5 +1,5 @@
 from flask_login import UserMixin, login_manager
-from GoStream.__init__ import db, login_manager, app
+from __init__ import db, login_manager, app
 from itsdangerous import TimedSerializer as Serializer
 
 
