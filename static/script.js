@@ -15,8 +15,12 @@ const video = document.getElementById("videoElement");
 
 var video_canvas = document.getElementById('canvas');
 var video_context = video_canvas.getContext('2d');
-const plot_canvas = document.getElementById("go-board");
+const board_canvas = document.getElementById("go-board");
+const board_context = board_canvas.getContext("2d");
+const plot_canvas = board_canvas.cloneNode(true);
 const plot_context = plot_canvas.getContext("2d");
+const hover_canvas = board_canvas.cloneNode(true);
+const hover_context = hover_canvas.getContext("2d");
 const camera_feed_closed = document.getElementById("camera-feed-closed");
 const message = document.getElementById("message");
 
@@ -29,6 +33,7 @@ var QUIT = false;
 
 board.onload = function (){
     plot_context.drawImage(board, 0, 0);
+    board_context.drawImage(board, 0, 0);
 };
 
 window.onbeforeunload = function(event) {
@@ -121,6 +126,7 @@ async function update_state(){
 
     var data = await response.json();
     board.src = 'data:image/jpeg;base64,' + data.image;
+    draw_context.drawImage(board, 0, 0);
     plot_context.drawImage(board, 0, 0);
     message.textContent = data.message;
 }
@@ -330,4 +336,34 @@ pause_button.addEventListener('click', function(event) {
         start_button.disabled = true;
         stop_button.disabled = false;
     }
+});
+
+
+board_canvas.addEventListener('mousemove', function(event) {
+    event.preventDefault();
+    const rect = board_canvas.getBoundingClientRect();
+    const square_size = board_canvas.width / 20;
+
+    const scaleX = board_canvas.width / rect.width;
+    const scaleY = board_canvas.height / rect.height;  
+
+    var x = (event.clientX - rect.left) * scaleX;
+    var y = (event.clientY - rect.top) * scaleY;
+
+    var posx = Math.round(x / square_size) * square_size;
+    var posy = Math.round(y / square_size) * square_size;
+    console.log(posx, posy);
+
+    hover_context.clearRect(0, 0, board_canvas.width, board_canvas.height);
+    hover_context.strokeStyle = 'rgba(252, 107, 3, 0.7)';
+    hover_context.lineWidth = 7;
+
+    if(posx % 600 != 0 & posy % 600 != 0){
+        hover_context.beginPath();
+        hover_context.arc(posx, posy, 20, 0, 2 * Math.PI);
+        hover_context.stroke();
+    }
+
+    board_context.drawImage(plot_canvas, 0, 0);
+    board_context.drawImage(hover_canvas, 0, 0);
 });
