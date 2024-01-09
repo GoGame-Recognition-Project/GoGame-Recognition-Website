@@ -72,7 +72,7 @@ def processing_thread(ProcessFrame=None):
                 initialized = True
                 message = usual_message
             else:    
-                game_plot, sgf_text = go_game.app_loop(ProcessFrame)
+                game_plot, sgf_text = go_game.main_loop(ProcessFrame)
                 message = usual_message
         except Exception as e:
             message = "Error : " + str(e)
