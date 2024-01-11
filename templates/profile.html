@@ -5,18 +5,19 @@
 {% block content %}
 <div class="custom-container row">
     <div class="col-3 bg-dark text-center">
-        <div class=" row media">
-            <img class="rounded-circle account-img text-center" src="{{ profile_picture }}">
+        <div class="row media" class="text-center">
+            <div style="width: 100%;">
+                <img class="rounded-circle account-img text-center py-2" src="{{ profile_picture }}">
+            </div>
             <div class="media-body">
                 <h2 class="account-heading custom-color custom-size">{{ current_user.username }}</h2>
                 <p class="text-secondary">{{ current_user.email }}</p>
             </div>
         </div>
-        <div class="row text-center p-4 custom-color" style="font-size: 15px;">
+        <div class="row text-center p-2 custom-color" style="font-size: 15px;">
             <form method="POST" action="" enctype="multipart/form-data" class="text-center p-4 " >
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom custom-color">Account Info</legend>
                     <div class="form-group text-start">
                         {{ form.username.label(class="form-control-label") }}
 

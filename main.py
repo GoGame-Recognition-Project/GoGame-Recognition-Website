@@ -292,6 +292,13 @@ def game():
     """
     return render_template("game.html")
 
+@app.route('/choice')
+def choice():
+    """
+    Route to get to the streaming page in game mode
+    """
+    return render_template("choice.html")
+
 @app.route('/play')
 def play():
     """
@@ -335,7 +342,7 @@ def save_picture(form_picture):
     return picture_fn
 
 @login_required
-@app.route('/profile')
+@app.route('/profile', methods=['POST', 'GET'])
 def profile():
     form = UpdateAccountForm()
     if form.validate_on_submit():

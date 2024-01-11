@@ -1,6 +1,7 @@
 from flask_login import UserMixin, login_manager
+from datetime import datetime
 from __init__ import db, login_manager, app
-from itsdangerous import TimedSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
 
@@ -18,7 +19,9 @@ class User(UserMixin, db.Model):
     # games_won = db.Column(db.Integer)
     # games_lost = db.Column(db.Integer)
     # games_streamed = db.Column(db.Integer)
-    profile_picture = db.Column(db.String(20), nullable=False, default='static/profile_pics/Default_pfp.png')
+    profile_picture = db.Column(db.String(20), nullable=False, default='Default_pfp.png')
+    streamed_games = db.relationship('StreamedGame', backref='streamer', lazy=True)
+
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.profile_picture}')"
@@ -35,6 +38,16 @@ class User(UserMixin, db.Model):
         except:
             return None
         return User.query.get(user_id)
-
     
+    class StreamedGame(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        Black = db.Column(db.String(100), nullable=False)
+        White = db.Column(db.String(100), nullable=False)
+        Tournament = db.Column(db.String(100), nullable=False)
+        date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+        sgf = db.Column(db.Text, nullable=False)
+        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+        def __repr__(self):
+            return f"Post('{self.Black}', {self.White}')"
 
