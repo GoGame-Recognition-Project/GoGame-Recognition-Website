@@ -31,9 +31,11 @@ var STOPPED = false;
 var PAUSED = false;
 var QUIT = false;
 
+var selectedStone = {x: null, y:null, posx: null, posy: null};
+
 board.onload = function (){
     plot_context.drawImage(board, 0, 0);
-    board_context.drawImage(board, 0, 0);
+    board_context.drawImage(plot_canvas, 0, 0);
 };
 
 window.onbeforeunload = function(event) {
@@ -125,9 +127,14 @@ async function update_state(){
     }
 
     var data = await response.json();
+    console.log(data.image.length);
     board.src = 'data:image/jpeg;base64,' + data.image;
-    draw_context.drawImage(board, 0, 0);
     plot_context.drawImage(board, 0, 0);
+    board_context.drawImage(plot_canvas, 0, 0);
+    board_context.drawImage(hover_canvas, 0, 0);
+    console.log("drawn");
+    // console.log(hover_canvas.toDataURL('image/jpeg', 0.5));
+    
     message.textContent = data.message;
 }
 
@@ -341,29 +348,72 @@ pause_button.addEventListener('click', function(event) {
 
 board_canvas.addEventListener('mousemove', function(event) {
     event.preventDefault();
+    var x, y, posx, posy;
+    [x, y, posx, posy] = get_closest_intersection(event.clientX, event.clientY);
+    console.log(posx, posy);
+
+    draw_hover(posx, posy);
+});
+
+board_canvas.addEventListener('mousedown', function(event) {
+    event.preventDefault();   
+    var x, y, posx, posy
+    [x, y, posx, posy] = get_closest_intersection(event.clientX, event.clientY);
+
+    if (selectedStone.x == posx & selectedStone.y == posy){
+        console.log("removing selected");
+        selectedStone.x = null;
+        selectedStone.y = null;
+        selectedStone.posx = null;
+        selectedStone.posy = null;
+    } else {
+        console.log("assigning selected");
+        selectedStone.x = x;
+        selectedStone.y = y;
+        selectedStone.posx = posx;
+        selectedStone.posy = posy;
+    }
+    draw_hover(null, null);
+
+});
+
+function draw_hover(x, y){
+    hover_context.clearRect(0, 0, hover_canvas.width, hover_canvas.height);
+    hover_context.strokeStyle = 'rgba(252, 107, 3, 0.7)';
+    hover_context.lineWidth = 6;
+
+    if(x % 600 != 0 & y % 600 != 0){
+        hover_context.beginPath();
+        hover_context.arc(x, y, 16, 0, 2 * Math.PI);
+        hover_context.stroke();
+    }
+    if(selectedStone.x != null){
+        hover_context.beginPath();
+        hover_context.strokeStyle = 'rgba(220, 220, 220, 0.7)';
+        hover_context.arc(selectedStone.posx, selectedStone.posy, 16, 0, 2 * Math.PI);
+        hover_context.stroke();
+    } 
+
+
+    board_context.drawImage(plot_canvas, 0, 0);
+    board_context.drawImage(hover_canvas, 0, 0);
+}
+
+function get_closest_intersection(x, y){
     const rect = board_canvas.getBoundingClientRect();
     const square_size = board_canvas.width / 20;
 
     const scaleX = board_canvas.width / rect.width;
     const scaleY = board_canvas.height / rect.height;  
 
-    var x = (event.clientX - rect.left) * scaleX;
-    var y = (event.clientY - rect.top) * scaleY;
+    var x = (x - rect.left) * scaleX;
+    var y = (y - rect.top) * scaleY;
 
     var posx = Math.round(x / square_size) * square_size;
     var posy = Math.round(y / square_size) * square_size;
-    console.log(posx, posy);
 
-    hover_context.clearRect(0, 0, board_canvas.width, board_canvas.height);
-    hover_context.strokeStyle = 'rgba(252, 107, 3, 0.7)';
-    hover_context.lineWidth = 7;
+    var stonex = Math.round((posx / rect.width) * 20);
+    var stoney = Math.round((posy / rect.height) * 20);
 
-    if(posx % 600 != 0 & posy % 600 != 0){
-        hover_context.beginPath();
-        hover_context.arc(posx, posy, 20, 0, 2 * Math.PI);
-        hover_context.stroke();
-    }
-
-    board_context.drawImage(plot_canvas, 0, 0);
-    board_context.drawImage(hover_canvas, 0, 0);
-});
+    return [stonex, stoney, posx, posy];
+}
