@@ -40,8 +40,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="container col-6 px-0">
-                    <canvas id="go-board" width="600" height="600"></canvas>
+                <div class="container col-6 px-4">
+                    <div class="container px-0 position-relative">
+                        <canvas id="go-board" class="" width="600" height="600"></canvas>
+                        <canvas id="hover-canvas" class="position-absolute top-0 start-0"></canvas>
+                    </div>
                     <div class="row align-items-start">
                         <form method="POST" id="controls" class="btn-group-lg">
                             <button class="btn btn-nav mx-1" id="initial">   &lt;&lt;  </button>     
@@ -73,4 +76,4 @@
 
     </div> 
 {% endblock %}
-{% block js %}<script src="static/script.js"></script>{% endblock %}
+{% block js %}<script src="static/stream.js"></script>{% endblock %}

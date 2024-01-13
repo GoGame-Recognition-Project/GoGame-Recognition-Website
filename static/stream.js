@@ -13,16 +13,28 @@ const rules_button = document.getElementById("flexSwitchCheckDefault");
 
 const video = document.getElementById("videoElement");
 
+
+const camera_feed_closed = document.getElementById("camera-feed-closed");
+const message = document.getElementById("message");
+
 var video_canvas = document.getElementById('canvas');
 var video_context = video_canvas.getContext('2d');
 const board_canvas = document.getElementById("go-board");
 const board_context = board_canvas.getContext("2d");
-const plot_canvas = board_canvas.cloneNode(true);
-const plot_context = plot_canvas.getContext("2d");
-const hover_canvas = board_canvas.cloneNode(true);
+const hover_canvas = document.getElementById("hover-canvas");
 const hover_context = hover_canvas.getContext("2d");
-const camera_feed_closed = document.getElementById("camera-feed-closed");
-const message = document.getElementById("message");
+
+hover_canvas.width = board_canvas.offsetWidth;
+hover_canvas.height = board_canvas.offsetHeight;
+window.addEventListener("resize", (event) => {
+    hover_canvas.width = board_canvas.offsetWidth;
+    hover_canvas.height = board_canvas.offsetHeight;
+});
+// const plot_canvas = board_canvas.cloneNode(true);
+// const plot_context = plot_canvas.getContext("2d");
+// const hover_canvas = board_canvas.cloneNode(true);
+// const hover_context = hover_canvas.getContext("2d");
+
 
 var updateLoop = null;
 
@@ -32,10 +44,11 @@ var PAUSED = false;
 var QUIT = false;
 
 var selectedStone = {x: null, y:null, posx: null, posy: null};
+var targetStone = {x: null, y:null, posx: null, posy: null};
 
 board.onload = function (){
-    plot_context.drawImage(board, 0, 0);
-    board_context.drawImage(plot_canvas, 0, 0);
+    // plot_context.drawImage(board, 0, 0);
+    board_context.drawImage(board, 0, 0);
 };
 
 window.onbeforeunload = function(event) {
@@ -124,18 +137,15 @@ async function update_state(){
     if(response.status == 502){
         console.log('Update failed');
         return;
+    } else {
+        var data = await response.json();
+        board.src = 'data:image/jpeg;base64,' + data.image;
+        board_context.drawImage(board, 0, 0);
+        
+        message.textContent = data.message;
     }
 
-    var data = await response.json();
-    console.log(data.image.length);
-    board.src = 'data:image/jpeg;base64,' + data.image;
-    plot_context.drawImage(board, 0, 0);
-    board_context.drawImage(plot_canvas, 0, 0);
-    board_context.drawImage(hover_canvas, 0, 0);
-    console.log("drawn");
-    // console.log(hover_canvas.toDataURL('image/jpeg', 0.5));
-    
-    message.textContent = data.message;
+
 }
 
 function update_state_loop() {
@@ -346,65 +356,100 @@ pause_button.addEventListener('click', function(event) {
 });
 
 
-board_canvas.addEventListener('mousemove', function(event) {
+hover_canvas.addEventListener('mousemove', function(event) {
     event.preventDefault();
     var x, y, posx, posy;
     [x, y, posx, posy] = get_closest_intersection(event.clientX, event.clientY);
-    console.log(posx, posy);
+    // console.log(posx, posy);
 
     draw_hover(posx, posy);
 });
 
-board_canvas.addEventListener('mousedown', function(event) {
+hover_canvas.addEventListener('mousedown', function(event) {
     event.preventDefault();   
     var x, y, posx, posy
     [x, y, posx, posy] = get_closest_intersection(event.clientX, event.clientY);
 
-    if (selectedStone.x == posx & selectedStone.y == posy){
+    if(selectedStone.x == null){
+        selectedStone.x = x;
+        selectedStone.y = y;
+        selectedStone.posx = posx;
+        selectedStone.posy = posy;
+        draw_hover(null, null);
+    } else if (selectedStone.posx == posx & selectedStone.posy == posy){
         console.log("removing selected");
         selectedStone.x = null;
         selectedStone.y = null;
         selectedStone.posx = null;
         selectedStone.posy = null;
+        draw_hover(null, null);
     } else {
         console.log("assigning selected");
-        selectedStone.x = x;
-        selectedStone.y = y;
-        selectedStone.posx = posx;
-        selectedStone.posy = posy;
+        targetStone.x = x;
+        targetStone.y = y;
+        targetStone.posx = posx;
+        targetStone.posy = posy;
+        draw_hover(null, null);
+        fetch("/correct", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({selectedStone: [selectedStone.x, selectedStone.y],
+                                    targetStone: [targetStone.x, targetStone.y]}),
+        }).then(function(response){
+            if(response.status == 204){
+                update_state();
+                Object.keys(selectedStone).forEach(key => selectedStone[key]=null);
+                Object.keys(targetStone).forEach(key => targetStone[key]=null);
+                hover_context.clearRect(0, 0, hover_canvas.width, hover_canvas.height);
+            } else if(response.state == 502){
+                console.log("Invalid stone correction");
+                Object.keys(selectedStone).forEach(key => selectedStone[key]=null);
+                Object.keys(targetStone).forEach(key => targetStone[key]=null);
+                hover_context.clearRect(0, 0, hover_canvas.width, hover_canvas.height);
+            } else {
+                console.log("Unexpected error");
+                Object.keys(selectedStone).forEach(key => selectedStone[key]=null);
+                Object.keys(targetStone).forEach(key => targetStone[key]=null);
+                hover_context.clearRect(0, 0, hover_canvas.width, hover_canvas.height);
+            }
+        });
     }
-    draw_hover(null, null);
 
 });
 
 function draw_hover(x, y){
+    const square_size = hover_canvas.width / 20;
     hover_context.clearRect(0, 0, hover_canvas.width, hover_canvas.height);
-    hover_context.strokeStyle = 'rgba(252, 107, 3, 0.7)';
-    hover_context.lineWidth = 6;
+    hover_context.lineWidth = 3;
 
     if(x % 600 != 0 & y % 600 != 0){
+        hover_context.fillStyle = 'rgba(252, 107, 3, 0.5)';
         hover_context.beginPath();
-        hover_context.arc(x, y, 16, 0, 2 * Math.PI);
-        hover_context.stroke();
+        hover_context.arc(x, y, square_size / 2 + 4, 0, 2 * Math.PI);
+        hover_context.fill();
     }
     if(selectedStone.x != null){
+        hover_context.strokeStyle = '#dc3545';
         hover_context.beginPath();
-        hover_context.strokeStyle = 'rgba(220, 220, 220, 0.7)';
-        hover_context.arc(selectedStone.posx, selectedStone.posy, 16, 0, 2 * Math.PI);
+        hover_context.arc(selectedStone.posx, selectedStone.posy, square_size / 2 + 2 , 0, 2 * Math.PI);
         hover_context.stroke();
-    } 
-
-
-    board_context.drawImage(plot_canvas, 0, 0);
-    board_context.drawImage(hover_canvas, 0, 0);
+    }
+    if(targetStone.x != null){
+        hover_context.strokeStyle = '#ffc107';
+        hover_context.beginPath();
+        hover_context.arc(targetStone.posx, targetStone.posy, square_size / 2 + 2 , 0, 2 * Math.PI);
+        hover_context.stroke();
+    }
 }
 
 function get_closest_intersection(x, y){
-    const rect = board_canvas.getBoundingClientRect();
-    const square_size = board_canvas.width / 20;
+    const rect = hover_canvas.getBoundingClientRect();
+    const square_size = hover_canvas.width / 20;
 
-    const scaleX = board_canvas.width / rect.width;
-    const scaleY = board_canvas.height / rect.height;  
+    const scaleX = hover_canvas.width / rect.width;
+    const scaleY = hover_canvas.height / rect.height;  
 
     var x = (x - rect.left) * scaleX;
     var y = (y - rect.top) * scaleY;

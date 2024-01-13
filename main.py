@@ -147,9 +147,21 @@ def show_turn():
     return {'turn': turn}
 
 @app.route('/correct', methods=['POST'])
-def correct(old_pos, new_pos):
-    go_game.correct_stone_js(old_pos, new_pos)
-    return Response(status=204)
+def correct():
+    
+    data = request.get_json()
+
+    if 'selectedStone' in data:
+        try:
+            selected_stone = data['selectedStone']
+            target_stone = data['targetStone']
+
+            go_game.correct_stone_js(selected_stone, target_stone)
+            return Response(status=204)
+        except Exception as e:
+            print("Correction is not possible")
+            return Response(status=502)
+    return Response(status=502)
     
 @app.route('/resign', methods=['POST'])
 def resign():
@@ -285,12 +297,12 @@ def home():
     """Route to display HTML page"""
     return render_template('Home.html')
 
-@app.route('/game')
-def game():
+@app.route('/stream')
+def stream():
     """
     Route to get to the streaming page in game mode
     """
-    return render_template("game.html")
+    return render_template("stream.html")
 
 @app.route('/choice')
 def choice():
@@ -306,12 +318,6 @@ def play():
     """
     new_game()
     return render_template("play.html")
-@app.route('/transparent')
-def transparent():
-    """
-        Route to get to the streaming page in transparent mode
-        """
-    return render_template("game.html")
 
 @app.route('/sgf')
 def sgf():
