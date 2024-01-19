@@ -7,14 +7,11 @@ import cv2
 import base64
 from __init__ import app
 
-
-
-
 cam_index = 0
 
 model = YOLO('GoStreamDetection/model.pt')
 
-usual_message = "Everything is OK"
+usual_message = "Everything is well detected"
 message = "Nothing is being streamed for the moment"
 defaut_turn = "No game is being played at the moment"
 resigned = False
@@ -66,7 +63,7 @@ def processing_thread(ProcessFrame=None):
                 game_plot, sgf_text = go_game.main_loop(ProcessFrame)
                 message = usual_message
         except Exception as e:
-            message = "Error : " + str(e)
+            message = str(e)
                 
 def generate_plot(frame=None):
     """
@@ -121,7 +118,6 @@ def play_stone():
 
 @app.route('/turn', methods=['GET'])
 def show_turn():
-
     global turn 
         
     if go_game.is_over() and resigned == False:
@@ -164,12 +160,10 @@ def resign():
     except Exception as e:
         print(e)
         return Response(status=502)
-    
 
 @app.route('/win', methods=['GET'])
 def winner():
     return {"winner": str(go_game.get_winner())}
-
 
 @app.route('/update_state', methods=["POST"])
 def update_state():
@@ -187,13 +181,12 @@ def update_state():
     if 'image' in data:
         try:
             image_data_url = data['image']
-            # Extract the base64-encoded image data
+
             _, image_base64 = image_data_url.split(',')
-            # if image_base64:
+
             image_data = base64.b64decode(image_base64)
             nparr = np.frombuffer(image_data, np.uint8)
-            
-            # Decode the image using OpenCV
+
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
             return {'message': message, 'image' : generate_plot(frame)}
@@ -254,7 +247,7 @@ def process():
         go_game.go_visual.load_game_from_sgf(file_path)
         message = "Uploaded"
     except Exception as e:
-        message = "Error:" + str(e)
+        message = "[UploadError]" + str(e)
 
     return Response(status=204)
 
@@ -295,7 +288,6 @@ def stream():
     """
     return render_template("stream.html")
 
-
 @app.route('/play')
 def play():
     """
@@ -318,5 +310,3 @@ def historique():
         Route to get to the summary page
     """
     return render_template("Historique.html")
-
-
