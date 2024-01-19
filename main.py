@@ -33,7 +33,15 @@ PAUSED = False
 QUIT = False
 
 def new_game(transparent_mode=False):
+    """
+    Initialize a new game of Go by intializing all three instances of GoGame, GoVisual and GoBoard.
     
+    Args:
+        transparent_mode (bool): If True, the board will be transparent.
+        
+    Returns:
+        None
+    """
     global go_game, initialized, game_plot
     game = sente.Game()
     go_visual = GoVisual(game)
@@ -44,12 +52,12 @@ def new_game(transparent_mode=False):
 
 def processing_thread(ProcessFrame=None):
     """
-        Process the detection algorithm
-        
-        Update:
-            game_plot, sgf_text
-        Send error to message if there is one
-        """
+    Process the detection algorithm
+    
+    Update:
+        game_plot, sgf_text
+    Send error to message if there is one
+    """
     
     global game_plot, message, initialized, sgf_text
 
@@ -67,11 +75,11 @@ def processing_thread(ProcessFrame=None):
                 
 def generate_plot(frame=None):
     """
-        Generate a plot representing the game
-        
-        Returns:
-            Image
-        """
+    Generate a plot representing the game
+    
+    Returns:
+        Image
+    """
     global game_plot
 
     processing_thread(frame)
@@ -88,12 +96,29 @@ def generate_plot(frame=None):
 
 @app.route('/initialize_new_game')
 def initialize_new_game():
+    """
+    Initializes a new game of Go.
     
+    Args:
+        None
+        
+    Returns:
+        None
+    """
     new_game()
     return Response(status=204)
 
 @app.route('/set_rules', methods=["POST"])
 def set_rules():
+    """
+    Button to set transparent/free or game mode.
+    
+    Args:
+        None
+        
+    Returns:
+        Response: A response object with status code 204 if successful, or status code 502 if there is an error.
+    """
     global transparent_mode, go_game
     try:
         data = request.get_json()
@@ -105,11 +130,29 @@ def set_rules():
 
 @app.route('/start_play', methods=['POST'])
 def start_play():
+    """
+    Button to start a new game of Go by initializing GoGame, GoBoard and GoVisual instances.
+    
+    Args:
+        None
+        
+    Returns:
+        Response: A response object with status code 204.
+    """
     new_game()
     return Response(status=204)
 
 @app.route('/play_stone', methods=['POST'])
 def play_stone():
+    """
+    Play a stone on the Go board. Takes the coordinates from a click on the board and sends them to GoGame.
+    
+    Args:
+        None
+        
+    Returns:
+        Response: A response object with status code 204.
+    """
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
     go_game.play_a_move(x, y)
@@ -118,6 +161,15 @@ def play_stone():
 
 @app.route('/turn', methods=['GET'])
 def show_turn():
+    """
+    Return whose turn to play if the game is still not over. Else, return who won, precising if it's a win by opponent resigning.
+    
+    Args:
+        None
+        
+    Returns:
+        dict: A dictionary containing the current turn of the game.
+    """
     global turn 
         
     if go_game.is_over() and resigned == False:
@@ -135,6 +187,21 @@ def show_turn():
 
 @app.route('/correct', methods=['POST'])
 def correct():
+    """
+    Correct the position of a stone in a Go game.
+    It receives a POST request with JSON data containing the selected stone and target stone.
+
+    Args:
+        None. The function gets data from the POST request.
+
+    Returns:
+        A Response object with a status code. 
+        204: The correction was successful.
+        502: The correction was not possible or an error occurred.
+
+    Raises:
+        Exception: An error occurred while correcting the stone position.
+    """
     
     data = request.get_json()
 
@@ -152,6 +219,21 @@ def correct():
     
 @app.route('/resign', methods=['POST'])
 def resign():
+    """
+    This function handles the resignation of a player in a Go game.
+    It receives a POST request and calls the resign method of the go_game object.
+    If the resignation is successful, it sets the global variable 'resigned' to True and returns a 204 status code.
+    If an error occurs, it returns a 502 status code.
+
+    Args:
+        None. The function does not take any arguments.
+
+    Returns:
+        A Response object with a status code. 
+        204: The resignation was successful.
+        502: An error occurred during the resignation process.
+
+    """
     global resigned
     try:
         go_game.resign()
@@ -160,10 +242,23 @@ def resign():
     except Exception as e:
         print(e)
         return Response(status=502)
+    
 
 @app.route('/win', methods=['GET'])
 def winner():
+    """
+    This function returns the winner of a Go game.
+    It receives a GET request and calls the get_winner method of the go_game object.
+    It returns a dictionary with the key 'winner' and the value being the winner of the game.
+
+    Args:
+        None. The function does not take any arguments.
+
+    Returns:
+        A dictionary with the key 'winner' and the value being the winner of the game.
+    """
     return {"winner": str(go_game.get_winner())}
+
 
 @app.route('/update_state', methods=["POST"])
 def update_state():
@@ -181,12 +276,13 @@ def update_state():
     if 'image' in data:
         try:
             image_data_url = data['image']
-
+            # Extract the base64-encoded image data
             _, image_base64 = image_data_url.split(',')
-
+            # if image_base64:
             image_data = base64.b64decode(image_base64)
             nparr = np.frombuffer(image_data, np.uint8)
-
+            
+            # Decode the image using OpenCV
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
             return {'message': message, 'image' : generate_plot(frame)}
@@ -198,12 +294,37 @@ def update_state():
 
 @app.route('/get_config', methods=['GET'])
 def get_config():
+    """
+    This function returns the configuration set of a Go game.
+    It receives a GET request and returns a dictionary with the game's configuration set.
+    The configuration set includes the states 'STARTED', 'STOPPED', 'PAUSED', and 'QUIT'.
+
+    Args:
+        None. The function does not take any arguments.
+
+    Returns:
+        A dictionary with the game's configuration set.
+    """
     global STARTED, STOPPED
     config_set = {'STARTED': STARTED, 'STOPPED': STOPPED, "PAUSED": PAUSED, "QUIT": QUIT}
     return jsonify(config_set)
 
 @app.route('/set_config', methods=['POST'])
 def set_config():
+    """
+    This function sets the configuration of a Go game.
+    It receives a POST request with JSON data containing the game's configuration set.
+    The configuration set includes the states 'STARTED', 'STOPPED', 'PAUSED', and 'QUIT'.
+    If the configuration is set successfully, it returns a 204 status code.
+
+    Args:
+        None. The function gets data from the POST request.
+
+    Returns:
+        A Response object with a status code. 
+        204: The configuration was set successfully.
+
+    """
     global STARTED, STOPPED, PAUSED, QUIT
     
     data = request.get_json()
@@ -247,7 +368,7 @@ def process():
         go_game.go_visual.load_game_from_sgf(file_path)
         message = "Uploaded"
     except Exception as e:
-        message = "[UploadError]" + str(e)
+        message = "Error:" + str(e)
 
     return Response(status=204)
 
@@ -255,7 +376,7 @@ def process():
 def undo():
     """
     Undo last played move
-    """
+    """s
     try:
         go_game.delete_last_move()
         return Response(status=204)
@@ -288,6 +409,7 @@ def stream():
     """
     return render_template("stream.html")
 
+
 @app.route('/play')
 def play():
     """
@@ -310,3 +432,5 @@ def historique():
         Route to get to the summary page
     """
     return render_template("Historique.html")
+
+
