@@ -376,7 +376,7 @@ def process():
 def undo():
     """
     Undo last played move
-    """s
+    """
     try:
         go_game.delete_last_move()
         return Response(status=204)
