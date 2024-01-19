@@ -305,19 +305,59 @@ class GoGame:
         self.game.play(x, y)
     
     def current_turn(self):
+        """
+        Get the name of the active player.
+
+        This function returns the name (BLACK or WHITE) of the player whose turn it is in the game.
+
+        Returns:
+            str: The name of the active player.
+        """
         return self.game.get_active_player().name
     
     def is_over(self):
+        """
+        Check if the game is over.
+
+        This function checks if the game has ended.
+
+        Returns:
+            bool: True if the game is over, False otherwise.
+        """
         return self.game.is_over()
     
     def get_winner(self):
+        """
+        Get the name of the winner.
+
+        This function returns the name of the player who won the game.
+
+        Returns:
+            str: The name of the winner.
+        """
         return self.game.get_winner().name
     
     def game_results(self):
+        """
+        Get the results of the game.
+
+        This function returns the score of the game.
+
+        Returns:
+            dict: The results of the game.
+        """
         results = self.game.score()
         return results
     
     def resign(self):
+        """
+        Resign from the game.
+
+        This function allows a player to resign from the game.
+
+        Returns:
+            str: A message indicating the player has resigned.
+        """
         return self.game.resign()
 
     def get_moves(self):
