@@ -143,7 +143,7 @@ def correct():
             selected_stone = data['selectedStone']
             target_stone = data['targetStone']
 
-            go_game.correct_stone_js(selected_stone, target_stone)
+            go_game.correct_stone(selected_stone, target_stone)
             return Response(status=204)
         except Exception as e:
             print("Correction is not possible")
