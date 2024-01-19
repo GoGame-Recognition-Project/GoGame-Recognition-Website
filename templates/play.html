@@ -3,13 +3,12 @@
 {% block title %}Play{% endblock %}
 
 {% block content %}
-  <div class="row text-center p-3">
-        <i>
-            <div id="turn" class="py-2 px-4 custom-color" style="font-size: 20px;">
-            No game is being played at the moment
-            </div>
-        </i>
-    </div>
+<div class="row text-center p-3">
+    <i>
+        <div id="turn" class="py-2 px-4 custom-color" style="font-size: 20px;">
+        No game is being played at the moment
+        </div>
+    </i>
 
     <div class=" row custom-container p-3">
         <div class="col-3 d-flex align-items-center">
@@ -60,5 +59,6 @@
         </div>
 
     </div> 
+</div>
 {% endblock %}
-{% block js %}<script src="static/play.js"></script><script src="static/online_games.js"></script>{% endblock %}
+{% block js %}<script src="static/play.js"></script>{% endblock %}
