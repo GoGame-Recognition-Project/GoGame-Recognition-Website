@@ -15,7 +15,7 @@ const video = document.getElementById("videoElement");
 
 
 const camera_feed_closed = document.getElementById("camera-feed-closed");
-const message = document.getElementById("message");
+const message_container = document.getElementById("message");
 
 var video_canvas = document.getElementById('canvas');
 var video_context = video_canvas.getContext('2d');
@@ -42,6 +42,8 @@ var STARTED = false;
 var STOPPED = false;
 var PAUSED = false;
 var QUIT = false;
+
+var MESSAGE = "Nothing is being streamed";
 
 var selectedStone = {x: null, y:null, posx: null, posy: null};
 var targetStone = {x: null, y:null, posx: null, posy: null};
@@ -142,20 +144,24 @@ async function update_state(){
         board.src = 'data:image/jpeg;base64,' + data.image;
         board_context.drawImage(board, 0, 0);
         
-        message.textContent = data.message;
+        MESSAGE = data.message;
     }
-
-
 }
 
 function update_state_loop() {
     update_state().then(() => {
         // Schedule the next execution after the asynchronous operation is complete
         if(!QUIT){
-            updateLoop = setTimeout(update_state_loop, 0); // Adjust the interval as needed
+            updateLoop = setTimeout(update_state_loop, 0);
         }
     });
 }
+
+function update_message_display(){
+    message_container.textContent = MESSAGE;
+    setTimeout(update_message_display, 2000);
+}
+update_message_display();
 
 controls.addEventListener('click', function(event) {
     event.preventDefault();
@@ -184,7 +190,7 @@ undo_button.addEventListener('click', function(event) {
             update_state()
         }
         else {
-            message.textContent = "There are no moves left";
+            message_container.textContent = "There are no moves left";
             console.log("There are no moves left");
         }
     });
@@ -326,6 +332,8 @@ stop_button.addEventListener('click', function(event) {
     start_button.disabled = false;
     stop_button.disabled = true;
     pause_button.disabled = true;
+
+    message_container.textContent = "Nothing is being streamed";
 });
 
 

@@ -241,46 +241,6 @@ class GoGame:
 
     def correct_stone(self, old_pos, new_pos):
         """
-        Manually correct the position of a stone on the board.
-
-        This function corrects the position of a stone on the board by first converting the old and new positions to
-        coordinates, checking if the new position is already occupied, and then moving the stone to the new position
-        while preserving the order of moves.
-
-        Args:
-            old_pos (str): The old position of the stone (e.g., "A1").
-            new_pos (str): The new position to correct the stone to (e.g., "S19").
-
-        Returns:
-            None
-        """
-        # Convert old and new positions to coordinates
-        old_x = int(ord(str(old_pos[0])) - 64)
-        old_y = int(old_pos[1:]) 
-        new_x = int(ord(str(new_pos[0])) - 64)
-        new_y = int(new_pos[1:]) 
-
-        # Iterate through the moves to check if the new position is already occupied
-        for i in range(len(self.get_moves())):
-            
-            if int(self.get_moves()[i].get_x()+1) == new_x and int(self.get_moves()[i].get_y()+1) == new_y:
-                print("This position is already occupied!")
-                return
-            
-            else:
-                # If the old position is found, correct the stone's position
-                if int(self.get_moves()[i].get_x()+1) == old_x and int(self.get_moves()[i].get_y()+1) == old_y:
-                    print("Found!")
-                    deleted_moves = self.get_moves()[i - len(self.get_moves()):]
-                    self.game.step_up(len(self.get_moves()) - i)
-                    self.game.play(new_x, new_y)
-                    deleted_moves.pop(0)
-                    for move in deleted_moves:
-                        x, y, color = move.get_x()+1, move.get_y()+1, move.get_stone().name
-                        self.game.play(x,y)
-
-    def correct_stone_js(self, old_pos, new_pos):
-        """
         Manually correct the position of a stone on the board. 
         The first version (self.correct_stone) was supposed to be used when the user directly submits the positions of the stones.
         This second version was made when we started using JavaScript for the website and we could make correction more user friendly.
