@@ -159,7 +159,7 @@ function update_state_loop() {
 
 function update_message_display(){
     message_container.textContent = MESSAGE;
-    setTimeout(update_message_display, 2000);
+    setTimeout(update_message_display, 1100000000000);
 }
 update_message_display();
 
