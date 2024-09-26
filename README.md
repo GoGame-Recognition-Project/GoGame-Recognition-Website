@@ -52,22 +52,15 @@ Key Highlights:
 
 <summary>Root</summary>
 
-| File                                                                                                          | Summary                   |
-| [requirements.txt] | Dependencies for the project |
-| [main.py]                  | Main script to run GoGame-Detection |
-| [GoGame.py]             | Class for game management |
-| [GoVisual.py]        | Class for visual representation of the Go game |
-| [GoBoard.py]           | Class for detecting and managing the board in its current position |
-| [model.pt]               | Trained machine learning model file. |
+| File                               | Summary                                                               |
+| ---                                | ---                                                                   |
+| [requirements.txt]                 | Dependencies for the project                                          |
+| [main.py]                          | Main script to run GoGame-Detection                                   |
+| [GoGame.py]                        | Class for game management                                             |
+| [GoVisual.py]                      | Class for visual representation of the Go game                        |
+| [GoBoard.py]                       | Class for detecting and managing the board in its current position    |
+| [model.pt]                         | Trained deep learning model file                                      |
 
-
-
-<summary>Notebboks to explain detection</summary>
-
-| File                               | Summary                   |
-| ---                                | ---                       |
-| [Go_board_detection.ipynb](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Go_board_detection.ipynb)                                                    | Notebook explaining the Go board detection algorithm used in the project |
-| [Algorithmic approach to detect a go board.ipynb](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Algorithmic_approach_to_detect_a_go_board.ipynb) | Notebook detailing the algorithmic approach for Go board detection |
 
 
 ---
