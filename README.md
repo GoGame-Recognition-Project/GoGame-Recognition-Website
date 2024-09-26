@@ -37,48 +37,28 @@ The primary problem that our project tackles is the detection of the game setup 
 
 Key Highlights:
 - **Real-time Game recognition:** Capable of detecting key components of a go game using a custom trained `Yolov8` model.
+- **SGF:** Capable of accurately positioning white and black stones on the board and saving an SGF file of the streamed game for later use. 
 - **Game management:** Capable of streaming and visually reproducing a Go game with or without respecting the Go game rules.
-- **SGF:** Capable of saving an SGF file of the streamed game for later use. 
 - **Intuitive Visualization:** An interactive user interface has been developed on the base of this project. The interface takes the form of a website, housed in a separate repository. Feel free to explore it by clicking here.
 
 
 
 ---
 
-## 📂 Repository Structure
-
-```sh
-└── GoGame-Detection/
-    ├── GoBoard.py
-    ├── GoGame.py
-    ├── GoVisual.py
-    ├── Notebboks to explain detection/
-    │   ├── Algorithmic approach to detect a go board.ipynb
-    │   └── Go_board_detection.ipynb
-    ├── UML/
-    ├── main.py
-    ├── model.pt
-    ├── requirements.txt
-    └── utils_.py
-
-```
-
 ---
 
 
-## ⚙️ Modules
+## ⚙️ Important Modules
 
 <summary>Root</summary>
 
 | File                                                                                                          | Summary                   |
-| ---                                                                                                           | ---                       |
-| [requirements.txt](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/requirements.txt) | Dependencies for the project |
-| [main.py](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/main.py)                   | Main script to run GoGame-Detection |
-| [GoGame.py](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/GoGame.py)               | Class for managing the Go game |
-| [GoVisual.py](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/GoVisual.py)           | Class for visual representation of the Go game |
-| [GoBoard.py](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/GoBoard.py)             | Class for detecting the board in its current position |
-| [utils_.py](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/utils_.py)               | Utility functions used in GoBoard class |
-| [model.pt](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/model.pt))                | Trained machine learning model file. |
+| [requirements.txt] | Dependencies for the project |
+| [main.py]                  | Main script to run GoGame-Detection |
+| [GoGame.py]             | Class for game management |
+| [GoVisual.py]        | Class for visual representation of the Go game |
+| [GoBoard.py]           | Class for detecting and managing the board in its current position |
+| [model.pt]               | Trained machine learning model file. |
 
 
 
