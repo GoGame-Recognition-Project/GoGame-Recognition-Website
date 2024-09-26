@@ -52,14 +52,14 @@ Key Highlights:
 
 <summary>Root</summary>
 
-| File                               | Summary                                                               |
-| ---                                | ---                                                                   |
-| [requirements.txt]                 | Dependencies for the project                                          |
-| [main.py]                          | Main script to run GoGame-Detection                                   |
-| [GoGame.py]                        | Class for game management                                             |
-| [GoVisual.py]                      | Class for visual representation of the Go game                        |
-| [GoBoard.py]                       | Class for detecting and managing the board in its current position    |
-| [model.pt]                         | Trained deep learning model file                                      |
+| File                             | Summary                                                               |
+| ---                              | ---                                                                   |
+| requirements.txt                 | Dependencies for the project                                          |
+| main.py                          | Main script to run GoGame-Detection                                   |
+| GoGame.py                        | Class for game management                                             |
+| GoVisual.py                      | Class for visual representation of the Go game                        |
+| GoBoard.py                       | Class for detecting and managing the board in its current position    |
+| model.pt                         | Trained deep learning model file                                      |
 
 
 
