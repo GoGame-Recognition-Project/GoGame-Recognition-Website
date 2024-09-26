@@ -41,7 +41,6 @@ Key Highlights:
 
 ---
 
----
 
 ## Demo
 Game mode demo where playing have to be according to Go rules:
@@ -51,7 +50,6 @@ Free or transparent mode demo where one can place any stone anywhere anytime:
 [Free Mode](static/free_mode.mp4)
 
 
----
 
 ---
 
