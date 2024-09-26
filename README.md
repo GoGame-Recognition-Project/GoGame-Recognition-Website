@@ -56,7 +56,6 @@ Free or transparent mode demo where one can place any stone anywhere anytime:
 
 ## ⚙️ Important Modules
 
-<summary>Root</summary>
 
 | File                             | Summary                                                               |
 | ---                              | ---                                                                   |
