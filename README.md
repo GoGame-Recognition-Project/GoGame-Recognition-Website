@@ -17,12 +17,10 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Repository Structure](#repository-structure)
-- [Modules](#modules)
+- [Important Modules](#modules)
 - [Getting Started](#getting-started)
     - [Installation](#installation)
     - [Running GoGame-Detection](#running-gogame-detection)
-- [Roadmap](#roadmap)
 - [Acknowledgments](#acknowledgments)
 
 
@@ -32,7 +30,7 @@
 ## 📍 Overview
 
 This project is dedicated to the development of a program capable of recognizing a game board, its stones and their respective positions within a go game context from a video stream.
-The primary problem that our project tackles is the detection of the game setup at different angles without the need to set the camera at a fixed configuration. This capability allows for flexibility in changing the camera's angle or position, as well as adjusting the game board's placement during the course of the game. This stands as a distinctive feature compared to many existing solutions.
+The primary problem that our project tackles is the detection of the game setup at different angles without the need to set the camera at a fixed configuration. This capability allows for flexibility in changing the camera's angle or position, as well as adjusting the game board's placement during the course of the game. This stands as a distinctive feature compared to many existing solutions. The solution is in the form of a simple web application developed with Flask.
 
 
 Key Highlights:
@@ -41,6 +39,14 @@ Key Highlights:
 - **Game management:** Capable of streaming and visually reproducing a Go game with or without respecting the Go game rules.
 - **Intuitive Visualization:** An interactive user interface has been developed on the base of this project. The interface takes the form of a website, housed in a separate repository. Feel free to explore it by clicking here.
 
+---
+
+---
+
+## Demo
+Game mode demo where playing have to be according to Go rules:
+
+Free mode demo where one can place any stone anywhere anytime:
 
 
 ---
