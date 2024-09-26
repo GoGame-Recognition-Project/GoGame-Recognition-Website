@@ -1,6 +1,6 @@
 
 <div align="center">
-    <img src="static/GoStreamLogoTitleRight.png">
+    <img src="static/GoStreamLogoTitleRight.png" width=500>
     <h1>GOGAME DETECTION</h1>
 
 <h3>Developed with the software and tools below</h3>
