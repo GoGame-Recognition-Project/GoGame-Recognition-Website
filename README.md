@@ -66,8 +66,9 @@ Free or transparent mode demo where one can place any stone anywhere anytime:
 | GoBoard.py                       | Class for detecting and managing the board in its current position    |
 | model.pt                         | Trained deep learning model file                                      |
 
-
-
+<div align="center">
+    <img src="static/classes" width=700>
+</div>
 ---
 
 ## 🚀 Getting Started
