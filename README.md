@@ -66,9 +66,17 @@ Free or transparent mode demo where one can place any stone anywhere anytime:
 | GoBoard.py                       | Class for detecting and managing the board in its current position    |
 | model.pt                         | Trained deep learning model file                                      |
 
+- **UML Diagramm:**
 <div align="center">
     <img src="static/classes.png" width=700>
 </div>
+
+- **Detection algorithm:**
+| File                             | Summary                                                               |
+| ---                              | ---                                                                   |
+| [Algorithmic approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Algorithmic_approach_to_detect_a_go_board.ipynb)| Uses OpenCv and algorithmic techniques to detect keys components before post processing                                          |
+| [Deep Learning approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Go_board_detection.ipynb)| Uses custom trained YoloV8 model to detect keys components before post processing                                  |
+
 ---
 
 ## 🚀 Getting Started
