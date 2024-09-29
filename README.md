@@ -34,10 +34,11 @@ The primary problem that our project tackles is the detection of the game setup 
 
 
 Key Highlights:
-- **Real-time Game recognition:** Capable of detecting key components of a go game using a custom trained `Yolov8` model.
-- **SGF:** Capable of accurately positioning white and black stones on the board and saving an SGF file of the streamed game for later use. 
-- **Game management:** Capable of streaming and visually reproducing a Go game with or without respecting the Go game rules.
-- **Intuitive Visualization:** An interactive user interface has been developed on the base of this project. The interface takes the form of a website, housed in a separate repository. Feel free to explore it by clicking here.
+- **Real-time board recognition:** Capable of detecting key components of a go game using a custom trained `Yolov8` model.
+- **Board state:** Capable of accurately positioning white and black stones using post processing techniques.
+- **Game management:** Capable of managing a game with or without respecting the Go game rules.
+- **SGF:**  Capable of visually reproducing a game and saving an SGF file of the streamed game for later use. 
+- **Intuitive Visualization:** An interactive user interface displaying the streamed game has been developed on the base of this project. The interface takes the form of a website.
 
 ---
 
