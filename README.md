@@ -72,10 +72,12 @@ Free or transparent mode demo where one can place any stone anywhere anytime:
 </div>
 
 - **Detection algorithm:**
+
+  
 | File                             | Summary                                                               |
-| ---                              | ---                                                                   |
-| [Algorithmic approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Algorithmic_approach_to_detect_a_go_board.ipynb)| Uses OpenCv and algorithmic techniques to detect keys components before post processing                                          |
-| [Deep Learning approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Go_board_detection.ipynb)| Uses custom trained YoloV8 model to detect keys components before post processing                                  |
+| ---                                                                                                                                                                            | ---                                                                                             |
+| [Algorithmic approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Algorithmic_approach_to_detect_a_go_board.ipynb)| Uses OpenCv and algorithmic techniques to detect keys components before post processing    |
+| [Deep Learning approach](https://github.com/GoGame-Recognition-Project/GoGame-Detection/blob/main/Notebooks_to_explain_detection/Go_board_detection.ipynb)                     | Uses custom trained YoloV8 model to detect keys components before post processing               |
 
 ---
 
