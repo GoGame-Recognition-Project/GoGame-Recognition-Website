@@ -122,6 +122,18 @@ python run.py
 
 ---
 
+## 🐋 Run the application in a container with [Docker](https://www.docker.com/)
+Install Docker on your system of subsystem
+Change directory to the GoGame-Recognition-Website directory
+Create a Docker image
+```sh
+docker build -t gogame-recognition-website .
+```
+Run a container from your image
+```sh
+docker run -d -p 5000:5000 gogame-recognition-website
+```
+---
 
 ## 👏 Acknowledgments
 
